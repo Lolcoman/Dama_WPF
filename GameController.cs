@@ -26,10 +26,18 @@ namespace Dama_WPF
 
         public GameController()
         {
-            brain = new Brain(board, rules);
             rules = new Rules(board);
+            brain = new Brain(board, rules);
             //ui = new UI();
             //data = new Data();
+        }
+
+        public void InitGame()
+        {
+            rules.InitBoard();
+            rules.InitPlayer();
+            rules.MovesGenerate();
+            board.tahuBezSkoku = 0;
         }
         /// <summary>
         /// Hlavní herní smyčka
@@ -222,6 +230,7 @@ namespace Dama_WPF
                             {
                                 ptrTah--; //aktualní se zmenší
                                 board.Move(board.HistoryMove[ptrTah], false, true);
+                                rules.ChangePlayer();
                             }
 
                             Console.Clear();

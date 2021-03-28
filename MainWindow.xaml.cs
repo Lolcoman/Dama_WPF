@@ -60,10 +60,11 @@ namespace Dama_WPF
             newGame.ShowDialog();
             if (newGame.IsCreated)
             {
-                MessageBox.Show((string)newGame.GetPlayer1().ToString());
-                MessageBox.Show((string)newGame.GetPlayer2().ToString());
-                //GameController.player1 = newGame.GetPlayer1();
-                //this.GameController.Game(newGame.GetPlayer1(), newGame.GetPlayer2());
+                MessageBox.Show(newGame.GetPlayer1().ToString());
+                MessageBox.Show(newGame.GetPlayer2().ToString());
+                GameController.player1 = newGame.GetPlayer1();
+                GameController.player2 = newGame.GetPlayer2();
+                GameController.InitGame();
             }
         }
     }
