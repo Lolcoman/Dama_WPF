@@ -24,7 +24,6 @@ namespace Dama_WPF
         {
             InitializeComponent();
         }
-
         private void WPC_Checked(object sender, RoutedEventArgs e)
         {
             WPCsettings.Visibility = Visibility.Visible;
@@ -45,7 +44,10 @@ namespace Dama_WPF
         {
             this.Close();
         }
-
+        /// <summary>
+        /// Metoda pro čtení player1
+        /// </summary>
+        /// <returns></returns>
         public int GetPlayer1()
         {
             if ((bool)WHuman.IsChecked)
@@ -70,10 +72,33 @@ namespace Dama_WPF
             }
             return 0;
         }
+        /// <summary>
+        /// Metoda pro čtení player2
+        /// </summary>
+        /// <returns></returns>
         public int GetPlayer2()
         {
+            if ((bool)BHuman.IsChecked)
+            {
+                return 0;
+            }
+            if (WsliderPC.Value == 1)
+            {
+                return 1;
+            }
+            if (WsliderPC.Value == 2)
+            {
+                return 2;
+            }
+            if (WsliderPC.Value == 3)
+            {
+                return 3;
+            }
+            if (WsliderPC.Value == 4)
+            {
+                return 4;
+            }
             return 0;
-            //return (bool)WHuman.IsChecked ? 0 : 1;
         }
 
         private void BPC_Checked(object sender, RoutedEventArgs e)

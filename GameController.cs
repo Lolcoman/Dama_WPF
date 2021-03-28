@@ -37,9 +37,7 @@ namespace Dama_WPF
         public void Game()
         {
             rules.InitBoard(); //inicializace desky
-            //ui.SelectPlayer(out player1, out player2); //výběr hráče na tahu
-            //NewGame.GetPlayer1(out player1);
-            //player2 = NewGame.GetPlayer2();
+            ui.SelectPlayer(out player1, out player2); //výběr hráče na tahu
             rules.InitPlayer(); //inicializace hráče na tahu
             rules.MovesGenerate(); //vygenerování všech tahů pro aktuálního hráče tj. 1-bílý
             board.tahuBezSkoku = 0;

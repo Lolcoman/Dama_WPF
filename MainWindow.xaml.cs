@@ -43,6 +43,7 @@ namespace Dama_WPF
         private void LoadGameMenu_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
+            dialog.InitialDirectory = Environment.CurrentDirectory;
             dialog.Filter = "Save game file|*.txt";
             if (dialog.ShowDialog() == true)
             {
@@ -60,6 +61,7 @@ namespace Dama_WPF
             if (newGame.IsCreated)
             {
                 MessageBox.Show((string)newGame.GetPlayer1().ToString());
+                MessageBox.Show((string)newGame.GetPlayer2().ToString());
                 //GameController.player1 = newGame.GetPlayer1();
                 //this.GameController.Game(newGame.GetPlayer1(), newGame.GetPlayer2());
             }
