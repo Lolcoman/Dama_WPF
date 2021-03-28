@@ -24,5 +24,26 @@ namespace Dama_WPF
         {
             InitializeComponent();
         }
+
+        private void WPC_Checked(object sender, RoutedEventArgs e)
+        {
+            WPCsettings.Visibility = Visibility.Visible;
+        }
+
+        private void WPC_Unchecked(object sender, RoutedEventArgs e)
+        {
+            WPCsettings.Visibility = Visibility.Hidden;
+        }
+
+        private void OKButton_Click(object sender, RoutedEventArgs e)
+        {
+            IsCreated = true;
+            this.Close();
+        }
+
+        private void CancleButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }
