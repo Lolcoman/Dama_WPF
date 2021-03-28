@@ -19,8 +19,10 @@ namespace Dama_WPF
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+
     public partial class MainWindow : Window
     {
+        GameController GameController = new GameController(); 
         public MainWindow()
         {
             InitializeComponent();
@@ -55,6 +57,12 @@ namespace Dama_WPF
             NewGame newGame = new NewGame();
             newGame.Owner = this; //hlavní okno je vlastníkem tohoto okna
             newGame.ShowDialog();
+            if (newGame.IsCreated)
+            {
+                MessageBox.Show((string)newGame.GetPlayer1().ToString());
+                //GameController.player1 = newGame.GetPlayer1();
+                //this.GameController.Game(newGame.GetPlayer1(), newGame.GetPlayer2());
+            }
         }
     }
 }

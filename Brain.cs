@@ -18,7 +18,7 @@ namespace Dama_WPF
         public Brain(Board board, Rules rules)
         {
             this.board = new Board(board);
-            this.rules = new Rules(board,rules);
+            //this.rules = new Rules(board,rules);
         }
 
         /// <summary>

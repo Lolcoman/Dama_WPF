@@ -41,9 +41,49 @@ namespace Dama_WPF
             this.Close();
         }
 
-        private void CancleButton_Click(object sender, RoutedEventArgs e)
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        public int GetPlayer1()
+        {
+            if ((bool)WHuman.IsChecked)
+            {
+                return 0;
+            }
+            if (WsliderPC.Value == 1)
+            {
+                return 1;
+            }
+            if (WsliderPC.Value == 2)
+            {
+                return 2;
+            }
+            if (WsliderPC.Value == 3)
+            {
+                return 3;
+            }
+            if (WsliderPC.Value == 4)
+            {
+                return 4;
+            }
+            return 0;
+        }
+        public int GetPlayer2()
+        {
+            return 0;
+            //return (bool)WHuman.IsChecked ? 0 : 1;
+        }
+
+        private void BPC_Checked(object sender, RoutedEventArgs e)
+        {
+            BPCsettings.Visibility = Visibility.Visible;
+        }
+
+        private void BPC_Unchecked(object sender, RoutedEventArgs e)
+        {
+            BPCsettings.Visibility = Visibility.Hidden;
         }
     }
 }

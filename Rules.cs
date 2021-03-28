@@ -39,15 +39,15 @@ namespace Dama_WPF
         {
             board = bo;
         }
-        public Rules(Board bo,Rules rules)
-        {
-            board = bo;
-            player = rules.player;
-            foreach (int[] item in rules.ListMove)
-            {
-                ListMove.Add((int[])item.Clone());
-            }
-        }
+        //public Rules(Board bo, Rules rules)
+        //{
+        //    board = bo;
+        //    player = rules.player;
+        //    foreach (int[] item in rules.ListMove)
+        //    {
+        //        ListMove.Add((int[])item.Clone());
+        //    }
+        //}
         /// <summary>
         /// Metoda pro postavení figurek, dle pravidel
         /// </summary>

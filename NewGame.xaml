@@ -11,16 +11,28 @@
         <Label Content="Bílý hráč" Margin="0,0,327,186" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="65"/>
         <Label Content="Černý hráč" Margin="211,0,0,186" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75"/>
         <Rectangle Fill="Black" Margin="0,0,203,0" Stroke="Black" Height="154" VerticalAlignment="Top" HorizontalAlignment="Right" Width="5"/>
+        
+        <!-- BÍLÝ HRÁČ -->
         <RadioButton x:Name="WHuman" Content="člověk" GroupName="WhitePlayer" HorizontalAlignment="Left" Margin="16.968,44,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" IsChecked="True"/>
         <RadioButton x:Name="WPC" Content="počítač" GroupName="WhitePlayer" HorizontalAlignment="Left" Margin="16.968,64,0,0" VerticalAlignment="Top"  Width="75" Grid.Column="1" Checked="WPC_Checked" Unchecked="WPC_Unchecked"/>
-        <WrapPanel x:Name="WPCsettings" HorizontalAlignment="Left" Height="63" Margin="17,84,0,0" VerticalAlignment="Top" Width="125" Visibility="Hidden">
+        <WrapPanel Visibility="Hidden" x:Name="WPCsettings" HorizontalAlignment="Left" Height="63" Margin="17,84,0,0" VerticalAlignment="Top" Width="125">
             <Slider x:Name="WsliderPC" HorizontalAlignment="Left" Width="125" Maximum="4" Minimum="1" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Height="36"/>
             <Label Content="Obtížnost:" Width="63" Height="27"/>
             <TextBlock Padding="5,1,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=WsliderPC}" RenderTransformOrigin="0.615,0.433" Width="15" Height="20"/>
         </WrapPanel>
+
+        <!-- ČERNÝ HRÁČ -->
+        <RadioButton x:Name="BHuman" Content="člověk" GroupName="BlackPlayer" HorizontalAlignment="Left" Margin="211,41,0,0" VerticalAlignment="Top" Width="75" IsChecked="True"/>
+        <RadioButton x:Name="BPC" Content="počítač" GroupName="BlackPlayer" HorizontalAlignment="Left" Margin="211,61,0,0" VerticalAlignment="Top"  Width="75" Unchecked="BPC_Unchecked" Checked="BPC_Checked"/>
+        <WrapPanel Visibility="Hidden" x:Name="BPCsettings" HorizontalAlignment="Left" Height="63" Margin="211,81,0,0" VerticalAlignment="Top" Width="125">
+            <Slider x:Name="BsliderPC" HorizontalAlignment="Left" Width="125" Maximum="4" Minimum="1" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Height="36"/>
+            <Label Content="Obtížnost:" Width="63" Height="27"/>
+            <TextBlock Padding="5,1,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=BsliderPC}" RenderTransformOrigin="0.615,0.433" Width="15" Height="20"/>
+        </WrapPanel>
+        
         <Rectangle Fill="Black" HorizontalAlignment="Left" Height="5" Margin="0,149,0,0" Stroke="Black" VerticalAlignment="Top" Width="409"/>
         <Button x:Name="OKButton" Content="Vytvořit" HorizontalAlignment="Left" Margin="67,179,0,0" VerticalAlignment="Top" Width="75" Click="OKButton_Click"/>
-        <Button x:Name="CancleButton" Content="Zrušit" HorizontalAlignment="Left" Margin="278,179,0,0" VerticalAlignment="Top" Width="75" Click="CancleButton_Click"/>
+        <Button x:Name="CancelButton" Content="Zrušit" HorizontalAlignment="Left" Margin="278,179,0,0" VerticalAlignment="Top" Width="75" Click="CancelButton_Click"/>
         <Separator HorizontalAlignment="Left" Height="9" Margin="0,-4,0,0" VerticalAlignment="Top" Width="409"/>
     </Grid>
 </Window>

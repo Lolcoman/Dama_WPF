@@ -17,9 +17,12 @@ namespace Dama_WPF
         private Data data = new Data();
         private MoveServices moveServices = new MoveServices();
 
+
+        NewGame NewGame = new NewGame();
+
         //proměnné hráčů, pro uživatele 0, 1-4 obtížnost PC
-        private int player1 = 0;
-        private int player2 = 0;
+        public int player1 = 0;
+        public int player2 = 0;
 
         public GameController()
         {
@@ -31,10 +34,12 @@ namespace Dama_WPF
         /// <summary>
         /// Hlavní herní smyčka
         /// </summary>
-        public void Game(int player1, int player2)
+        public void Game()
         {
             rules.InitBoard(); //inicializace desky
             //ui.SelectPlayer(out player1, out player2); //výběr hráče na tahu
+            //NewGame.GetPlayer1(out player1);
+            //player2 = NewGame.GetPlayer2();
             rules.InitPlayer(); //inicializace hráče na tahu
             rules.MovesGenerate(); //vygenerování všech tahů pro aktuálního hráče tj. 1-bílý
             board.tahuBezSkoku = 0;
@@ -44,15 +49,15 @@ namespace Dama_WPF
 
             while (!rules.IsGameFinished()) //cyklus dokud platí že oba hráči mají figurky, jinak konec
             {
-                Console.Clear();
-                ui.PocetKol(kolo);
-                ui.PocetTahuBezSkoku(board.tahuBezSkoku);
-                ui.PrintBoard(board);
+                //Console.Clear();
+                //ui.PocetKol(kolo);
+                //ui.PocetTahuBezSkoku(board.tahuBezSkoku);
+                //ui.PrintBoard(board);
 
                 //Tahy počítače
                 if (rules.PlayerOnMove() == 1 && player1 > 0 || rules.PlayerOnMove() == -1 && player2 > 0) //pokud hráč na tahu je 1 a player1 > 0 tak true, provede tah a continue na dalšího hráče
                 {
-                    ui.PcInfo();
+                    //ui.PcInfo();
                     int[] move = null;
                     Brain brain = new Brain(board, rules);
                     Thread pc = new Thread(() => move = brain.GetBestMove(rules.PlayerOnMove() == 1 ? player1 : player2));
