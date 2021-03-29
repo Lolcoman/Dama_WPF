@@ -88,37 +88,98 @@ namespace Dama_WPF
 
         public void DrawFigures(List<int> coords, int fWidth, int fHeight)
         {
-            DrawFigure(1, 30, 30, fWidth, fHeight);
-        }
-        public void DrawFigure(int type, int posX, int posY, int fWidth, int fHeight)
-        {
-            SolidColorBrush border = new SolidColorBrush(Colors.Gray);
-            SolidColorBrush c = new SolidColorBrush(Colors.Red);
-            if (GameController.GetValueOnBoard(posX/100,posY/100) < 0)
+            for (int i = 0; i < 8; i++)
             {
-                c = new SolidColorBrush(Colors.LightBlue);
-            }
-            DrawEllipse(posX, posY, fWidth, fHeight, c,border);
-            if (Math.Abs(GameController.GetValueOnBoard(posX / 100, posY / 100)) > 1) //pokud větší než 1 přijde dáma
-            {
-                DrawQueen(posX, posY, fWidth, fHeight, new SolidColorBrush(Colors.Green), border);
+                for (int j = 0; j < 8; j++)
+                {
+                    int[] phyCoords = TransfFieldPhyCoords(coords, i, j);
+                    DrawFigure(GameController.GetValueOnBoard(i,j), phyCoords[0], phyCoords[1], fWidth, fHeight);
+                }
             }
         }
 
-        public void DrawQueen(int posX, int posY, int fWidth, int fHeight, SolidColorBrush brush, SolidColorBrush stroke)
+        public int[] TransfFieldPhyCoords(List<int> phyCoords, int radek, int sloupec)
         {
-            DrawEllipse(posX + fWidth / 4, posY + fHeight / 4, fWidth / 2, fHeight / 2, brush, stroke);
+            int[] result = new int[2];
+            int x = (radek * 8 + sloupec) * 2; 
+            int y = x + 1;
+            result[0] = phyCoords[x];
+            result[1] = phyCoords[y];
+            return result;
+        }
+        public void DrawFigure(int type, int posX, int posY, int fWidth, int fHeight)
+        {
+            type = GameController.GetValueOnBoard(posX / 100, posY / 100);
+            if (GameController.GetValueOnBoard(posX / 100, posY / 100) != 0)
+            {
+                SolidColorBrush border = new SolidColorBrush(Colors.Black);
+                SolidColorBrush c = new SolidColorBrush(Colors.GhostWhite);
+                if (type < 0) //vykreslení černého
+                {
+                    c = new SolidColorBrush(Colors.Gray);
+                    DrawEllipse(posX, posY, fWidth, fHeight, c, border);
+                    if (type == -2) //jestli je dáma
+                    {
+                        DrawQueen(posX, posY, fWidth, fHeight, "cerna");
+                    }
+                }
+                if (type > 0) //vykreslní bílého
+                {
+                    DrawEllipse(posX, posY, fWidth, fHeight, c, border);
+                    if (type == 2) //jetli je dáma
+                    {
+                        DrawQueen(posX, posY, fWidth, fHeight, "bila");
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Kreslení dámy
+        /// </summary>
+        /// <param name="posX"></param>
+        /// <param name="posY"></param>
+        /// <param name="fWidth"></param>
+        /// <param name="fHeight"></param>
+        /// <param name="brush"></param>
+        /// <param name="stroke"></param>
+        public void DrawQueen(int posX, int posY, int fWidth, int fHeight,string typ)
+        {
+            if (typ == "bila")
+            {
+                TextBlock crown = new TextBlock
+                {
+                    FontFamily = new FontFamily("Arial"),
+                    FontSize = 45,
+                    Text = "\u2655"
+                };
+                BoardCanvas.Children.Add(crown);
+                Canvas.SetLeft(crown, posX + 28); //Nastavení levé souřadnice Canvasu na posX
+                Canvas.SetBottom(crown, posY + 25); //Nastavení odspodu souřadnice Canvasu na posX
+            }
+            if (typ == "cerna")
+            {
+                TextBlock crown = new TextBlock
+                {
+                    FontFamily = new FontFamily("Arial"),
+                    FontSize = 45,
+                    Text = "\u265b"
+                };
+                BoardCanvas.Children.Add(crown);
+                Canvas.SetLeft(crown, posX + 28); //Nastavení levé souřadnice Canvasu na posX
+                Canvas.SetBottom(crown, posY + 25); //Nastavení odspodu souřadnice Canvasu na posX
+            }
         }
         public void DrawEllipse(int posX, int posY, int fWidth, int fHeight, SolidColorBrush fill, SolidColorBrush stroke)
         {
             Ellipse el = new Ellipse();
             el.Fill = fill;
             el.Stroke = stroke;
-            el.Width = fWidth;
-            el.Height = fHeight;
+            el.Width = fWidth - 20;
+            el.Height = fHeight - 20;
             BoardCanvas.Children.Add(el);
-            Canvas.SetLeft(el, posX);
-            Canvas.SetBottom(el, posY);
+            Canvas.SetLeft(el, posX + 10);
+            Canvas.SetBottom(el, posY + 10);
         }
         /// <summary>
         /// Vykreslení herní desky
@@ -166,8 +227,8 @@ namespace Dama_WPF
             r.Fill = color;
             //r.ToolTip = ("X:" + posX / 100, "Y:" + posY / 100);
             r.ToolTip = GameController.GetValueOnBoard(posX/100, posY/100);
-            r.Stroke = Brushes.Gray;
-            r.StrokeThickness = 2;
+            r.Stroke = Brushes.Black;
+            r.StrokeThickness = 1;
             BoardCanvas.Children.Add(r);
             Canvas.SetLeft(r, posX); //Nastavení levé souřadnice Canvasu na posX
             Canvas.SetBottom(r, posY); //Nastavení odspodu souřadnice Canvasu na posX
