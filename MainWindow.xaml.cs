@@ -85,7 +85,12 @@ namespace Dama_WPF
 
 
 
-
+        /// <summary>
+        /// Vykreslí figurky na board
+        /// </summary>
+        /// <param name="coords"></param>
+        /// <param name="fWidth"></param>
+        /// <param name="fHeight"></param>
         public void DrawFigures(List<int> coords, int fWidth, int fHeight)
         {
             for (int i = 0; i < 8; i++)
@@ -97,7 +102,13 @@ namespace Dama_WPF
                 }
             }
         }
-
+        /// <summary>
+        /// Převod souřadnic logických na fyzické
+        /// </summary>
+        /// <param name="phyCoords"></param>
+        /// <param name="radek"></param>
+        /// <param name="sloupec"></param>
+        /// <returns></returns>
         public int[] TransfFieldPhyCoords(List<int> phyCoords, int radek, int sloupec)
         {
             int[] result = new int[2];
@@ -107,10 +118,18 @@ namespace Dama_WPF
             result[1] = phyCoords[y];
             return result;
         }
+        /// <summary>
+        /// Vykreslí jednu figurku
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="posX"></param>
+        /// <param name="posY"></param>
+        /// <param name="fWidth"></param>
+        /// <param name="fHeight"></param>
         public void DrawFigure(int type, int posX, int posY, int fWidth, int fHeight)
         {
-            type = GameController.GetValueOnBoard(posX / 100, posY / 100);
-            if (GameController.GetValueOnBoard(posX / 100, posY / 100) != 0)
+            type = GameController.GetValueOnBoard(posX / 100, posY / 100); //uložení jaký typ se nachází na zvoleném poli
+            if (GameController.GetValueOnBoard(posX / 100, posY / 100) != 0) //když není 0
             {
                 SolidColorBrush border = new SolidColorBrush(Colors.Black);
                 SolidColorBrush c = new SolidColorBrush(Colors.GhostWhite);
@@ -133,7 +152,6 @@ namespace Dama_WPF
                 }
             }
         }
-
         /// <summary>
         /// Kreslení dámy
         /// </summary>
@@ -147,7 +165,7 @@ namespace Dama_WPF
         {
             if (typ == "bila")
             {
-                TextBlock crown = new TextBlock
+                TextBlock crown = new TextBlock //vykreslení korunky pro BílouDámu
                 {
                     FontFamily = new FontFamily("Arial"),
                     FontSize = 45,
@@ -159,17 +177,26 @@ namespace Dama_WPF
             }
             if (typ == "cerna")
             {
-                TextBlock crown = new TextBlock
+                TextBlock crown = new TextBlock //vykreslení korunky pro ČernouDámu
                 {
                     FontFamily = new FontFamily("Arial"),
                     FontSize = 45,
                     Text = "\u265b"
                 };
-                BoardCanvas.Children.Add(crown);
+                BoardCanvas.Children.Add(crown); //přidání do Canvasu
                 Canvas.SetLeft(crown, posX + 28); //Nastavení levé souřadnice Canvasu na posX
                 Canvas.SetBottom(crown, posY + 25); //Nastavení odspodu souřadnice Canvasu na posX
             }
         }
+        /// <summary>
+        /// Kreslení jedné ellipsy
+        /// </summary>
+        /// <param name="posX"></param>
+        /// <param name="posY"></param>
+        /// <param name="fWidth"></param>
+        /// <param name="fHeight"></param>
+        /// <param name="fill"></param>
+        /// <param name="stroke"></param>
         public void DrawEllipse(int posX, int posY, int fWidth, int fHeight, SolidColorBrush fill, SolidColorBrush stroke)
         {
             Ellipse el = new Ellipse();
@@ -209,7 +236,6 @@ namespace Dama_WPF
                     sloupec++;
                 }
             }
-            //DrawField(30, 30, fWidth, fHeight, new SolidColorBrush(Colors.Black)); //jedno pole
         }
         /// <summary>
         /// Vykreslení herního políčka na desce
