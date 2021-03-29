@@ -26,6 +26,7 @@ namespace Dama_WPF
         public MainWindow()
         {
             InitializeComponent();
+            GameController.InitGame();
             ShowBoard();
         }
         /// <summary>
@@ -78,6 +79,46 @@ namespace Dama_WPF
             int fieldHeight = GetFieldHeight();
             List<int> coords = GetFieldCoords(fieldWidth,fieldHeight); //Vrátí souřadnice rohů jednotlivých políček
             DrawBoard(coords,fieldWidth,fieldHeight);
+            DrawFigures(coords, fieldWidth, fieldHeight);
+        }
+
+
+
+
+
+        public void DrawFigures(List<int> coords, int fWidth, int fHeight)
+        {
+            DrawFigure(1, 30, 30, fWidth, fHeight);
+        }
+        public void DrawFigure(int type, int posX, int posY, int fWidth, int fHeight)
+        {
+            SolidColorBrush border = new SolidColorBrush(Colors.Gray);
+            SolidColorBrush c = new SolidColorBrush(Colors.Red);
+            if (GameController.GetValueOnBoard(posX/100,posY/100) < 0)
+            {
+                c = new SolidColorBrush(Colors.LightBlue);
+            }
+            DrawEllipse(posX, posY, fWidth, fHeight, c,border);
+            if (Math.Abs(GameController.GetValueOnBoard(posX / 100, posY / 100)) > 1) //pokud větší než 1 přijde dáma
+            {
+                DrawQueen(posX, posY, fWidth, fHeight, new SolidColorBrush(Colors.Green), border);
+            }
+        }
+
+        public void DrawQueen(int posX, int posY, int fWidth, int fHeight, SolidColorBrush brush, SolidColorBrush stroke)
+        {
+            DrawEllipse(posX + fWidth / 4, posY + fHeight / 4, fWidth / 2, fHeight / 2, brush, stroke);
+        }
+        public void DrawEllipse(int posX, int posY, int fWidth, int fHeight, SolidColorBrush fill, SolidColorBrush stroke)
+        {
+            Ellipse el = new Ellipse();
+            el.Fill = fill;
+            el.Stroke = stroke;
+            el.Width = fWidth;
+            el.Height = fHeight;
+            BoardCanvas.Children.Add(el);
+            Canvas.SetLeft(el, posX);
+            Canvas.SetBottom(el, posY);
         }
         /// <summary>
         /// Vykreslení herní desky
@@ -90,10 +131,10 @@ namespace Dama_WPF
             SolidColorBrush black = new SolidColorBrush(Colors.Black);
             SolidColorBrush white = new SolidColorBrush(Colors.White);
             int sloupec = 0; 
-            for (int i = 0; i < coords.Count; i = i + 2)
+            for (int i = 0; i < coords.Count; i = i + 2) //Count = 128
             {
                 SolidColorBrush brush;
-                if ((i%4)/2 == sloupec % 2)
+                if ((i%4)/2 == sloupec % 2) //pokud i%4/2 je sloupec % 2 tak je černý tj. (0%4)/2 je 0 a 0 % 2 je 0, 0 == 0
                 {
                     brush = black;
                 }
@@ -102,7 +143,7 @@ namespace Dama_WPF
                     brush = white;
                 }
                 DrawField(coords[i], coords[i + 1], fWidth, fHeight,brush);
-                if (i%16 == 14)
+                if (i % 16 == 14) // 14 % 16 == 14
                 {
                     sloupec++;
                 }
@@ -123,7 +164,8 @@ namespace Dama_WPF
             r.Width = fWidth;
             r.Height = fHeight;
             r.Fill = color;
-            r.ToolTip = ("X:"+posX/100,"Y:"+posY/100);
+            //r.ToolTip = ("X:" + posX / 100, "Y:" + posY / 100);
+            r.ToolTip = GameController.GetValueOnBoard(posX/100, posY/100);
             r.Stroke = Brushes.Gray;
             r.StrokeThickness = 2;
             BoardCanvas.Children.Add(r);
