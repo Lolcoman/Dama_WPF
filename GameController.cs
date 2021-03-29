@@ -292,6 +292,16 @@ namespace Dama_WPF
             board.SetValue(posX, posY, value);
         }
         /// <summary>
+        /// Metoda pro čtení hodnoty na souřadnicích
+        /// </summary>
+        /// <param name="posX"></param>
+        /// <param name="posY"></param>
+        /// <returns></returns>
+        public int GetValueOnBoard(int posX, int posY)
+        {
+            return board.GetValue(posX, posY);
+        }
+        /// <summary>
         /// Metoda pro hlavní menu
         /// </summary>
         public void Start()
