@@ -18,7 +18,7 @@ namespace Dama_WPF
         private MoveServices moveServices = new MoveServices();
 
 
-        NewGame NewGame = new NewGame();
+        //NewGame NewGame = new NewGame();
 
         //proměnné hráčů, pro uživatele 0, 1-4 obtížnost PC
         public int player1 = 0;
@@ -37,7 +37,55 @@ namespace Dama_WPF
             rules.InitBoard();
             rules.InitPlayer();
             rules.MovesGenerate();
+            PcPlayer();
             board.tahuBezSkoku = 0;
+        }
+
+        public void PcPlayer()
+        {
+            if (rules.PlayerOnMove() == 1 && player1 > 0 || rules.PlayerOnMove() == -1 && player2 > 0) //pokud hráč na tahu je 1 a player1 > 0 tak true, provede tah a continue na dalšího hráče
+            {
+                //ui.PcInfo();
+                int[] move = null;
+                Brain brain = new Brain(board, rules);
+                Thread pc = new Thread(() => move = brain.GetBestMove(rules.PlayerOnMove() == 1 ? player1 : player2));
+                pc.IsBackground = true;
+                pc.Start();
+                board.Move(move, true, false);
+
+                //pokud tah není skok tak se navýší počítadlo TahuBezSkoku
+                if (move.Length == 8)
+                {
+                    board.tahuBezSkoku++;
+                }
+                else
+                {
+                    board.tahuBezSkoku = 0;
+                }
+
+                //kolo = board.HistoryMove.Count / 2; //přičtení do počítadla kol
+
+                rules.ChangePlayer();
+                rules.MovesGenerate();
+                //Thread.Sleep(1500);
+                //continue;
+            }
+        }
+
+        public void NextPlayer()
+        {
+            rules.ChangePlayer();
+            rules.MovesGenerate();
+        }
+
+        public bool IsValidCoords(int x, int y)
+        {
+            return board.IsValidCoordinates(x, y);
+        }
+
+        public void ChangePlayer()
+        {
+            rules.ChangePlayer();
         }
 
         public int[] FullMove(int[] move)

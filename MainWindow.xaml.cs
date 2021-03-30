@@ -31,7 +31,7 @@ namespace Dama_WPF
         public MainWindow()
         {
             InitializeComponent();
-            GameController.InitGame();
+            //GameController.InitGame();
             ShowBoard();
         }
         /// <summary>
@@ -72,6 +72,7 @@ namespace Dama_WPF
                 GameController.player1 = newGame.GetPlayer1();
                 GameController.player2 = newGame.GetPlayer2();
                 GameController.InitGame();
+                ShowBoard();
             }
         }
         /// <summary>
@@ -86,9 +87,6 @@ namespace Dama_WPF
             DrawBoard(coords,fieldWidth,fieldHeight);
             DrawFigures(coords, fieldWidth, fieldHeight);
         }
-
-
-
 
         /// <summary>
         /// Vykreslí figurky na board
@@ -300,12 +298,8 @@ namespace Dama_WPF
             return result;
         }
 
-
-
-
-
-        //int[] prvniCast = null;
-        //int[] druhaCast = null;
+        int[] prvniCast = null;
+        int[] druhaCast = null;
         int[] pohyb = null;
         int[] plnyPohyb = null;
 
@@ -313,26 +307,34 @@ namespace Dama_WPF
         {
             int clickX = (int)e.GetPosition(BoardCanvas).X;
             int clickY = (int)e.GetPosition(BoardCanvas).Y;
-
-            int[] boardCoords = TransfClickPhyCoords(clickX, clickY); //přepočítání fyzického kliku na souřadnice na desce, 1.kliknutí
-
-            if (!IsSelected) //Pokud nemám vybranou figurku
+            if (!(TransfClickPhyCoords(clickX, clickY) == null))
             {
-                int[] prvniCast = PrvniCast(boardCoords[0], boardCoords[1]);
-                //MessageBox.Show($"Reálné souřadnice: {clickX},{clickY}. Přepočítané logické {boardCoords[0]},{boardCoords[1]}.");
-                IsSelected = true;
+                int[] boardCoords = TransfClickPhyCoords(clickX, clickY); //přepočítání fyzického kliku na souřadnice na desce, 1.kliknutí
+
+                if (!IsSelected) //Pokud nemám vybranou figurku
+                {
+                    prvniCast = PrvniCast(boardCoords[0], boardCoords[1]);
+                    //MessageBox.Show($"Reálné souřadnice: {clickX},{clickY}. Přepočítané logické {boardCoords[0]},{boardCoords[1]}.");
+                    IsSelected = true;
+                }
+                else
+                {
+                    druhaCast = DruhaCast(boardCoords[0], boardCoords[1]);
+                    pohyb = Spoj(prvniCast, druhaCast);
+                    plnyPohyb = GameController.FullMove(pohyb);
+                    GameController.MakeMove(plnyPohyb, true, false);
+                    ShowBoard();
+                    IsSelected = false;
+                    GameController.NextPlayer();
+                    //MessageBox.Show($"Tah z políček: {fullMove[0]},{fullMove[1]}. Na políčka: {fullMove[2]},{fullMove[3]}.");
+                }
             }
             else
             {
-                int[] druhaCast = DruhaCast(boardCoords[0],boardCoords[1]);
-                pohyb = Spoj(prvniCast, druhaCast);
-                plnyPohyb = GameController.FullMove(pohyb);
-                GameController.MakeMove(plnyPohyb,true,false);
-                ShowBoard();
-                IsSelected = false;
-                //MessageBox.Show($"Tah z políček: {fullMove[0]},{fullMove[1]}. Na políčka: {fullMove[2]},{fullMove[3]}.");
+                MessageBox.Show("Kliknul jsi mimo");
             }
             plnyPohyb = null;
+            //GameController.GenerateMoves();
         }
         public int[] TransfClickPhyCoords(int clickX, int clickY)
         {
@@ -356,7 +358,11 @@ namespace Dama_WPF
                     break;
                 }
             }
-            return new int[] { coordJ, coordI };
+            if (GameController.IsValidCoords(coordI,coordJ))
+            {
+                return new int[] { coordJ, coordI };
+            }
+            return null;
         }
 
         public int[] PrvniCast(int X1, int Y1)
