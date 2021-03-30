@@ -39,6 +39,17 @@ namespace Dama_WPF
             rules.MovesGenerate();
             board.tahuBezSkoku = 0;
         }
+
+        public int[] FullMove(int[] move)
+        {
+            return rules.FullMove(move);
+        }
+
+        public void MakeMove(int[] fullMove, bool ulozit, bool zpet)
+        {
+            board.Move(fullMove, ulozit, zpet);
+        }
+
         /// <summary>
         /// Hlavní herní smyčka
         /// </summary>
@@ -138,19 +149,6 @@ namespace Dama_WPF
                             ptrTah--;
                             posledniTah = board.HistoryMove[ptrTah];
                             moveServices.TahZpet(board,rules, ui,ptrTah, posledniTah, kolo);
-
-
-                            //ptrTah--;
-                            //posledniTah = board.HistoryMove[ptrTah];
-                            //board.Move(posledniTah, false, true);
-                            //rules.ChangePlayer();
-                            //Console.Clear();
-                            //kolo = board.HistoryMove.Count / 2;
-                            //ui.PocetKol(kolo);
-                            //board.VypocitejTahyBezSkoku(ptrTah);
-                            //ui.PocetTahuBezSkoku(board.tahuBezSkoku);
-                            //ui.PrintBoard(board);
-                            //rules.MovesGenerate();
                         }
                     }
                     //Možnost tahu vpřed/redo
@@ -160,18 +158,6 @@ namespace Dama_WPF
                         {
                             posledniTah = board.HistoryMove[ptrTah];
                             moveServices.TahVpred(board, rules, ui, ptrTah, posledniTah, kolo);
-
-
-                            //board.Move(posledniTah, false, false);
-                            //ptrTah++;
-                            //rules.ChangePlayer();
-                            //Console.Clear();
-                            //kolo = board.HistoryMove.Count / 2;
-                            //ui.PocetKol(kolo);
-                            //board.VypocitejTahyBezSkoku(ptrTah);
-                            //ui.PocetTahuBezSkoku(board.tahuBezSkoku);
-                            //ui.PrintBoard(board);
-                            //rules.MovesGenerate();
                         }
                     }
 

@@ -19,6 +19,6 @@
             <MenuItem Header="Nástroje" Height="30" Width="100"/>
             <MenuItem Header="Nápověda" Height="30" Width="100"/>
         </Menu>
-        <Canvas x:Name="BoardCanvas" HorizontalAlignment="Left" Height="800" Margin="23,48,0,0" VerticalAlignment="Top" Width="800"/>
+        <Canvas x:Name="BoardCanvas" HorizontalAlignment="Left" Height="800" Margin="23,48,0,0" VerticalAlignment="Top" Width="800" MouseDown="BoardCanvas_MouseDown"/>
     </Grid>
 </Window>

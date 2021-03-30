@@ -22,7 +22,8 @@ namespace Dama_WPF
 
     public partial class MainWindow : Window
     {
-        GameController GameController = new GameController(); 
+        GameController GameController = new GameController();
+        private bool IsSelected = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -75,8 +76,8 @@ namespace Dama_WPF
         public void ShowBoard()
         {
             BoardCanvas.Children.Clear(); //smazání všeho na Canvasu
-            int fieldWidth = GetFieldWidth();
-            int fieldHeight = GetFieldHeight();
+            int fieldWidth = GetFieldWidth(); //získání šířky pole
+            int fieldHeight = GetFieldHeight(); //získání výšky pole
             List<int> coords = GetFieldCoords(fieldWidth,fieldHeight); //Vrátí souřadnice rohů jednotlivých políček
             DrawBoard(coords,fieldWidth,fieldHeight);
             DrawFigures(coords, fieldWidth, fieldHeight);
@@ -275,6 +276,12 @@ namespace Dama_WPF
         {
             return (int)(BoardCanvas.Height / 8);
         }
+        /// <summary>
+        /// Získání souřadnic z šířky a výšky políčka
+        /// </summary>
+        /// <param name="fWidth"></param>
+        /// <param name="fHeight"></param>
+        /// <returns></returns>
         public List<int> GetFieldCoords(int fWidth, int fHeight)
         {
             List<int> result = new List<int>();
@@ -287,6 +294,73 @@ namespace Dama_WPF
                 }
             }
             return result;
+        }
+
+
+
+
+        //Počítání při kliku na souřadnice
+
+
+
+
+
+        private void BoardCanvas_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            int clickX = (int)e.GetPosition(BoardCanvas).X;
+            int clickY = (int)e.GetPosition(BoardCanvas).Y;
+
+            int[] boardCoords = TransfClickPhyCoords(clickX, clickY); //přepočítání fyzického kliku na souřadnice na desce, 1.kliknutí
+
+
+
+            //int[] vstup = {boardCoords[0], boardCoords[1], boardCoords[2],boardCoords[3]};
+            int[] vstup = boardCoords;
+            //int[] plnyPohyb = GameController.FullMove(vstup);
+            //GameController.MakeMove(plnyPohyb, true, false);
+            //ShowBoard();
+
+            if (!IsSelected) //Pokud nemám vybranou figurku
+            {
+                MessageBox.Show($"Reálné souřadnice: {clickX},{clickY}. Přepočítané logické {boardCoords[0]},{boardCoords[1]}.");
+                
+                IsSelected = true;
+            }
+            else
+            {
+                //boardCoords[2] = clickX;
+                //boardCoords[3] = clickY;
+                IsSelected = false;
+                MessageBox.Show($"Reálné souřadnice: {clickX},{clickY}. Přepočítané logické {boardCoords[0]},{boardCoords[1]}.");
+            }
+
+
+
+            //MessageBox.Show($"Reálné souřadnice: {clickX},{clickY}. Přepočítané logické {boardCoords[0]},{boardCoords[1]}.");
+        }
+        public int[] TransfClickPhyCoords(int clickX, int clickY)
+        {
+            clickY = (int)BoardCanvas.Height - clickY; //kliknutí 
+            List<int> coords = GetFieldCoords(GetFieldWidth(), GetFieldHeight());
+            int coordI = 7; 
+            int coordJ = 7;
+            for (int i = 0; i < coords.Count; i = i + 16)
+            {
+                if (clickY < coords[i + 1])
+                {
+                    coordI = (i / 16) - 1;
+                    break;
+                }
+            }
+            for (int i = 0; i < 8; i++)
+            {
+                if (clickX < coords[i * 2])
+                {
+                    coordJ = (i % 8) - 1;
+                    break;
+                }
+            }
+            return new int[] { coordI, coordJ };
         }
     }
 }
