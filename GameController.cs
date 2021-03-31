@@ -18,8 +18,6 @@ namespace Dama_WPF
         private MoveServices moveServices = new MoveServices();
 
 
-        //NewGame NewGame = new NewGame();
-
         //proměnné hráčů, pro uživatele 0, 1-4 obtížnost PC
         public int player1 = 0;
         public int player2 = 0;
@@ -31,14 +29,26 @@ namespace Dama_WPF
             //ui = new UI();
             //data = new Data();
         }
+        public string HistorieNaString(List<int[]> hist)
+        {
+            foreach (int[] item in hist)
+            {
+                return board.PohybNaString(item);
+            }
+            return "nic";
+        }
 
+        public List<int[]> historieTahu()
+        {
+            return board.HistoryMove;
+        }
         public void InitGame()
         {
             rules.InitBoard();
             rules.InitPlayer();
             rules.MovesGenerate();
             PcPlayer();
-            board.tahuBezSkoku = 0;
+            board.tahuBezSkoku = 0; 
         }
 
         public void PcPlayer()

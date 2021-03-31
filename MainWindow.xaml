@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dama_WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="900" Width="1000" ResizeMode="NoResize">
+        Title="MainWindow" Height="888" Width="1255" ResizeMode="NoResize">
     <Grid>
         <Menu Height="30" VerticalAlignment="Top">
             <MenuItem Header="Hra" Height="30" Width="100">
@@ -20,5 +20,7 @@
             <MenuItem Header="Nápověda" Height="30" Width="100"/>
         </Menu>
         <Canvas x:Name="BoardCanvas" HorizontalAlignment="Left" Height="800" Margin="23,48,0,0" VerticalAlignment="Top" Width="800" MouseDown="BoardCanvas_MouseDown"/>
+        <ListView x:Name="HistorieList" HorizontalAlignment="Left" Height="185" Margin="870,301,0,0" VerticalAlignment="Top" Width="338">
+        </ListView>
     </Grid>
 </Window>

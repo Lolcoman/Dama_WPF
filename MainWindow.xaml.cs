@@ -24,16 +24,18 @@ namespace Dama_WPF
     {
         GameController GameController = new GameController();
         private bool IsSelected = false;
-
+       
         //int[] prvniCast = null;
         //int[] druhaCast = null;
         //int[] fullMove = null;
         public MainWindow()
         {
             InitializeComponent();
-            //GameController.InitGame();
+
+            GameController.InitGame();
             ShowBoard();
         }
+
         /// <summary>
         /// Ukončení aplikace
         /// </summary>
@@ -71,7 +73,7 @@ namespace Dama_WPF
                 MessageBox.Show(newGame.GetPlayer2().ToString());
                 GameController.player1 = newGame.GetPlayer1();
                 GameController.player2 = newGame.GetPlayer2();
-                GameController.InitGame();
+                //GameController.InitGame();
                 ShowBoard();
             }
         }
@@ -307,34 +309,46 @@ namespace Dama_WPF
         {
             int clickX = (int)e.GetPosition(BoardCanvas).X;
             int clickY = (int)e.GetPosition(BoardCanvas).Y;
-            if (!(TransfClickPhyCoords(clickX, clickY) == null))
-            {
-                int[] boardCoords = TransfClickPhyCoords(clickX, clickY); //přepočítání fyzického kliku na souřadnice na desce, 1.kliknutí
 
-                if (!IsSelected) //Pokud nemám vybranou figurku
-                {
-                    prvniCast = PrvniCast(boardCoords[0], boardCoords[1]);
-                    //MessageBox.Show($"Reálné souřadnice: {clickX},{clickY}. Přepočítané logické {boardCoords[0]},{boardCoords[1]}.");
-                    IsSelected = true;
-                }
-                else
-                {
-                    druhaCast = DruhaCast(boardCoords[0], boardCoords[1]);
-                    pohyb = Spoj(prvniCast, druhaCast);
-                    plnyPohyb = GameController.FullMove(pohyb);
-                    GameController.MakeMove(plnyPohyb, true, false);
-                    ShowBoard();
-                    IsSelected = false;
-                    GameController.NextPlayer();
-                    //MessageBox.Show($"Tah z políček: {fullMove[0]},{fullMove[1]}. Na políčka: {fullMove[2]},{fullMove[3]}.");
-                }
+            int[] boardCoords = TransfClickPhyCoords(clickX, clickY); //přepočítání fyzického kliku na souřadnice na desce, 1.kliknutí
+
+            if (!IsSelected) //Pokud nemám vybranou figurku
+            {
+                prvniCast = PrvniCast(boardCoords[0], boardCoords[1]);
+                //MessageBox.Show($"Reálné souřadnice: {clickX},{clickY}. Přepočítané logické {boardCoords[0]},{boardCoords[1]}.");
+                IsSelected = true;
             }
             else
             {
-                MessageBox.Show("Kliknul jsi mimo");
+                druhaCast = DruhaCast(boardCoords[0], boardCoords[1]);
+                pohyb = Spoj(prvniCast, druhaCast);
+                plnyPohyb = GameController.FullMove(pohyb);
+                GameController.MakeMove(plnyPohyb, true, false);
+                ShowBoard();
+                IsSelected = false;
+                GameController.NextPlayer();
+                //MessageBox.Show($"Tah z políček: {fullMove[0]},{fullMove[1]}. Na políčka: {fullMove[2]},{fullMove[3]}.");
             }
+            //HistorieList.ItemsSource = GameController.HistorieNaString(GameController.historieTahu());
+            //Tahy.Text = GameController.HistorieNaString(GameController.historieTahu());
+            CreateHistory();
+            //= GameController.HistorieNaString(GameController.historieTahu());
+
             plnyPohyb = null;
             //GameController.GenerateMoves();
+        }
+        public void CreateHistory()
+        {
+            StackPanel tahy = new StackPanel();
+            tahy.Width = 200;
+            tahy.Height = 200;
+            List<int[]> historie = GameController.historieTahu();
+            TextBlock text = new TextBlock();
+            text.Width = 50;
+            text.Height = 50;
+            text.Text = GameController.HistorieNaString(historie);
+            //BoardCanvas.Children.Add(text);
+
         }
         public int[] TransfClickPhyCoords(int clickX, int clickY)
         {
