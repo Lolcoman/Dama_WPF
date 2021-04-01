@@ -380,11 +380,10 @@ namespace Dama_WPF
 
 
 
-        public void LoadGame(OpenFileDialog openFile, out int loadPlayer1, out int loadPlayer2)
+        public bool LoadGame(OpenFileDialog openFile, out int loadPlayer1, out int loadPlayer2)
         {
             Board loadBoard;
             Rules loadRules;
-            //int loadPlayer1, loadPlayer2;
             int ptrTah = 0;
 
             if (data.LoadGame(openFile,out loadBoard, out loadRules, out loadPlayer1, out loadPlayer2, out int loadUkazatel, out int loadTahuBezSkoku))
@@ -402,19 +401,9 @@ namespace Dama_WPF
                     board.Move(board.HistoryMove[ptrTah], false, true);
                     rules.ChangePlayer();
                 }
-
-
-                //Console.Clear();
-                //kolo = board.HistoryMove.Count / 2;
-                //ui.PocetKol(kolo);
-                //ui.PocetTahuBezSkoku(board.tahuBezSkoku);
-                //ui.PrintBoard(board);
-                //rules.MovesGenerate();
+                return true;
             }
-            else
-            {
-                //ui.Mistake();
-            }
+            return false;
         }
     }
 }
