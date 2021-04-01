@@ -380,11 +380,11 @@ namespace Dama_WPF
 
 
 
-        public bool LoadGame(OpenFileDialog openFile, out int loadPlayer1, out int loadPlayer2)
+        public bool LoadGame(OpenFileDialog openFile)
         {
             Board loadBoard;
             Rules loadRules;
-            int ptrTah = 0;
+            int ptrTah, loadPlayer1, loadPlayer2;
 
             if (data.LoadGame(openFile,out loadBoard, out loadRules, out loadPlayer1, out loadPlayer2, out int loadUkazatel, out int loadTahuBezSkoku))
             {

@@ -36,12 +36,15 @@ namespace Dama_WPF
         /// </summary>
         public void HistorieTahu()
         {
-            List<int[]> historie = GameController.HistorieTahu();
-            int[] posledniVhistorii = historie[historie.Count-1];        
-            string tah = GameController.HistorieNaString(posledniVhistorii);
-            TextBox text = new TextBox();
-            text.Text = tah;
-            HistorieList.Items.Add(text);
+            HistorieList.Items.Clear();
+            foreach (int[] move in GameController.HistorieTahu())
+            {
+                string tah = GameController.HistorieNaString(move);
+                TextBlock text = new TextBlock();
+                text.Text = tah;
+                HistorieList.Items.Add(text);
+                //HistorieList.Items.Insert(0,text); poslední tah bude nahoře
+            }
         }
         /// <summary>
         /// Ukončení aplikace
@@ -71,15 +74,17 @@ namespace Dama_WPF
             {
                 //zde se bude načítat hra z .txt
                 //game.Load(dialog.FileName)
-                if (GameController.LoadGame(dialog, out int loadPlayer1, out int loadPlayer2))
+                if (GameController.LoadGame(dialog))
                 {
-                    GameController.player1 = loadPlayer1;
-                    GameController.player2 = loadPlayer2;
+                    //Hra se nečetla dobře
+                    HistorieTahu();
+                    ShowBoard();
                 }
-                //GameController.MakeMove()
-                ShowBoard();
-                MessageBox.Show(dialog.FileName);
-                ShowBoard();
+                else
+                {
+                    //Hra se nenačetla
+                    MessageBox.Show("Chyba při načítání souboru!");
+                }
             }
         }
         /// <summary>
@@ -127,7 +132,7 @@ namespace Dama_WPF
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    int[] phyCoords = TransfFieldPhyCoords(coords, i, j);
+                    int[] phyCoords = TransfFieldPhyCoords(coords, i, j); //TADY JE CHYBA VYKRESLOVÁNÍ!!!!!
                     DrawFigure(GameController.GetValueOnBoard(i,j), phyCoords[0], phyCoords[1], fWidth, fHeight);
                 }
             }
@@ -158,29 +163,30 @@ namespace Dama_WPF
         /// <param name="fHeight"></param>
         public void DrawFigure(int type, int posX, int posY, int fWidth, int fHeight)
         {
-            type = GameController.GetValueOnBoard(posX / 100, posY / 100); //uložení jaký typ se nachází na zvoleném poli
-            if (GameController.GetValueOnBoard(posX / 100, posY / 100) != 0) //když není 0
+            //type = GameController.GetValueOnBoard(posX / 100, posY / 100); //uložení jaký typ se nachází na zvoleném poli
+            //if (GameController.GetValueOnBoard(posX / 100, posY / 100) != 0) //když není 0
+            //{
+
+            SolidColorBrush border = new SolidColorBrush(Colors.Black);
+            SolidColorBrush c = new SolidColorBrush(Colors.GhostWhite);
+            if (type < 0) //vykreslení černého
             {
-                SolidColorBrush border = new SolidColorBrush(Colors.Black);
-                SolidColorBrush c = new SolidColorBrush(Colors.GhostWhite);
-                if (type < 0) //vykreslení černého
+                c = new SolidColorBrush(Colors.Gray);
+                DrawEllipse(posX, posY, fWidth, fHeight, c, border);
+                if (type == -2) //jestli je dáma
                 {
-                    c = new SolidColorBrush(Colors.Gray);
-                    DrawEllipse(posX, posY, fWidth, fHeight, c, border);
-                    if (type == -2) //jestli je dáma
-                    {
-                        DrawQueen(posX, posY, fWidth, fHeight, "cerna");
-                    }
-                }
-                if (type > 0) //vykreslní bílého
-                {
-                    DrawEllipse(posX, posY, fWidth, fHeight, c, border);
-                    if (type == 2) //jetli je dáma
-                    {
-                        DrawQueen(posX, posY, fWidth, fHeight, "bila");
-                    }
+                    DrawQueen(posX, posY, fWidth, fHeight, "cerna");
                 }
             }
+            if (type > 0) //vykreslní bílého
+            {
+                DrawEllipse(posX, posY, fWidth, fHeight, c, border);
+                if (type == 2) //jetli je dáma
+                {
+                    DrawQueen(posX, posY, fWidth, fHeight, "bila");
+                }
+            }
+
         }
         /// <summary>
         /// Kreslení dámy
@@ -344,7 +350,7 @@ namespace Dama_WPF
             if (!IsSelected) //Pokud nemám vybranou figurku
             {
                 prvniCast = PrvniCast(boardCoords[0], boardCoords[1]);
-                //MessageBox.Show($"Reálné souřadnice: {clickX},{clickY}. Přepočítané logické {boardCoords[0]},{boardCoords[1]}.");
+                MessageBox.Show($"Reálné souřadnice: {clickX},{clickY}. Přepočítané logické {boardCoords[0]},{boardCoords[1]}.");
                 IsSelected = true;
             }
             else
