@@ -53,7 +53,7 @@ namespace Dama_WPF
             rules.InitBoard();
             rules.InitPlayer();
             rules.MovesGenerate();
-            PcPlayer();
+            //PcPlayer();
             board.tahuBezSkoku = 0; 
         }
 
@@ -380,11 +380,11 @@ namespace Dama_WPF
 
 
 
-        public void LoadGame(OpenFileDialog openFile)
+        public void LoadGame(OpenFileDialog openFile, out int loadPlayer1, out int loadPlayer2)
         {
             Board loadBoard;
             Rules loadRules;
-            int loadPlayer1, loadPlayer2;
+            //int loadPlayer1, loadPlayer2;
             int ptrTah = 0;
 
             if (data.LoadGame(openFile,out loadBoard, out loadRules, out loadPlayer1, out loadPlayer2, out int loadUkazatel, out int loadTahuBezSkoku))

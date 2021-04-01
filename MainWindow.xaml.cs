@@ -24,10 +24,7 @@ namespace Dama_WPF
     {
         GameController GameController = new GameController();
         private bool IsSelected = false;
-       
-        //int[] prvniCast = null;
-        //int[] druhaCast = null;
-        //int[] fullMove = null;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -74,7 +71,11 @@ namespace Dama_WPF
             {
                 //zde se bude načítat hra z .txt
                 //game.Load(dialog.FileName)
-                GameController.LoadGame(dialog);
+                GameController.LoadGame(dialog, out int loadPlayer1, out int loadPlayer2);
+                GameController.player1 = loadPlayer1;
+                GameController.player2 = loadPlayer2;
+                //GameController.MakeMove()
+                ShowBoard();
                 MessageBox.Show(dialog.FileName);
                 ShowBoard();
             }
