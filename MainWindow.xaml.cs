@@ -128,12 +128,12 @@ namespace Dama_WPF
         /// <param name="fHeight"></param>
         public void DrawFigures(List<int> coords, int fWidth, int fHeight)
         {
-            for (int i = 0; i < 8; i++)
+            for (int posY = 0; posY < 8; posY++)
             {
-                for (int j = 0; j < 8; j++)
+                for (int posX = 0; posX < 8; posX++)
                 {
-                    int[] phyCoords = TransfFieldPhyCoords(coords, i, j); //TADY JE CHYBA VYKRESLOVÁNÍ!!!!!
-                    DrawFigure(GameController.GetValueOnBoard(i,j), phyCoords[0], phyCoords[1], fWidth, fHeight);
+                    //int[] phyCoords = TransfFieldPhyCoords(coords, i, j); //TADY JE CHYBA VYKRESLOVÁNÍ!!!!!
+                    DrawFigure(GameController.GetValueOnBoard(posX,posY), posX, posY, fWidth, fHeight);
                 }
             }
         }
@@ -172,18 +172,18 @@ namespace Dama_WPF
             if (type < 0) //vykreslení černého
             {
                 c = new SolidColorBrush(Colors.Gray);
-                DrawEllipse(posX, posY, fWidth, fHeight, c, border);
+                DrawEllipse(posX * fWidth, posY * fHeight, fWidth, fHeight, c, border); //vynásobení šířkou poziceX a výškou poziceY
                 if (type == -2) //jestli je dáma
                 {
-                    DrawQueen(posX, posY, fWidth, fHeight, "cerna");
+                    DrawQueen(posX * fWidth, posY * fHeight, fWidth, fHeight, "cerna");
                 }
             }
             if (type > 0) //vykreslní bílého
             {
-                DrawEllipse(posX, posY, fWidth, fHeight, c, border);
+                DrawEllipse(posX * fWidth, posY * fHeight, fWidth, fHeight, c, border);
                 if (type == 2) //jetli je dáma
                 {
-                    DrawQueen(posX, posY, fWidth, fHeight, "bila");
+                    DrawQueen(posX * fWidth, posY * fHeight, fWidth, fHeight, "bila");
                 }
             }
 
@@ -199,30 +199,20 @@ namespace Dama_WPF
         /// <param name="stroke"></param>
         public void DrawQueen(int posX, int posY, int fWidth, int fHeight,string typ)
         {
+            TextBlock crown = new TextBlock(); //vykreslení korunky pro BílouDámu
+            crown.FontFamily = new FontFamily("Arial");
+            crown.FontSize = 45;
             if (typ == "bila")
             {
-                TextBlock crown = new TextBlock //vykreslení korunky pro BílouDámu
-                {
-                    FontFamily = new FontFamily("Arial"),
-                    FontSize = 45,
-                    Text = "\u2655"
-                };
-                BoardCanvas.Children.Add(crown);
-                Canvas.SetLeft(crown, posX + 28); //Nastavení levé souřadnice Canvasu na posX
-                Canvas.SetBottom(crown, posY + 25); //Nastavení odspodu souřadnice Canvasu na posX
+                crown.Text = "\u2655";
             }
-            if (typ == "cerna")
+            else
             {
-                TextBlock crown = new TextBlock //vykreslení korunky pro ČernouDámu
-                {
-                    FontFamily = new FontFamily("Arial"),
-                    FontSize = 45,
-                    Text = "\u265b"
-                };
-                BoardCanvas.Children.Add(crown); //přidání do Canvasu
-                Canvas.SetLeft(crown, posX + 28); //Nastavení levé souřadnice Canvasu na posX
-                Canvas.SetBottom(crown, posY + 25); //Nastavení odspodu souřadnice Canvasu na posX
+                crown.Text = "\u265b";
             }
+            BoardCanvas.Children.Add(crown);
+            Canvas.SetLeft(crown, posX + 15); //Nastavení levé souřadnice Canvasu na posX
+            Canvas.SetBottom(crown, posY + 13); //Nastavení odspodu souřadnice Canvasu na posX
         }
         /// <summary>
         /// Kreslení jedné ellipsy
