@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.IO;
+using Microsoft.Win32;
 
 namespace Dama_WPF
 {
@@ -29,16 +30,21 @@ namespace Dama_WPF
             //ui = new UI();
             //data = new Data();
         }
-        public string HistorieNaString(List<int[]> hist)
-        {
-            foreach (int[] item in hist)
-            {
-                return board.PohybNaString(item);
-            }
-            return "nic";
-        }
 
-        public List<int[]> historieTahu()
+        public string HistorieNaString(int[] prvek)
+        {
+            return board.PohybNaString(prvek);
+        }
+        //public string HistorieNaString(List<int[]> hist)
+        //{
+        //    foreach (int[] item in hist)
+        //    {
+        //        return board.PohybNaString(item);
+        //    }
+        //    return "nic";
+        //}
+
+        public List<int[]> HistorieTahu()
         {
             return board.HistoryMove;
         }
@@ -261,33 +267,33 @@ namespace Dama_WPF
                         Rules loadRules;
                         int loadPlayer1, loadPlayer2;
 
-                        if (data.LoadGame(out loadBoard, out loadRules, out loadPlayer1, out loadPlayer2, out int loadUkazatel, out int loadTahuBezSkoku))
-                        {
-                            board = loadBoard;
-                            rules = loadRules;
-                            player1 = loadPlayer1;
-                            player2 = loadPlayer2;
-                            ptrTah = board.HistoryMove.Count;
-                            board.tahuBezSkoku = loadTahuBezSkoku;
+                        //if (data.LoadGame(out loadBoard, out loadRules, out loadPlayer1, out loadPlayer2, out int loadUkazatel, out int loadTahuBezSkoku))
+                        //{
+                        //    board = loadBoard;
+                        //    rules = loadRules;
+                        //    player1 = loadPlayer1;
+                        //    player2 = loadPlayer2;
+                        //    ptrTah = board.HistoryMove.Count;
+                        //    board.tahuBezSkoku = loadTahuBezSkoku;
                             
-                            while (ptrTah > loadUkazatel) //pokud aktuální ukazatel je větší než načtený
-                            {
-                                ptrTah--; //aktualní se zmenší
-                                board.Move(board.HistoryMove[ptrTah], false, true);
-                                rules.ChangePlayer();
-                            }
+                        //    while (ptrTah > loadUkazatel) //pokud aktuální ukazatel je větší než načtený
+                        //    {
+                        //        ptrTah--; //aktualní se zmenší
+                        //        board.Move(board.HistoryMove[ptrTah], false, true);
+                        //        rules.ChangePlayer();
+                        //    }
 
-                            Console.Clear();
-                            kolo = board.HistoryMove.Count / 2;
-                            ui.PocetKol(kolo);
-                            ui.PocetTahuBezSkoku(board.tahuBezSkoku);
-                            ui.PrintBoard(board);
-                            rules.MovesGenerate();
-                        }
-                        else
-                        {
-                            ui.Mistake();
-                        }
+                        //    Console.Clear();
+                        //    kolo = board.HistoryMove.Count / 2;
+                        //    ui.PocetKol(kolo);
+                        //    ui.PocetTahuBezSkoku(board.tahuBezSkoku);
+                        //    ui.PrintBoard(board);
+                        //    rules.MovesGenerate();
+                        //}
+                        //else
+                        //{
+                        //    ui.Mistake();
+                        //}
                     }
                     //Zpět do menu
                     if (vstup[0] == -5)
@@ -359,6 +365,56 @@ namespace Dama_WPF
         public void ClearHistoryFromToEnd(int ptrTah)
         {
             board.HistoryMove.RemoveRange(ptrTah, board.HistoryMove.Count - ptrTah); //odstraní tahy=index ptrTah, od indexu Count-ptrTah
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public void LoadGame(OpenFileDialog openFile)
+        {
+            Board loadBoard;
+            Rules loadRules;
+            int loadPlayer1, loadPlayer2;
+            int ptrTah = 0;
+
+            if (data.LoadGame(openFile,out loadBoard, out loadRules, out loadPlayer1, out loadPlayer2, out int loadUkazatel, out int loadTahuBezSkoku))
+            {
+                board = loadBoard;
+                rules = loadRules;
+                player1 = loadPlayer1;
+                player2 = loadPlayer2;
+                ptrTah = board.HistoryMove.Count;
+                board.tahuBezSkoku = loadTahuBezSkoku;
+
+                while (ptrTah > loadUkazatel) //pokud aktuální ukazatel je větší než načtený
+                {
+                    ptrTah--; //aktualní se zmenší
+                    board.Move(board.HistoryMove[ptrTah], false, true);
+                    rules.ChangePlayer();
+                }
+
+
+                //Console.Clear();
+                //kolo = board.HistoryMove.Count / 2;
+                //ui.PocetKol(kolo);
+                //ui.PocetTahuBezSkoku(board.tahuBezSkoku);
+                //ui.PrintBoard(board);
+                //rules.MovesGenerate();
+            }
+            else
+            {
+                //ui.Mistake();
+            }
         }
     }
 }

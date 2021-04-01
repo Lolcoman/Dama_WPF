@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -34,9 +35,9 @@ namespace Dama_WPF
                 sw.Flush();
             }
         }
-        public bool LoadGame(out Board board, out Rules rules, out int player1, out int player2, out int loadUkazatel, out int loadTahuBezSkoku)
+        public bool LoadGame(OpenFileDialog openFile,out Board board, out Rules rules, out int player1, out int player2, out int loadUkazatel, out int loadTahuBezSkoku)
         {
-            using (StreamReader sr = new StreamReader(@"save.txt"))
+            using (StreamReader sr = new StreamReader(openFile.FileName))
             {
                 board = new Board();
                 rules = new Rules(board);

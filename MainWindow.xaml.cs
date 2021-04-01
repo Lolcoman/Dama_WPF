@@ -31,11 +31,21 @@ namespace Dama_WPF
         public MainWindow()
         {
             InitializeComponent();
-
             GameController.InitGame();
             ShowBoard();
         }
-
+        /// <summary>
+        /// Vytvoření historie tahů
+        /// </summary>
+        public void HistorieTahu()
+        {
+            List<int[]> historie = GameController.HistorieTahu();
+            int[] posledniVhistorii = historie[historie.Count-1];        
+            string tah = GameController.HistorieNaString(posledniVhistorii);
+            TextBox text = new TextBox();
+            text.Text = tah;
+            HistorieList.Items.Add(text);
+        }
         /// <summary>
         /// Ukončení aplikace
         /// </summary>
@@ -49,19 +59,31 @@ namespace Dama_WPF
                 Application.Current.Shutdown();
             }
         }
+        /// <summary>
+        /// Načítání hry
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LoadGameMenu_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.InitialDirectory = Environment.CurrentDirectory;
-            dialog.Filter = "Save game file|*.txt";
+            dialog.Filter = "Save game file (.txt)|*.txt";
+
             if (dialog.ShowDialog() == true)
             {
                 //zde se bude načítat hra z .txt
                 //game.Load(dialog.FileName)
+                GameController.LoadGame(dialog);
                 MessageBox.Show(dialog.FileName);
+                ShowBoard();
             }
         }
-
+        /// <summary>
+        /// Nová hra
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NewGameMenu_Click(object sender, RoutedEventArgs e)
         {
             NewGame newGame = new NewGame();
@@ -304,7 +326,11 @@ namespace Dama_WPF
         int[] druhaCast = null;
         int[] pohyb = null;
         int[] plnyPohyb = null;
-
+        /// <summary>
+        /// Klik na Canvas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BoardCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             int clickX = (int)e.GetPosition(BoardCanvas).X;
@@ -327,29 +353,17 @@ namespace Dama_WPF
                 ShowBoard();
                 IsSelected = false;
                 GameController.NextPlayer();
+                HistorieTahu();
                 //MessageBox.Show($"Tah z políček: {fullMove[0]},{fullMove[1]}. Na políčka: {fullMove[2]},{fullMove[3]}.");
             }
-            //HistorieList.ItemsSource = GameController.HistorieNaString(GameController.historieTahu());
-            //Tahy.Text = GameController.HistorieNaString(GameController.historieTahu());
-            CreateHistory();
-            //= GameController.HistorieNaString(GameController.historieTahu());
-
             plnyPohyb = null;
-            //GameController.GenerateMoves();
         }
-        public void CreateHistory()
-        {
-            StackPanel tahy = new StackPanel();
-            tahy.Width = 200;
-            tahy.Height = 200;
-            List<int[]> historie = GameController.historieTahu();
-            TextBlock text = new TextBlock();
-            text.Width = 50;
-            text.Height = 50;
-            text.Text = GameController.HistorieNaString(historie);
-            //BoardCanvas.Children.Add(text);
-
-        }
+        /// <summary>
+        /// Přepočet kliknutí souřadnic
+        /// </summary>
+        /// <param name="clickX"></param>
+        /// <param name="clickY"></param>
+        /// <returns></returns>
         public int[] TransfClickPhyCoords(int clickX, int clickY)
         {
             clickY = (int)BoardCanvas.Height - clickY; //kliknutí 
@@ -378,15 +392,32 @@ namespace Dama_WPF
             }
             return null;
         }
-
+        /// <summary>
+        /// Prvni cast kliku
+        /// </summary>
+        /// <param name="X1"></param>
+        /// <param name="Y1"></param>
+        /// <returns></returns>
         public int[] PrvniCast(int X1, int Y1)
         {
             return new int[] { X1, Y1 };
         }
+        /// <summary>
+        /// Druha cast kliku
+        /// </summary>
+        /// <param name="X2"></param>
+        /// <param name="Y2"></param>
+        /// <returns></returns>
         public int[] DruhaCast(int X2, int Y2)
         {
             return new int[] { X2, Y2 };
         }
+        /// <summary>
+        /// Spojení kliku
+        /// </summary>
+        /// <param name="prvni"></param>
+        /// <param name="druha"></param>
+        /// <returns></returns>
         public int[] Spoj(int[] prvni, int[] druha)
         {
             int[] spojeny = prvni.Concat(druha).ToArray();
