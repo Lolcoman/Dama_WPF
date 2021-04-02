@@ -24,12 +24,27 @@ namespace Dama_WPF
     {
         GameController GameController = new GameController();
         private bool IsSelected = false;
+        Rectangle SelectFigure = new Rectangle();
+        private int round = 0;
 
         public MainWindow()
         {
             InitializeComponent();
             GameController.InitGame();
             ShowBoard();
+            PlayerOnMove();
+            Rounds();
+        }
+        public void PlayerOnMove()
+        {
+            OnMoveLabel.Content = GameController.GetPlayerOnMove() == 1 ? "Hraje BÍLÝ" : "Hraje ČERNÝ";
+            OnMoveLabel.Width = GameController.GetPlayerOnMove() == 1 ? 112 : 150;
+            OnMoveLabel.Foreground = GameController.GetPlayerOnMove() == 1 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
+            OnMoveLabel.Background = GameController.GetPlayerOnMove() == 1 ? new SolidColorBrush(Colors.Black) : new SolidColorBrush(Colors.White);
+        }
+        public void Rounds()
+        {
+            RoundsLabel.Content = ("Počet kol: " + (round = GameController.HistorieTahu().Count / 2));
         }
         /// <summary>
         /// Vytvoření historie tahů
@@ -163,10 +178,6 @@ namespace Dama_WPF
         /// <param name="fHeight"></param>
         public void DrawFigure(int type, int posX, int posY, int fWidth, int fHeight)
         {
-            //type = GameController.GetValueOnBoard(posX / 100, posY / 100); //uložení jaký typ se nachází na zvoleném poli
-            //if (GameController.GetValueOnBoard(posX / 100, posY / 100) != 0) //když není 0
-            //{
-
             SolidColorBrush border = new SolidColorBrush(Colors.Black);
             SolidColorBrush c = new SolidColorBrush(Colors.GhostWhite);
             if (type < 0) //vykreslení černého
@@ -332,28 +343,49 @@ namespace Dama_WPF
         /// <param name="e"></param>
         private void BoardCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            BoardCanvas.Children.Remove(SelectFigure);
             int clickX = (int)e.GetPosition(BoardCanvas).X;
             int clickY = (int)e.GetPosition(BoardCanvas).Y;
 
             int[] boardCoords = TransfClickPhyCoords(clickX, clickY); //přepočítání fyzického kliku na souřadnice na desce, 1.kliknutí
 
-            if (!IsSelected) //Pokud nemám vybranou figurku
+            try
             {
-                prvniCast = PrvniCast(boardCoords[0], boardCoords[1]);
-                MessageBox.Show($"Reálné souřadnice: {clickX},{clickY}. Přepočítané logické {boardCoords[0]},{boardCoords[1]}.");
-                IsSelected = true;
-            }
-            else
+                if (!IsSelected) //Pokud nemám vybranou figurku
+                {
+                    if (GameController.GetValueOnBoard(boardCoords[0], boardCoords[1]) > 0 && GameController.GetPlayerOnMove() > 0 || GameController.GetValueOnBoard(boardCoords[0], boardCoords[1]) < 0 && GameController.GetPlayerOnMove() < 0)
+                    {
+                        List<int> coords = GetFieldCoords(GetFieldWidth(), GetFieldHeight());
+                        int[] recCoor = TransfFieldPhyCoords(coords, boardCoords[0], boardCoords[1]);
+                        SelectFigure.Width = GetFieldWidth();
+                        SelectFigure.Height = GetFieldHeight();
+                        SelectFigure.Fill = new SolidColorBrush(Color.FromArgb(155, 0, 255, 0));
+                        BoardCanvas.Children.Add(SelectFigure);
+                        Canvas.SetLeft(SelectFigure, recCoor[1]); //Nastavení levé souřadnice Canvasu na posX
+                        Canvas.SetBottom(SelectFigure, recCoor[0]); //Nastavení odspodu souřadnice Canvasu na posY
+                    }
+                    prvniCast = PrvniCast(boardCoords[0], boardCoords[1]);
+                    //MessageBox.Show($"Reálné souřadnice: {clickX},{clickY}. Přepočítané logické {boardCoords[0]},{boardCoords[1]}.");
+                    IsSelected = true;
+                }
+                else
+                {
+                    druhaCast = DruhaCast(boardCoords[0], boardCoords[1]);
+                    pohyb = Spoj(prvniCast, druhaCast);
+                    plnyPohyb = GameController.FullMove(pohyb);
+                    GameController.MakeMove(plnyPohyb, true, false);
+                    ShowBoard();
+                    IsSelected = false;
+                    GameController.NextPlayer();
+                    HistorieTahu();
+                    PlayerOnMove();
+                    Rounds();
+                    //MessageBox.Show($"Tah z políček: {fullMove[0]},{fullMove[1]}. Na políčka: {fullMove[2]},{fullMove[3]}.");
+                }
+            }catch
             {
-                druhaCast = DruhaCast(boardCoords[0], boardCoords[1]);
-                pohyb = Spoj(prvniCast, druhaCast);
-                plnyPohyb = GameController.FullMove(pohyb);
-                GameController.MakeMove(plnyPohyb, true, false);
-                ShowBoard();
+                MessageBox.Show("Opakuj celý tah!", "Špatný výběr");
                 IsSelected = false;
-                GameController.NextPlayer();
-                HistorieTahu();
-                //MessageBox.Show($"Tah z políček: {fullMove[0]},{fullMove[1]}. Na políčka: {fullMove[2]},{fullMove[3]}.");
             }
             plnyPohyb = null;
         }

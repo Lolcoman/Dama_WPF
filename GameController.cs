@@ -380,6 +380,19 @@ namespace Dama_WPF
 
 
 
+
+
+        /// <summary>
+        /// Vrátí hráče na tahu
+        /// </summary>
+        /// <returns></returns>
+        public int GetPlayerOnMove()
+        {
+            return rules.PlayerOnMove();
+        }
+
+
+
         public bool LoadGame(OpenFileDialog openFile)
         {
             Board loadBoard;
