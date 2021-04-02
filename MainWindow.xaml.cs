@@ -24,7 +24,7 @@ namespace Dama_WPF
     {
         GameController GameController = new GameController();
         private bool IsSelected = false;
-        Rectangle SelectFigure = new Rectangle();
+        Ellipse SelectFigure = new Ellipse();
         private int round = 0;
 
         public MainWindow()
@@ -37,14 +37,13 @@ namespace Dama_WPF
         }
         public void PlayerOnMove()
         {
-            OnMoveLabel.Content = GameController.GetPlayerOnMove() == 1 ? "Hraje BÍLÝ" : "Hraje ČERNÝ";
+            OnMoveLabel.Content = GameController.GetPlayerOnMove() == 1 ? " Hraje BÍLÝ " : " Hraje ČERNÝ ";
             OnMoveLabel.Width = GameController.GetPlayerOnMove() == 1 ? 112 : 150;
             OnMoveLabel.Foreground = GameController.GetPlayerOnMove() == 1 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
-            OnMoveLabel.Background = GameController.GetPlayerOnMove() == 1 ? new SolidColorBrush(Colors.Black) : new SolidColorBrush(Colors.White);
         }
         public void Rounds()
         {
-            RoundsLabel.Content = ("Počet kol: " + (round = GameController.HistorieTahu().Count / 2));
+            RoundsLabel.Content = (" Počet kol: " + (round = GameController.HistorieTahu().Count / 2));
         }
         /// <summary>
         /// Vytvoření historie tahů
@@ -114,11 +113,14 @@ namespace Dama_WPF
             newGame.ShowDialog();
             if (newGame.IsCreated)
             {
-                MessageBox.Show(newGame.GetPlayer1().ToString());
-                MessageBox.Show(newGame.GetPlayer2().ToString());
                 GameController.player1 = newGame.GetPlayer1();
                 GameController.player2 = newGame.GetPlayer2();
-                //GameController.InitGame();
+                GameController.InitGame();
+                GameController.HistorieTahu().Clear();
+                round = GameController.HistorieTahu().Count / 2;
+                Rounds();
+                HistorieTahu();
+                PlayerOnMove();
                 ShowBoard();
             }
         }
@@ -357,12 +359,12 @@ namespace Dama_WPF
                     {
                         List<int> coords = GetFieldCoords(GetFieldWidth(), GetFieldHeight());
                         int[] recCoor = TransfFieldPhyCoords(coords, boardCoords[0], boardCoords[1]);
-                        SelectFigure.Width = GetFieldWidth();
-                        SelectFigure.Height = GetFieldHeight();
+                        SelectFigure.Width = GetFieldWidth() - 20;
+                        SelectFigure.Height = GetFieldHeight() - 20;
                         SelectFigure.Fill = new SolidColorBrush(Color.FromArgb(155, 0, 255, 0));
                         BoardCanvas.Children.Add(SelectFigure);
-                        Canvas.SetLeft(SelectFigure, recCoor[1]); //Nastavení levé souřadnice Canvasu na posX
-                        Canvas.SetBottom(SelectFigure, recCoor[0]); //Nastavení odspodu souřadnice Canvasu na posY
+                        Canvas.SetLeft(SelectFigure, recCoor[1] + 10); //Nastavení levé souřadnice Canvasu na posX
+                        Canvas.SetBottom(SelectFigure, recCoor[0] + 10); //Nastavení odspodu souřadnice Canvasu na posY
                     }
                     prvniCast = PrvniCast(boardCoords[0], boardCoords[1]);
                     //MessageBox.Show($"Reálné souřadnice: {clickX},{clickY}. Přepočítané logické {boardCoords[0]},{boardCoords[1]}.");

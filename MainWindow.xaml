@@ -19,12 +19,22 @@
             <MenuItem Header="Nástroje" Height="30" Width="100"/>
             <MenuItem Header="Nápověda" Height="30" Width="100"/>
         </Menu>
-        <Border x:Name="Border" BorderBrush="SlateGray" BorderThickness="10" Margin="0,30,0,0" Height="620" VerticalAlignment="Top" HorizontalAlignment="Left" Width="620" CornerRadius="10"/>
+        <Border x:Name="Border" BorderBrush="SlateGray" BorderThickness="10" Margin="0,30,0,0" Height="620" VerticalAlignment="Top" HorizontalAlignment="Left" Width="620" CornerRadius="5,5,5,5"/>
         <Canvas x:Name="BoardCanvas" Margin="10,40,0,0" MouseDown="BoardCanvas_MouseDown" Height="600" VerticalAlignment="Top" HorizontalAlignment="Left" Width="600"/>
-        <ListView x:Name="HistorieList" Height="185" Margin="628,284,10,0" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="2"/>
-        <Label Content="Historie tahů" HorizontalAlignment="Left" Margin="628,246,0,0" VerticalAlignment="Top" Height="33" Width="112"/>
-        <Label x:Name="OnMoveLabel" Content="NaTahuje" HorizontalAlignment="Left" Margin="628,40,0,0" VerticalAlignment="Top" Width="150" FontWeight="Bold" FontSize="20" FontFamily="Arial"/>
-        <Label x:Name="RoundsLabel" Content="Label" HorizontalAlignment="Left" Margin="628,78,0,0" VerticalAlignment="Top" Height="29" Width="112" FontSize="16" FontWeight="Bold"/>
+        <ListView x:Name="HistorieList" Height="185" Margin="628,284,10,0" VerticalAlignment="Top" BorderBrush="White"/>
+        <Border CornerRadius="5,5,5,5" Margin="628,284,10,202" BorderBrush="Black" BorderThickness="3"/>
+        <Label Content="Historie tahů" HorizontalAlignment="Left" Margin="628,246,0,0" VerticalAlignment="Top" Height="33" Width="112" FontFamily="Cooper Black" FontWeight="Bold" FontSize="14"/>
+
+        <Border BorderThickness="1,1,1,0" CornerRadius="5,5,0,0" Margin="625,35,144,593">
+            <Border Margin="0,-1,-1,0" Background="Red" BorderBrush="Gray" CornerRadius="5">
+                <Label x:Name="OnMoveLabel" BorderThickness="1" Foreground="White" Content=" Hraje " FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Cooper Black" FontSize="14"/>
+            </Border>
+        </Border>
+        <Border BorderThickness="1,1,1,0" CornerRadius="5,5,0,0" Margin="755,35,8,593">
+            <Border Margin="0,-1,-1,0" Background="#FF7AA0CD" BorderBrush="Gray" CornerRadius="5">
+                <Label x:Name="RoundsLabel" BorderThickness="1" Foreground="White" Content="Kola " FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Cooper Black" FontSize="14" Height="25" Margin="0,7,0,10"/>
+            </Border>
+        </Border>
     </Grid>
 
 </Window>
