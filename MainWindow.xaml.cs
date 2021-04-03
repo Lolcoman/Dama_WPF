@@ -426,6 +426,7 @@ namespace Dama_WPF
                 MessageBox.Show("Opakuj celý tah!", "Špatný výběr");
                 IsSelected = false;
             }
+            PcPlaying();
             GameController.ClearHistoryFromToEnd();
             plnyPohyb = null;
         }

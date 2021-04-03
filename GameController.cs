@@ -27,7 +27,6 @@ namespace Dama_WPF
         public GameController()
         {
             rules = new Rules(board);
-            brain = new Brain(board, rules);
             ptrTah = 0;
             //ui = new UI();
             //data = new Data();
@@ -65,7 +64,7 @@ namespace Dama_WPF
             {
 
                 //int[] move = brain.GetBestMove(rules.PlayerOnMove() == 1 ? player1 : player2);
-                //Brain brain = new Brain(board, rules);
+                brain = new Brain(board, rules);
                 int[] move = brain.GetBestMove(rules.PlayerOnMove() == 1 ? player1 : player2);
                 //Thread pc = new Thread(() => move = brain.GetBestMove(rules.PlayerOnMove() == 1 ? player1 : player2));
                 //pc.IsBackground = true;
