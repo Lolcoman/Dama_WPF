@@ -24,8 +24,10 @@ namespace Dama_WPF
     {
         GameController GameController = new GameController();
         private bool IsSelected = false;
+        private bool IsPossible = false;
         Ellipse SelectFigure = new Ellipse();
         private int round = 0;
+
 
         public MainWindow()
         {
@@ -35,12 +37,24 @@ namespace Dama_WPF
             PlayerOnMove();
             Rounds();
         }
+        public void PcPlaying()
+        {
+            ProgressBar.Value = 30;
+            ProgressBar.Maximum = 101;
+            GameController.PcPlayer();
+        }
+        /// <summary>
+        /// Výpis labelu jaký hráč je na tahu
+        /// </summary>
         public void PlayerOnMove()
         {
             OnMoveLabel.Content = GameController.GetPlayerOnMove() == 1 ? " Hraje BÍLÝ " : " Hraje ČERNÝ ";
             OnMoveLabel.Width = GameController.GetPlayerOnMove() == 1 ? 112 : 150;
             OnMoveLabel.Foreground = GameController.GetPlayerOnMove() == 1 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
         }
+        /// <summary>
+        /// Výpis labelu pro počet kol
+        /// </summary>
         public void Rounds()
         {
             RoundsLabel.Content = (" Počet kol: " + (round = GameController.HistorieTahu().Count / 2));
@@ -55,6 +69,11 @@ namespace Dama_WPF
             {
                 string tah = GameController.HistorieNaString(move);
                 TextBlock text = new TextBlock();
+                if (move.Length > 8)
+                {
+                    text.Background = new SolidColorBrush(Color.FromArgb(100, 255, 0, 0));
+                }
+                text.FontFamily = new FontFamily("Comic Sans MS");
                 text.Text = tah;
                 HistorieList.Items.Add(text);
                 //HistorieList.Items.Insert(0,text); poslední tah bude nahoře
@@ -116,6 +135,7 @@ namespace Dama_WPF
                 GameController.player1 = newGame.GetPlayer1();
                 GameController.player2 = newGame.GetPlayer2();
                 GameController.InitGame();
+                PcPlaying();
                 GameController.HistorieTahu().Clear();
                 round = GameController.HistorieTahu().Count / 2;
                 Rounds();
@@ -291,7 +311,7 @@ namespace Dama_WPF
             r.Height = fHeight;
             r.Fill = color;
             //r.ToolTip = ("X:" + posX / 100, "Y:" + posY / 100);
-            r.ToolTip = GameController.GetValueOnBoard(posX/100, posY/100);
+            //r.ToolTip = GameController.GetValueOnBoard(posX/100, posY/100);
             r.Stroke = Brushes.Black;
             r.StrokeThickness = 1;
             BoardCanvas.Children.Add(r);
@@ -350,7 +370,6 @@ namespace Dama_WPF
             int clickY = (int)e.GetPosition(BoardCanvas).Y;
 
             int[] boardCoords = TransfClickPhyCoords(clickX, clickY); //přepočítání fyzického kliku na souřadnice na desce, 1.kliknutí
-
             try
             {
                 if (!IsSelected) //Pokud nemám vybranou figurku
@@ -358,13 +377,29 @@ namespace Dama_WPF
                     if (GameController.GetValueOnBoard(boardCoords[0], boardCoords[1]) > 0 && GameController.GetPlayerOnMove() > 0 || GameController.GetValueOnBoard(boardCoords[0], boardCoords[1]) < 0 && GameController.GetPlayerOnMove() < 0)
                     {
                         List<int> coords = GetFieldCoords(GetFieldWidth(), GetFieldHeight());
-                        int[] recCoor = TransfFieldPhyCoords(coords, boardCoords[0], boardCoords[1]);
+                        if (IsPossible)
+                        {
+                            List<int[]> moves = GameController.GetPossibleMoves(boardCoords[0], boardCoords[1]);
+                            SolidColorBrush poss = new SolidColorBrush(Color.FromArgb(80, 0, 255, 0));
+                            foreach (int[] item in moves)
+                            {
+                                int[] recCoor = TransfFieldPhyCoords(coords, item[4], item[5]);
+                                if (item.Length > 8)
+                                {
+                                    int[] recCoor1 = TransfFieldPhyCoords(coords, item[8], item[9]);
+                                    poss = new SolidColorBrush(Color.FromArgb(100, 255, 0, 0));
+                                    DrawField(recCoor1[1], recCoor1[0], GetFieldWidth(), GetFieldHeight(), poss);
+                                }
+                                DrawField(recCoor[1], recCoor[0], GetFieldWidth(), GetFieldHeight(), poss);
+                            }
+                        }
+                        int[] elCoor = TransfFieldPhyCoords(coords, boardCoords[0], boardCoords[1]);
                         SelectFigure.Width = GetFieldWidth() - 20;
                         SelectFigure.Height = GetFieldHeight() - 20;
                         SelectFigure.Fill = new SolidColorBrush(Color.FromArgb(155, 0, 255, 0));
                         BoardCanvas.Children.Add(SelectFigure);
-                        Canvas.SetLeft(SelectFigure, recCoor[1] + 10); //Nastavení levé souřadnice Canvasu na posX
-                        Canvas.SetBottom(SelectFigure, recCoor[0] + 10); //Nastavení odspodu souřadnice Canvasu na posY
+                        Canvas.SetLeft(SelectFigure, elCoor[1] + 10); //Nastavení levé souřadnice Canvasu na posX
+                        Canvas.SetBottom(SelectFigure, elCoor[0] + 10); //Nastavení odspodu souřadnice Canvasu na posY
                     }
                     prvniCast = PrvniCast(boardCoords[0], boardCoords[1]);
                     //MessageBox.Show($"Reálné souřadnice: {clickX},{clickY}. Přepočítané logické {boardCoords[0]},{boardCoords[1]}.");
@@ -375,20 +410,23 @@ namespace Dama_WPF
                     druhaCast = DruhaCast(boardCoords[0], boardCoords[1]);
                     pohyb = Spoj(prvniCast, druhaCast);
                     plnyPohyb = GameController.FullMove(pohyb);
-                    GameController.MakeMove(plnyPohyb, true, false);
+                    GameController.MakeMove(plnyPohyb, true, false); //TAH
                     ShowBoard();
                     IsSelected = false;
                     GameController.NextPlayer();
                     HistorieTahu();
                     PlayerOnMove();
                     Rounds();
+                    //HistorieTahu();
                     //MessageBox.Show($"Tah z políček: {fullMove[0]},{fullMove[1]}. Na políčka: {fullMove[2]},{fullMove[3]}.");
                 }
             }catch
             {
+                ShowBoard();
                 MessageBox.Show("Opakuj celý tah!", "Špatný výběr");
                 IsSelected = false;
             }
+            GameController.ClearHistoryFromToEnd();
             plnyPohyb = null;
         }
         /// <summary>
@@ -455,6 +493,60 @@ namespace Dama_WPF
         {
             int[] spojeny = prvni.Concat(druha).ToArray();
             return spojeny;
+        }
+        /// <summary>
+        /// Tlačítko pro tah zpět
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UndoMenu_Click(object sender, RoutedEventArgs e)
+        {
+            GameController.UndoMove();
+            PlayerOnMove();
+            Rounds();
+            ShowBoard();
+        }
+        /// <summary>
+        /// Tlačítko pro tah vpřed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RedoMenu_Click(object sender, RoutedEventArgs e)
+        {
+            GameController.RedoMove();
+            PlayerOnMove();
+            Rounds();
+            ShowBoard();
+        }
+
+        /// <summary>
+        /// Zapnutí nápovědy pro jeden kámen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void HelpForOneStoneMenu_Click(object sender, RoutedEventArgs e)
+        {
+            if (!IsPossible)
+            {
+                IsPossible = true;
+            }
+            else
+            {
+                IsPossible = false;
+            }
+        }
+
+        /// <summary>
+        /// Uložení hry
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveGameMenu_Click(object sender, RoutedEventArgs e)
+        {
+            if(GameController.SaveGame(GameController.player1, GameController.player2,GameController.HistorieTahu()))
+            {
+                MessageBox.Show("Hra byla uložena!", "Uložení hry");
+            }
         }
     }
 }

@@ -16,17 +16,19 @@ namespace Dama_WPF
         private UI ui = new UI();
         private Brain brain;
         private Data data = new Data();
-        private MoveServices moveServices = new MoveServices();
+        //MainWindow MainWindow = new MainWindow();
 
 
         //proměnné hráčů, pro uživatele 0, 1-4 obtížnost PC
         public int player1 = 0;
         public int player2 = 0;
+        public int ptrTah;
 
         public GameController()
         {
             rules = new Rules(board);
             brain = new Brain(board, rules);
+            ptrTah = 0;
             //ui = new UI();
             //data = new Data();
         }
@@ -54,19 +56,20 @@ namespace Dama_WPF
             rules.InitPlayer();
             rules.MovesGenerate();
             //PcPlayer();
-            board.tahuBezSkoku = 0; 
+            board.tahuBezSkoku = 0;
         }
 
         public void PcPlayer()
         {
             if (rules.PlayerOnMove() == 1 && player1 > 0 || rules.PlayerOnMove() == -1 && player2 > 0) //pokud hráč na tahu je 1 a player1 > 0 tak true, provede tah a continue na dalšího hráče
             {
-                //ui.PcInfo();
-                int[] move = null;
-                Brain brain = new Brain(board, rules);
-                Thread pc = new Thread(() => move = brain.GetBestMove(rules.PlayerOnMove() == 1 ? player1 : player2));
-                pc.IsBackground = true;
-                pc.Start();
+
+                //int[] move = brain.GetBestMove(rules.PlayerOnMove() == 1 ? player1 : player2);
+                //Brain brain = new Brain(board, rules);
+                int[] move = brain.GetBestMove(rules.PlayerOnMove() == 1 ? player1 : player2);
+                //Thread pc = new Thread(() => move = brain.GetBestMove(rules.PlayerOnMove() == 1 ? player1 : player2));
+                //pc.IsBackground = true;
+                //pc.Start();
                 board.Move(move, true, false);
 
                 //pokud tah není skok tak se navýší počítadlo TahuBezSkoku
@@ -99,9 +102,9 @@ namespace Dama_WPF
             return board.IsValidCoordinates(x, y);
         }
 
-        public void ChangePlayer()
+        public void MovesGenerate()
         {
-            rules.ChangePlayer();
+            rules.MovesGenerate();
         }
 
         public int[] FullMove(int[] move)
@@ -112,6 +115,7 @@ namespace Dama_WPF
         public void MakeMove(int[] fullMove, bool ulozit, bool zpet)
         {
             board.Move(fullMove, ulozit, zpet);
+            ptrTah = board.HistoryMove.Count();
         }
 
         /// <summary>
@@ -212,7 +216,7 @@ namespace Dama_WPF
                         {
                             ptrTah--;
                             posledniTah = board.HistoryMove[ptrTah];
-                            moveServices.TahZpet(board,rules, ui,ptrTah, posledniTah, kolo);
+                            //moveServices.TahZpet(board,rules, ui,ptrTah, posledniTah);
                         }
                     }
                     //Možnost tahu vpřed/redo
@@ -221,7 +225,7 @@ namespace Dama_WPF
                         if (ptrTah < board.HistoryMove.Count && board.HistoryMove.Count > 0)
                         {
                             posledniTah = board.HistoryMove[ptrTah];
-                            moveServices.TahVpred(board, rules, ui, ptrTah, posledniTah, kolo);
+                            //moveServices.TahVpred(board, rules, ui, ptrTah, posledniTah, kolo);
                         }
                     }
 
@@ -246,7 +250,7 @@ namespace Dama_WPF
 
                         platnyVstup = plnyVstup[0] != -1; //ověření zda je táhnuto dle pravidel, typ bool ve while cyklu
 
-                        ClearHistoryFromToEnd(ptrTah);
+                        //ClearHistoryFromToEnd(ptrTah);
 
                         if (!platnyVstup) //pokud není vypíše uživately chybu
                         {
@@ -362,7 +366,7 @@ namespace Dama_WPF
         /// Metoda smaže historii od pointeru
         /// </summary>
         /// <param name="ptrTah"></param>
-        public void ClearHistoryFromToEnd(int ptrTah)
+        public void ClearHistoryFromToEnd()
         {
             board.HistoryMove.RemoveRange(ptrTah, board.HistoryMove.Count - ptrTah); //odstraní tahy=index ptrTah, od indexu Count-ptrTah
         }
@@ -375,13 +379,46 @@ namespace Dama_WPF
 
 
 
-
-
-
-
-
-
-
+        /// <summary>
+        /// List možných tahů pro figurku
+        /// </summary>
+        /// <param name="X"></param>
+        /// <param name="Y"></param>
+        /// <returns></returns>
+        public List<int[]> GetPossibleMoves(int X, int Y)
+        {
+            return rules.GetMovesList(X, Y);
+        }
+        /// <summary>
+        /// Tah zpět
+        /// </summary>
+        public void UndoMove()
+        {
+            int[] posledniTah = null;
+            if (ptrTah > 0)
+            {
+                ptrTah--;
+                posledniTah = board.HistoryMove[ptrTah];
+                board.Move(posledniTah, false, true);
+                rules.ChangePlayer();
+                rules.MovesGenerate();
+            }
+        }
+        /// <summary>
+        /// Tah vpřed
+        /// </summary>
+        public void RedoMove()
+        {
+            int[] posledniTah = null;
+            if (ptrTah < board.HistoryMove.Count && board.HistoryMove.Count > 0)
+            {
+                posledniTah = board.HistoryMove[ptrTah];
+                board.Move(posledniTah, false, false);
+                ptrTah++;
+                rules.ChangePlayer();
+                rules.MovesGenerate();
+            }
+        }
         /// <summary>
         /// Vrátí hráče na tahu
         /// </summary>
@@ -392,7 +429,11 @@ namespace Dama_WPF
         }
 
 
-
+        /// <summary>
+        /// Načtení hry
+        /// </summary>
+        /// <param name="openFile"></param>
+        /// <returns></returns>
         public bool LoadGame(OpenFileDialog openFile)
         {
             Board loadBoard;
@@ -414,6 +455,14 @@ namespace Dama_WPF
                     board.Move(board.HistoryMove[ptrTah], false, true);
                     rules.ChangePlayer();
                 }
+                return true;
+            }
+            return false;
+        }
+        public bool SaveGame(int player1, int player2,List<int[]> historie)
+        {
+            if(data.SaveGame(player1, player2, ptrTah, board.HistoryMove))
+            {
                 return true;
             }
             return false;

@@ -15,7 +15,7 @@ namespace Dama_WPF
         /// <param name="player2"></param>
         /// <param name="ptrTah"></param>
         /// <param name="historie"></param>
-        public void SaveGame(int player1, int player2, int ptrTah, List<int[]> historie)
+        public bool SaveGame(int player1, int player2, int ptrTah, List<int[]> historie)
         {
             using (StreamWriter sw = new StreamWriter(@"save.txt"))
             {
@@ -33,6 +33,7 @@ namespace Dama_WPF
                     sw.WriteLine();
                 }
                 sw.Flush();
+                return true;
             }
         }
         public bool LoadGame(OpenFileDialog openFile,out Board board, out Rules rules, out int player1, out int player2, out int loadUkazatel, out int loadTahuBezSkoku)
