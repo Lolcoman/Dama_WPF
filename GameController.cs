@@ -57,7 +57,6 @@ namespace Dama_WPF
             //PcPlayer();
             board.tahuBezSkoku = 0;
         }
-
         public void PcPlayer()
         {
             if (rules.PlayerOnMove() == 1 && player1 > 0 || rules.PlayerOnMove() == -1 && player2 > 0) //pokud hráč na tahu je 1 a player1 > 0 tak true, provede tah a continue na dalšího hráče
@@ -85,6 +84,7 @@ namespace Dama_WPF
 
                 rules.ChangePlayer();
                 rules.MovesGenerate();
+                ptrTah = board.HistoryMove.Count;
                 //Thread.Sleep(1500);
                 //continue;
             }
@@ -409,7 +409,6 @@ namespace Dama_WPF
                 posledniTah = board.HistoryMove[ptrTah];
                 board.Move(posledniTah, false, true);
                 rules.ChangePlayer();
-                rules.MovesGenerate();
             }
         }
         /// <summary>

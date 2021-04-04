@@ -530,6 +530,10 @@ namespace Dama_WPF
             PlayerOnMove();
             Rounds();
             ShowBoard();
+            if (GameController.ptrTah == 0 && IsPcPlay())
+            {
+                GameController.PcPlayer();
+            }
         }
         /// <summary>
         /// Tlačítko pro tah vpřed
