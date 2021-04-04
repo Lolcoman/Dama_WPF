@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MoveServices.cs" />
     <Compile Include="Rules.cs" />
     <Compile Include="UI.cs" />
     <Page Include="MainWindow.xaml">

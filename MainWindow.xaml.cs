@@ -135,7 +135,10 @@ namespace Dama_WPF
                 GameController.player1 = newGame.GetPlayer1();
                 GameController.player2 = newGame.GetPlayer2();
                 GameController.InitGame();
-                PcPlaying();
+                if (IsPcPlay())
+                {
+                    PcPlaying();
+                }
                 GameController.HistorieTahu().Clear();
                 round = GameController.HistorieTahu().Count / 2;
                 Rounds();
@@ -426,7 +429,6 @@ namespace Dama_WPF
                 MessageBox.Show("Opakuj celý tah!", "Špatný výběr");
                 IsSelected = false;
             }
-            PcPlaying();
             GameController.ClearHistoryFromToEnd();
             plnyPohyb = null;
         }
@@ -548,6 +550,15 @@ namespace Dama_WPF
             {
                 MessageBox.Show("Hra byla uložena!", "Uložení hry");
             }
+        }
+        
+        public bool IsPcPlay()
+        {
+            if (GameController.IsPcPlayer())
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

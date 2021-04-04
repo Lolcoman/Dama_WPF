@@ -117,6 +117,15 @@ namespace Dama_WPF
             ptrTah = board.HistoryMove.Count();
         }
 
+        public bool IsPcPlayer()
+        {
+            if (rules.PlayerOnMove() == 1 && player1 > 0 || rules.PlayerOnMove() == -1 && player2 > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
         /// <summary>
         /// Hlavní herní smyčka
         /// </summary>
