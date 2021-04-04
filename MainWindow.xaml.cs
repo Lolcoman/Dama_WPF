@@ -424,7 +424,20 @@ namespace Dama_WPF
                     PlayerOnMove(); //label hráč na tahu
                     Rounds(); //label počet kol
 
-                    GameController.PcPlayer();
+                    if (IsPcPlay()) //Počítač
+                    {
+                        GameController.PcPlayer(); //odehraje PC a změní hráče na tahu
+                        ShowBoard();
+                        HistorieTahu(); //vykreslení historie tahu
+                        PlayerOnMove(); //label hráč na tahu
+                        Rounds();
+                    }
+                    //GameController.PcPlayer();
+                    //ShowBoard();
+                    //GameController.NextPlayer(); //přepnutí hráče na tahu
+                    //HistorieTahu(); //vykreslení historie tahu
+                    //PlayerOnMove(); //label hráč na tahu
+                    //Rounds();
 
                     //HistorieTahu();
                     //MessageBox.Show($"Tah z políček: {fullMove[0]},{fullMove[1]}. Na políčka: {fullMove[2]},{fullMove[3]}.");
