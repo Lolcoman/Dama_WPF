@@ -82,19 +82,19 @@ namespace Dama_WPF
             {
                 return 0;
             }
-            if (WsliderPC.Value == 1)
+            if (BsliderPC.Value == 1)
             {
                 return 1;
             }
-            if (WsliderPC.Value == 2)
+            if (BsliderPC.Value == 2)
             {
                 return 2;
             }
-            if (WsliderPC.Value == 3)
+            if (BsliderPC.Value == 3)
             {
                 return 3;
             }
-            if (WsliderPC.Value == 4)
+            if (BsliderPC.Value == 4)
             {
                 return 4;
             }

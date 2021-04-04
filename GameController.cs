@@ -84,7 +84,7 @@ namespace Dama_WPF
 
                 rules.ChangePlayer();
                 rules.MovesGenerate();
-                ptrTah = board.HistoryMove.Count;
+                //ptrTah = board.HistoryMove.Count;
                 //Thread.Sleep(1500);
                 //continue;
             }
@@ -409,6 +409,7 @@ namespace Dama_WPF
                 posledniTah = board.HistoryMove[ptrTah];
                 board.Move(posledniTah, false, true);
                 rules.ChangePlayer();
+                rules.MovesGenerate();
             }
         }
         /// <summary>
