@@ -51,9 +51,9 @@ namespace Dama_WPF
         }
         public void InitGame()
         {
-            rules.InitBoard();
-            rules.InitPlayer();
-            rules.MovesGenerate();
+            rules.InitBoard(); //naplní se deska
+            rules.InitPlayer(); //začne bílý
+            rules.MovesGenerate(); //vygenerují se možné tahy pro hráče
             //PcPlayer();
             board.tahuBezSkoku = 0;
         }
