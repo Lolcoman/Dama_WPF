@@ -87,6 +87,7 @@ namespace Dama_WPF
                 //ptrTah = board.HistoryMove.Count;
                 //Thread.Sleep(1500);
                 //continue;
+                //PcPlayer();
             }
         }
 

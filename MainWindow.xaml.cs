@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Dama_WPF
 {
@@ -23,6 +25,7 @@ namespace Dama_WPF
     public partial class MainWindow : Window
     {
         GameController GameController = new GameController();
+        BackgroundWorker bgWorker = new BackgroundWorker();
         private bool IsSelected = false;
         private bool IsPossible = false;
         Ellipse SelectFigure = new Ellipse();
@@ -32,16 +35,43 @@ namespace Dama_WPF
         public MainWindow()
         {
             InitializeComponent();
+
+            bgWorker.WorkerReportsProgress = true;
+            bgWorker.DoWork += BgWorker_DoWork;
+            bgWorker.ProgressChanged += BgWorker_ProgressChanged;
+            bgWorker.RunWorkerCompleted += BgWorker_RunWorkerCompleted;
+
+
             GameController.InitGame();
             ShowBoard();
             PlayerOnMove();
             Rounds();
         }
+
+        private void BgWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            ProgressBar.Value = e.ProgressPercentage;
+        }
+
+        private void BgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            //GameController.PcPlayer();
+            ShowBoard();
+            PlayerOnMove();
+            Rounds();
+        }
+
+        private void BgWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            GameController.PcPlayer();
+        }
+
         public void PcPlaying()
         {
-            ProgressBar.Value = 30;
-            ProgressBar.Maximum = 101;
-            GameController.PcPlayer();
+            //ProgressBar.Value = 30;
+            //ProgressBar.Maximum = 101;
+            bgWorker.RunWorkerAsync();
+            //GameController.PcPlayer();
         }
         /// <summary>
         /// Výpis labelu jaký hráč je na tahu
@@ -138,7 +168,8 @@ namespace Dama_WPF
                 GameController.HistorieTahu().Clear(); //smazání historie
                 if (IsPcPlay()) //ověření zda byl vybrán PC
                 {
-                    PcPlaying();
+                    bgWorker.RunWorkerAsync();
+                    //PcPlaying();
                 }
                 round = GameController.HistorieTahu().Count / 2; //nastavení počtu kol
                 Rounds(); //label pro kola
@@ -147,6 +178,12 @@ namespace Dama_WPF
                 ShowBoard(); //vykreslení desky
             }
         }
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            GameController.PcPlayer();
+            //PcPlaying();
+        }
+
         /// <summary>
         /// Zobrazení desky
         /// </summary>
@@ -426,7 +463,8 @@ namespace Dama_WPF
 
                     if (IsPcPlay()) //Počítač
                     {
-                        GameController.PcPlayer(); //odehraje PC a změní hráče na tahu
+                        //GameController.PcPlayer(); //odehraje PC a změní hráče na tahu
+                        bgWorker.RunWorkerAsync();
                         ShowBoard();
                         HistorieTahu(); //vykreslení historie tahu
                         PlayerOnMove(); //label hráč na tahu
@@ -584,7 +622,6 @@ namespace Dama_WPF
         {
             if (GameController.IsPcPlayer())
             {
-                //GameController.PcPlayer();
                 return true;
             }
             return false;
