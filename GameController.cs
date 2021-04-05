@@ -276,9 +276,6 @@ namespace Dama_WPF
                     //Načítání hry
                     if (vstup[0] == -9)
                     {
-                        Board loadBoard;
-                        Rules loadRules;
-                        int loadPlayer1, loadPlayer2;
 
                         //if (data.LoadGame(out loadBoard, out loadRules, out loadPlayer1, out loadPlayer2, out int loadUkazatel, out int loadTahuBezSkoku))
                         //{
@@ -476,5 +473,23 @@ namespace Dama_WPF
             }
             return false;
         }
+        public bool IsGameFinished()
+        {
+            int bilyPesak, cernyPesak, bilaDama, cernaDama;
+            board.CountStones(out bilyPesak, out bilaDama, out cernyPesak, out cernaDama);
+            int cerna = cernyPesak + cernaDama;
+            int bila = bilyPesak + bilaDama;
+
+            if (cerna == 0)
+            {
+                return true;
+            }
+            if (bila == 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
     }
 }

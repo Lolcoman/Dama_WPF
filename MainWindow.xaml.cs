@@ -50,12 +50,11 @@ namespace Dama_WPF
 
         private void BgWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            ProgressBar.Value = e.ProgressPercentage;
+            progressBar.Value = e.ProgressPercentage;
         }
 
         private void BgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            //GameController.PcPlayer();
             ShowBoard();
             PlayerOnMove();
             Rounds();
@@ -65,13 +64,9 @@ namespace Dama_WPF
         {
             GameController.PcPlayer();
         }
-
         public void PcPlaying()
         {
-            //ProgressBar.Value = 30;
-            //ProgressBar.Maximum = 101;
             bgWorker.RunWorkerAsync();
-            //GameController.PcPlayer();
         }
         /// <summary>
         /// Výpis labelu jaký hráč je na tahu

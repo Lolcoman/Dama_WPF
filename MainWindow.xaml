@@ -40,7 +40,7 @@
                 <Label x:Name="RoundsLabel" BorderThickness="1" Foreground="White" Content="Kola " FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Comic Sans MS" FontSize="14" Height="30"/>
             </Border>
         </Border>
-        <ProgressBar x:Name="ProgressBar" Height="10" Margin="628,221,10,0" VerticalAlignment="Top" Minimum="0" Maximum="50"/>
+        <ProgressBar x:Name="progressBar" Height="10" Margin="628,221,10,0" VerticalAlignment="Top" Minimum="0" Maximum="50"/>
     </Grid>
 
 </Window>
