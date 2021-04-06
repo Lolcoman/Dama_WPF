@@ -16,7 +16,6 @@ namespace Dama_WPF
         private UI ui = new UI();
         private Brain brain;
         private Data data = new Data();
-        //MainWindow MainWindow = new MainWindow();
 
 
         //proměnné hráčů, pro uživatele 0, 1-4 obtížnost PC
@@ -36,14 +35,6 @@ namespace Dama_WPF
         {
             return board.PohybNaString(prvek);
         }
-        //public string HistorieNaString(List<int[]> hist)
-        //{
-        //    foreach (int[] item in hist)
-        //    {
-        //        return board.PohybNaString(item);
-        //    }
-        //    return "nic";
-        //}
 
         public List<int[]> HistorieTahu()
         {
@@ -61,36 +52,20 @@ namespace Dama_WPF
         {
             if (rules.PlayerOnMove() == 1 && player1 > 0 || rules.PlayerOnMove() == -1 && player2 > 0) //pokud hráč na tahu je 1 a player1 > 0 tak true, provede tah a continue na dalšího hráče
             {
-
-                //int[] move = brain.GetBestMove(rules.PlayerOnMove() == 1 ? player1 : player2);
                 brain = new Brain(board, rules);
                 int[] move = brain.GetBestMove(rules.PlayerOnMove() == 1 ? player1 : player2);
-                //Thread pc = new Thread(() => move = brain.GetBestMove(rules.PlayerOnMove() == 1 ? player1 : player2));
-                //pc.IsBackground = true;
-                //pc.Start();
-                board.Move(move, true, false);
-
-                //pokud tah není skok tak se navýší počítadlo TahuBezSkoku
-                if (move.Length == 8)
-                {
-                    board.tahuBezSkoku++;
-                }
-                else
-                {
-                    board.tahuBezSkoku = 0;
-                }
-
-                //kolo = board.HistoryMove.Count / 2; //přičtení do počítadla kol
-
+                //board.Move(move, true, false);
+                MakeMove(move, true, false);
                 rules.ChangePlayer();
                 rules.MovesGenerate();
-                //ptrTah = board.HistoryMove.Count;
-                //Thread.Sleep(1500);
-                //continue;
-                //PcPlayer();
             }
         }
 
+
+        public int WithoutJump()
+        {
+            return board.tahuBezSkoku;
+        }
         public void NextPlayer()
         {
             rules.ChangePlayer();
@@ -114,6 +89,14 @@ namespace Dama_WPF
 
         public void MakeMove(int[] fullMove, bool ulozit, bool zpet)
         {
+            if (fullMove.Length == 8)
+            {
+                board.tahuBezSkoku++;
+            }
+            else
+            {
+                board.tahuBezSkoku = 0;
+            }
             board.Move(fullMove, ulozit, zpet);
             ptrTah = board.HistoryMove.Count();
         }
@@ -488,8 +471,11 @@ namespace Dama_WPF
             {
                 return true;
             }
+            if (board.tahuBezSkoku == 25)
+            {
+                return true;
+            }
             return false;
         }
-
     }
 }

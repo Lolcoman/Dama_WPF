@@ -36,33 +36,36 @@ namespace Dama_WPF
         {
             InitializeComponent();
 
-            bgWorker.WorkerReportsProgress = true;
+            //bgWorker.WorkerReportsProgress = true;
             bgWorker.DoWork += BgWorker_DoWork;
-            bgWorker.ProgressChanged += BgWorker_ProgressChanged;
             bgWorker.RunWorkerCompleted += BgWorker_RunWorkerCompleted;
+            bgWorker.WorkerSupportsCancellation = true;
 
 
             GameController.InitGame();
             ShowBoard();
             PlayerOnMove();
             Rounds();
-        }
-
-        private void BgWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            progressBar.Value = e.ProgressPercentage;
+            WithoutJump();
         }
 
         private void BgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             ShowBoard();
+            HistorieTahu();
             PlayerOnMove();
             Rounds();
+            WithoutJump();
+            if (IsPcPlay() && !IsEndGame())
+            {
+                bgWorker.RunWorkerAsync();
+            }
         }
 
         private void BgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             GameController.PcPlayer();
+            //HistorieTahu();
         }
         public void PcPlaying()
         {
@@ -84,6 +87,11 @@ namespace Dama_WPF
         {
             RoundsLabel.Content = (" Počet kol: " + (round = GameController.HistorieTahu().Count / 2));
         }
+
+        public void WithoutJump()
+        {
+            WithoutJumpLabel.Content = ("Tahů bez skoku: " + GameController.WithoutJump());
+        }
         /// <summary>
         /// Vytvoření historie tahů
         /// </summary>
@@ -101,7 +109,7 @@ namespace Dama_WPF
                 text.FontFamily = new FontFamily("Comic Sans MS");
                 text.Text = tah;
                 HistorieList.Items.Add(text);
-                //HistorieList.Items.Insert(0,text); poslední tah bude nahoře
+                //HistorieList.Items.Insert(0,text); //poslední tah bude nahoře
             }
         }
         /// <summary>
@@ -168,6 +176,7 @@ namespace Dama_WPF
                 }
                 round = GameController.HistorieTahu().Count / 2; //nastavení počtu kol
                 Rounds(); //label pro kola
+                WithoutJump();
                 HistorieTahu(); //výpis historie
                 PlayerOnMove(); //výpis hráče na tahu
                 ShowBoard(); //vykreslení desky
@@ -448,6 +457,7 @@ namespace Dama_WPF
                     druhaCast = DruhaCast(boardCoords[0], boardCoords[1]); //Uložení druhé části kliku
                     pohyb = Spoj(prvniCast, druhaCast); //spojení a vytvoření tahu
                     plnyPohyb = GameController.FullMove(pohyb); //převod na plný pohyb
+                    //GameController.WithoutJump(plnyPohyb);
                     GameController.MakeMove(plnyPohyb, true, false); //provedení TAHU
                     ShowBoard(); //překreslení desky
                     IsSelected = false; //nastavení že nemám vybráno nic
@@ -455,16 +465,19 @@ namespace Dama_WPF
                     HistorieTahu(); //vykreslení historie tahu
                     PlayerOnMove(); //label hráč na tahu
                     Rounds(); //label počet kol
+                    WithoutJump();
 
                     if (IsPcPlay()) //Počítač
                     {
                         //GameController.PcPlayer(); //odehraje PC a změní hráče na tahu
                         bgWorker.RunWorkerAsync();
-                        ShowBoard();
-                        HistorieTahu(); //vykreslení historie tahu
-                        PlayerOnMove(); //label hráč na tahu
-                        Rounds();
+                        //WithoutJump();
+                        //ShowBoard();
+                        //HistorieTahu(); //vykreslení historie tahu
+                        //PlayerOnMove(); //label hráč na tahu
+                        //Rounds();
                     }
+                    //HistorieTahu();
                     //GameController.PcPlayer();
                     //ShowBoard();
                     //GameController.NextPlayer(); //přepnutí hráče na tahu
@@ -484,6 +497,10 @@ namespace Dama_WPF
             if (GameController.HistorieTahu().Count > 1)
             {
                 GameController.ClearHistoryFromToEnd(); //při provedení undo,redo smazání historie
+            }
+            if (IsEndGame())
+            {
+
             }
             plnyPohyb = null;
         }
@@ -581,6 +598,7 @@ namespace Dama_WPF
             PlayerOnMove();
             Rounds();
             ShowBoard();
+            
         }
 
         /// <summary>
@@ -621,5 +639,19 @@ namespace Dama_WPF
             }
             return false;
         }
+        /// <summary>
+        /// Ověření zda hra skončila
+        /// </summary>
+        /// <returns></returns>
+        public bool IsEndGame()
+        {
+            if (GameController.IsGameFinished() || round == 1)
+            {
+                MessageBox.Show("KONEC HRY");
+                return true;
+            }
+            return false;
+        }
     }
+
 }

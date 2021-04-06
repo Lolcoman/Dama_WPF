@@ -29,7 +29,7 @@
         <ListView x:Name="HistorieList" Height="165" Margin="628,284,10,0" VerticalAlignment="Top" BorderBrush="White"/>
         <Border CornerRadius="5,5,5,5" Margin="628,284,10,202" BorderBrush="Black" BorderThickness="3"/>
         <Label Content="Historie tahů" HorizontalAlignment="Left" Margin="628,246,0,0" VerticalAlignment="Top" Height="33" Width="112" FontFamily="Comic Sans MS" FontWeight="Bold" FontSize="14"/>
-
+        <Label x:Name="WithoutJumpLabel" Content="Tahů bez skoku" HorizontalAlignment="Left" Margin="740,246,0,0" VerticalAlignment="Top" Height="33" Width="144" FontFamily="Comic Sans MS" FontWeight="Bold" FontSize="14"/>
         <Border BorderThickness="1,1,1,0" CornerRadius="5,5,0,0" Margin="625,35,144,593">
             <Border Margin="0,-1,-1,0" Background="Red" BorderBrush="Gray" CornerRadius="5">
                 <Label x:Name="OnMoveLabel" BorderThickness="1" Foreground="White" Content=" Hraje " FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Comic Sans MS" FontSize="14"/>
@@ -40,7 +40,6 @@
                 <Label x:Name="RoundsLabel" BorderThickness="1" Foreground="White" Content="Kola " FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Comic Sans MS" FontSize="14" Height="30"/>
             </Border>
         </Border>
-        <ProgressBar x:Name="progressBar" Height="10" Margin="628,221,10,0" VerticalAlignment="Top" Minimum="0" Maximum="50"/>
     </Grid>
 
 </Window>
