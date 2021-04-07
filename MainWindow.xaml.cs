@@ -494,10 +494,7 @@ namespace Dama_WPF
                 MessageBox.Show("Opakuj celý tah!", "Špatný výběr");
                 IsSelected = false; //nastavení výběru na false, pro celý výběř znovu
             }
-            if (GameController.HistorieTahu().Count > 1)
-            {
-                GameController.ClearHistoryFromToEnd(); //při provedení undo,redo smazání historie
-            }
+            GameController.ClearHistoryFromToEnd();
             if (IsEndGame())
             {
 
