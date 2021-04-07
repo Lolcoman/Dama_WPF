@@ -597,6 +597,7 @@ namespace Dama_WPF
             GameController.RedoMove();
             PlayerOnMove();
             Rounds();
+            WithoutJump();
             ShowBoard();
             
         }
@@ -645,9 +646,9 @@ namespace Dama_WPF
         /// <returns></returns>
         public bool IsEndGame()
         {
-            if (GameController.IsGameFinished() || round == 1)
+            if (GameController.IsGameFinished())
             {
-                MessageBox.Show("KONEC HRY");
+                MessageBox.Show("KONEC HRY, Prohrál jsi " + (GameController.GetPlayerOnMove() == 1 ? "Bílý" : "Černý"));
                 return true;
             }
             return false;

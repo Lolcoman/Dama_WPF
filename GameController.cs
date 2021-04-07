@@ -387,9 +387,10 @@ namespace Dama_WPF
             if (ptrTah > 0)
             {
                 ptrTah--;
-                posledniTah = board.HistoryMove[ptrTah];
+                posledniTah = board.HistoryMove[ptrTah];    
                 board.Move(posledniTah, false, true);
                 rules.ChangePlayer();
+                board.VypocitejTahyBezSkoku(ptrTah);
                 rules.MovesGenerate();
             }
         }
@@ -405,6 +406,7 @@ namespace Dama_WPF
                 board.Move(posledniTah, false, false);
                 ptrTah++;
                 rules.ChangePlayer();
+                board.VypocitejTahyBezSkoku(ptrTah);
                 rules.MovesGenerate();
             }
         }
