@@ -1,0 +1,29 @@
+﻿<Window x:Class="Dama_WPF.RulesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Dama_WPF"
+        mc:Ignorable="d"
+        Title="Pravidla hry" Height="445" Width="800" ResizeMode="NoResize">
+    <Grid>
+        <TextBlock Height="380" FontSize="12" TextWrapping="Wrap" Text="CÍL HRY: &#xD;&#xA; ■ Zajmout všechny soupeřovy kameny. &#xD;&#xA;VÝCHOZÍ SITUACE &#xD;&#xA; ■ Hraje se na desce 8x8 polí.&#xD;&#xA; ■ Na začátku hry stojí figurky ve dvou krajních řadách.&#xD;&#xA;PRAVIDLA HRY: &#xD;&#xA; ■ Hráči se v tazích pravidelně střídají.&#xD;&#xA; ■ Hráč na tahu smí posunout svůj obyčejný kámen o jedno pole na sousední volné pole a to směrem vpřed, do stran nebo diagonálně vpřed. Nesmí diagonálně ani ortogonálně vzad.
+                 &#xD;&#xA; ■ Obyčejný kámen může také zajmout přeskočením kámen soupeře.&#xD;&#xA; ■ Soupeřův kámen musí ležet na sousedním poli a bezprostředně za tímto přeskakovaným kamenem musí být volné pole.
+                 &#xD;&#xA; ■ Kámen je při realizaci skoku přemístěn na toto volné pole a přeskočený soupeřův kámen je odstraněn z desky.
+                 &#xD;&#xA; ■ Obyčejný kámen smí skákat také pouze vpřed, diagonálněvpřed a do stran.
+                 &#xD;&#xA; ■ Vícenásobné skoky jsou dovoleny.
+                 &#xD;&#xA; ■ Pokud obyčejný kámen ukončí svůj tah v poslední řadě na protější straně desky, je povýšen na dámu.
+                 &#xD;&#xA; ■ Dáma se smí pohybovat všemi směry (i vzad) o libovolný počet volných polí.
+                 &#xD;&#xA; ■ Dáma může zajímat kámen soupeře přeskočením, přičemž může přeskočit libovolný počet volných polípřed kamenem, zajímaný kámen a libovolný počet volných polí za tímto kamenem (podobně jako v klasické dámě).
+                 &#xD;&#xA; ■ Zajímání soupeřových kamenů je povinné a hráč musí zajmout co nejvíce kamenů, pokud má více možností jak skákat.
+                 &#xD;&#xA; ■ Pokud některý hráč nemůže provést žádný tah, pokračuje ve hře jeho soupeř.
+                 &#xD;&#xA;KONEC HRY:
+                 &#xD;&#xA; ■ Hráč, který zajme všechny soupeřovy kameny vyhrává.
+                 &#xD;&#xA; ■ Pokud po 30 tahů není zajat žádný kámen, vyhrává hráč, kterému zbývá více kamenů." VerticalAlignment="Top"/>
+        <Border BorderThickness="1,1,1,0" CornerRadius="5,5,0,0" Margin="367,372,367,0" RenderTransformOrigin="0.5,0.5" Height="26" VerticalAlignment="Top">
+            <Border Background="#FFFB4B4B" BorderBrush="Gray" CornerRadius="5">
+                <Button x:Name="CloseButton" Content="Zavřít" Background="Transparent" BorderThickness="0" FontFamily="Comic Sans MS" FontSize="13" Click="CloseButton_Click"/>
+            </Border>
+        </Border>
+    </Grid>
+</Window>

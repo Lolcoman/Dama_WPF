@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dama_WPF"
         mc:Ignorable="d"
-        Title="Gotická dáma" Height="700" Width="900"  ResizeMode="NoResize">
+        Title="Gotická dáma" Height="715" Width="925"  ResizeMode="NoResize" FontFamily="Comic Sans MS">
     <Grid>
         <Menu Height="30" VerticalAlignment="Top" FontFamily="Comic Sans MS">
             <MenuItem Header="Hra" Height="30" Width="100">
@@ -19,27 +19,62 @@
             <MenuItem Header="Nástroje" Height="30" Width="100">
                 <MenuItem x:Name="UndoMenu" Header="Tah zpět" Height="20" Click="UndoMenu_Click"/>
                 <MenuItem x:Name="RedoMenu" Header="Tah vpřed" Height="20" Click="RedoMenu_Click"/>
+                <Separator HorizontalAlignment="Left" Height="0" Width="140"/>
+                <MenuItem x:Name="ChangePlayerMenu" Header="Změna hráčů" Height="20" Click="ChangePlayerMenu_Click"/>
             </MenuItem>
             <MenuItem Header="Nápověda" Height="30" Width="100">
                 <MenuItem x:Name="HelpForOneStoneMenu" IsCheckable="True" Header="Pro figurku" HorizontalAlignment="Left" Height="20" Width="155" Click="HelpForOneStoneMenu_Click"/>
+                <Separator HorizontalAlignment="Left" Height="0" Width="155"/>
+                <MenuItem x:Name="RulesMenu" Header="Pravidla hry" HorizontalAlignment="Left" Height="20" Width="155" Click="RulesMenu_Click"/>
+                <MenuItem x:Name="ProgramMenu" Header="O programu" HorizontalAlignment="Left" Height="20" Width="155" Click="ProgramMenu_Click"/>
             </MenuItem>
         </Menu>
-        <Border x:Name="Border" BorderBrush="SlateGray" BorderThickness="10" Margin="0,30,0,0" Height="620" VerticalAlignment="Top" HorizontalAlignment="Left" Width="620" CornerRadius="5,5,5,5"/>
+        <Border x:Name="Border" BorderBrush="SlateGray" BorderThickness="10" Margin="0,30,0,0" Height="620" VerticalAlignment="Top" HorizontalAlignment="Left" Width="620" CornerRadius="5,5,5,5">
+        </Border>
         <Canvas x:Name="BoardCanvas" Margin="10,40,0,0" MouseDown="BoardCanvas_MouseDown" Height="600" VerticalAlignment="Top" HorizontalAlignment="Left" Width="600"/>
-        <ListView x:Name="HistorieList" Height="165" Margin="628,284,10,0" VerticalAlignment="Top" BorderBrush="White"/>
-        <Border CornerRadius="5,5,5,5" Margin="628,284,10,202" BorderBrush="Black" BorderThickness="3"/>
-        <Label Content="Historie tahů" HorizontalAlignment="Left" Margin="628,246,0,0" VerticalAlignment="Top" Height="33" Width="112" FontFamily="Comic Sans MS" FontWeight="Bold" FontSize="14"/>
-        <Label x:Name="WithoutJumpLabel" Content="Tahů bez skoku" HorizontalAlignment="Left" Margin="740,246,0,0" VerticalAlignment="Top" Height="33" Width="144" FontFamily="Comic Sans MS" FontWeight="Bold" FontSize="14"/>
-        <Border BorderThickness="1,1,1,0" CornerRadius="5,5,0,0" Margin="625,35,144,593">
+        <ListView x:Name="HistorieList" Height="165" Margin="668,284,10,0" VerticalAlignment="Top" BorderBrush="White"/>
+        <Border CornerRadius="5,5,5,5" Margin="664,284,10,202" BorderBrush="Black" BorderThickness="3"/>
+        <Label Content="Historie tahů" HorizontalAlignment="Left" Margin="668,246,0,0" VerticalAlignment="Top" Height="33" Width="107" FontFamily="Comic Sans MS" FontWeight="Bold" FontSize="14"/>
+        <Label x:Name="WithoutJumpLabel" Content="Tahů bez skoku" HorizontalAlignment="Left" Margin="664,489,0,0" VerticalAlignment="Top" Height="39" Width="137" FontFamily="Comic Sans MS" FontWeight="Bold" FontSize="14"/>
+        <Border BorderThickness="1,1,1,0" CornerRadius="5,5,0,0" Margin="668,35,118,593">
             <Border Margin="0,-1,-1,0" Background="Red" BorderBrush="Gray" CornerRadius="5">
                 <Label x:Name="OnMoveLabel" BorderThickness="1" Foreground="White" Content=" Hraje " FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Comic Sans MS" FontSize="14"/>
             </Border>
         </Border>
-        <Border BorderThickness="1,1,1,0" CornerRadius="5,5,0,0" Margin="755,35,8,593">
-            <Border Margin="0,-1,-1,0" Background="#FF7AA0CD" BorderBrush="Gray" CornerRadius="5">
-                <Label x:Name="RoundsLabel" BorderThickness="1" Foreground="White" Content="Kola " FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Comic Sans MS" FontSize="14" Height="30"/>
+        <Border BorderThickness="1,1,1,0" CornerRadius="5,5,0,0" Margin="806,35,8,593">
+            <Border Margin="-1,-1,-1,0" Background="#FF7AA0CD" BorderBrush="Gray" CornerRadius="5">
+                <Label x:Name="RoundsLabel" BorderThickness="1" Content="Kola " FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Comic Sans MS" FontSize="14" Height="30"/>
             </Border>
         </Border>
+
+        <Border BorderThickness="1,1,1,0" CornerRadius="5,5,0,0" Margin="684,188,143,445">
+            <Border Background="Red" BorderBrush="Gray" CornerRadius="5">
+                <Button x:Name="PauseButton" Content="Pause" Background="Transparent" IsEnabled="False" BorderThickness="0" FontFamily="Comic Sans MS" FontSize="14" Click="PauseButton_Click"/>
+            </Border>
+        </Border>
+
+        <Border BorderThickness="1,1,1,0" CornerRadius="5,5,0,0" Margin="806,188,23,445">
+            <Border Background="#FF2FEA2F" BorderBrush="Gray" CornerRadius="5">
+                <Button x:Name="PlayButton" Content="Play" Background="Transparent" BorderThickness="0" FontFamily="Comic Sans MS" FontSize="14" IsEnabled="False" Click="PlayButton_Click"/>
+            </Border>
+        </Border>
+        <Label x:Name="GamePausedLabel" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="684,135,0,0" VerticalAlignment="Top" Width="212" Height="41"  FontFamily="Comic Sans MS" FontSize="20" IsHitTestVisible="False" FontWeight="Bold" Foreground="#FF2FEA2F"/>
+        <Label Content="A" HorizontalContentAlignment="Center" Margin="10,0,834,0" Width="75" FontSize="16" Height="31" VerticalAlignment="Bottom" FontWeight="Bold"/>
+        <Label Content="B" HorizontalContentAlignment="Center" Margin="85,0,759,0" Width="75" FontSize="16" Height="31" VerticalAlignment="Bottom" FontWeight="Bold"/>
+        <Label Content="C" HorizontalContentAlignment="Center" Margin="160,0,684,0" Width="75" FontSize="16" Height="31" VerticalAlignment="Bottom" FontWeight="Bold"/>
+        <Label Content="D" HorizontalContentAlignment="Center" Margin="235,0,609,0" Width="75" FontSize="16" Height="31" VerticalAlignment="Bottom" FontWeight="Bold"/>
+        <Label Content="E" HorizontalContentAlignment="Center" Margin="310,0,534,0" Width="75" FontSize="16" Height="31" VerticalAlignment="Bottom" FontWeight="Bold"/>
+        <Label Content="F" HorizontalContentAlignment="Center" Margin="385,0,459,0" Width="75" FontSize="16" Height="31" VerticalAlignment="Bottom" FontWeight="Bold"/>
+        <Label Content="G" HorizontalContentAlignment="Center" Margin="460,0,384,0" Width="75" FontSize="16" Height="31" VerticalAlignment="Bottom" FontWeight="Bold"/>
+        <Label Content="H" HorizontalContentAlignment="Center" Margin="535,0,309,0" Width="75" FontSize="16" Height="31" VerticalAlignment="Bottom" FontWeight="Bold"/>
+        <Label Content="&#xD;&#xA;8" HorizontalAlignment="Left" Margin="625,40,0,0" VerticalAlignment="Top" Height="75" Width="36" FontWeight="Bold" FontSize="16"/>
+        <Label Content="&#xD;&#xA;7" HorizontalAlignment="Left" Margin="625,115,0,0" VerticalAlignment="Top" Height="75" Width="36" FontWeight="Bold" FontSize="16"/>
+        <Label Content="&#xD;&#xA;6" HorizontalAlignment="Left" Margin="625,190,0,0" VerticalAlignment="Top" Height="75" Width="36" FontWeight="Bold" FontSize="16"/>
+        <Label Content="&#xD;&#xA;5" HorizontalAlignment="Left" Margin="625,265,0,0" VerticalAlignment="Top" Height="75" Width="36" FontWeight="Bold" FontSize="16"/>
+        <Label Content="&#xD;&#xA;4" HorizontalAlignment="Left" Margin="625,340,0,0" VerticalAlignment="Top" Height="75" Width="36" FontWeight="Bold" FontSize="16"/>
+        <Label Content="&#xD;&#xA;3" HorizontalAlignment="Left" Margin="625,415,0,0" VerticalAlignment="Top" Height="75" Width="36" FontWeight="Bold" FontSize="16"/>
+        <Label Content="&#xD;&#xA;2" HorizontalAlignment="Left" Margin="625,490,0,0" VerticalAlignment="Top" Height="75" Width="36" FontWeight="Bold" FontSize="16"/>
+        <Label Content="&#xD;&#xA;1" HorizontalAlignment="Left" Margin="625,565,0,0" VerticalAlignment="Top" Height="75" Width="36" FontWeight="Bold" FontSize="16"/>
     </Grid>
 
 </Window>

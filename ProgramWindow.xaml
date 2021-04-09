@@ -1,0 +1,35 @@
+﻿<Window x:Class="Dama_WPF.ProgramWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Dama_WPF"
+        mc:Ignorable="d"
+        Title="ProgramWindow" Height="450" Width="800">
+    <Grid>
+        <TextBlock Height="380" FontSize="12" TextWrapping="Wrap" Text="OVLÁDÁNÍ DESKY: &#xD;&#xA; ■ Hraje se klikáním na hrací desku. &#xD;&#xA; ■ Tah se provádí vždy dvojklikem na herní desku, tj. prvním klikem vyberu figurku a druhým kam chci táhnout.
+                 &#xD;&#xA; ■ Pokud je zadáno špatně celý tah se musí opakovat od začátku.
+                 &#xD;&#xA;&#xD;&#xA;OVLÁDÁNÍ HRY:
+                 &#xD;&#xA; ■ Při vytvoření hry je možné vybrat ze 4 obtížností PC hráče, od nejlehčí až po nejtěžší.
+                 &#xD;&#xA; ■ Pokud táhne člověk, není nutné zmáčknout 'Play'!.
+                 &#xD;&#xA; ■ Hru je možné uložit a později také načíst.
+                 &#xD;&#xA; ■ Není dovoleno modifikovat uložený soubor, hra nebude načtena.
+                 &#xD;&#xA; ■ Při hře dvou PC hráčů je možné hru zastavit a také udělat tah zpět/vpřed, poté je nutné stiknout 'Play'.
+                 &#xD;&#xA;&#xD;&#xA;NÁSTROJE HRY: 
+                 &#xD;&#xA; ■ Je možno udělat tah zpět, tah vpřed (i PC hráče).
+                 &#xD;&#xA; ■ Pokud je zahrán tah zpět hra se zastaví a rozsvítí se zelené tlačítko 'Play', které je nutné zmáčknout pro pokračování ve hře.
+                 &#xD;&#xA;  
+                 &#xD;&#xA;NÁPOVĚDA HRY:
+                 &#xD;&#xA; ■ Je zobrazen hráč na tahu, počet kol, počet tahů bez skoku a výpis historie.
+                 &#xD;&#xA; ■ Červeně podbarvené tahy v historii tahů jsou skoky.
+                 &#xD;&#xA; ■ Je možno zapnout nápovědu pro vybranou figruku v panelu 'Nápověda'.
+                 &#xD;&#xA; ■ Nápověda obsahuje pravidla hry 'Gotická dáma'.
+                 &#xD;&#xA; ■ Nápověda obsahuje ovládní aplikace."
+                 VerticalAlignment="Top"/>
+        <Border BorderThickness="1,1,1,0" CornerRadius="5,5,0,0" Margin="367,372,367,0" RenderTransformOrigin="0.5,0.5" Height="26" VerticalAlignment="Top">
+            <Border Background="#FFFB4B4B" BorderBrush="Gray" CornerRadius="5">
+                <Button x:Name="CloseButton" Content="Zavřít" Background="Transparent" BorderThickness="0" FontFamily="Comic Sans MS" FontSize="13" Click="CloseButton_Click"/>
+            </Border>
+        </Border>
+    </Grid>
+</Window>
