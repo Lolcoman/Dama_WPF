@@ -187,6 +187,7 @@ namespace Dama_WPF
                     //Hra se nečetla dobře
                     HistorieTahu();
                     ShowBoard();
+                    GameController.MovesGenerate();
                 }
                 else
                 {
@@ -605,6 +606,7 @@ namespace Dama_WPF
         {
             if (GameController.HistorieTahu().Count > 0)
             {
+                stop = true;
                 IsGameStop = true;
                 PlayButton.IsEnabled = true;
                 GamePausedLabel.Content = "HRA ZASTAVENA";
@@ -753,6 +755,8 @@ namespace Dama_WPF
                         }
 
                         NewGame newGame = new NewGame();
+                        newGame.OKButton.Content = "Změnit";
+                        newGame.Title = "Změna hráčů";
                         newGame.Owner = this; //hlavní okno je vlastníkem tohoto okna
                         newGame.ShowDialog(); //zobrazí se okno
                         GameController.player1 = newGame.GetPlayer1(); //získání a nastavení player1

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         FontFamily="Comic Sans MS"
-        Title="NewGame" Height="250" Width="415">
+        Title="NewGame" Height="250" Width="415" WindowStartupLocation="CenterOwner">
     <Grid>
         <Label Content="Bílý hráč" Margin="0,0,327,186" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="65"/>
         <Label Content="Černý hráč" Margin="211,0,0,186" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75"/>

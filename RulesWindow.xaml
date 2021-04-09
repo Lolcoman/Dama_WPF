@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dama_WPF"
         mc:Ignorable="d"
-        Title="Pravidla hry" Height="445" Width="800" ResizeMode="NoResize">
+        Title="Pravidla hry" Height="445" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
     <Grid>
         <TextBlock Height="380" FontSize="12" TextWrapping="Wrap" Text="CÍL HRY: &#xD;&#xA; ■ Zajmout všechny soupeřovy kameny. &#xD;&#xA;VÝCHOZÍ SITUACE &#xD;&#xA; ■ Hraje se na desce 8x8 polí.&#xD;&#xA; ■ Na začátku hry stojí figurky ve dvou krajních řadách.&#xD;&#xA;PRAVIDLA HRY: &#xD;&#xA; ■ Hráči se v tazích pravidelně střídají.&#xD;&#xA; ■ Hráč na tahu smí posunout svůj obyčejný kámen o jedno pole na sousední volné pole a to směrem vpřed, do stran nebo diagonálně vpřed. Nesmí diagonálně ani ortogonálně vzad.
                  &#xD;&#xA; ■ Obyčejný kámen může také zajmout přeskočením kámen soupeře.&#xD;&#xA; ■ Soupeřův kámen musí ležet na sousedním poli a bezprostředně za tímto přeskakovaným kamenem musí být volné pole.
