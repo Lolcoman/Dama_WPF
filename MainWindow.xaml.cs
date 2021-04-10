@@ -201,6 +201,9 @@ namespace Dama_WPF
                     HistorieTahu();
                     ShowBoard();
                     GameController.MovesGenerate();
+                    PlayerOnMove();
+                    Rounds();
+                    WithoutJump();
                 }
                 else
                 {
