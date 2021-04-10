@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,11 +15,13 @@ namespace Dama_WPF
         private Random random = new Random();
         private Rules rules;
         private Board board;
+        private BackgroundWorker bw;
 
-        public Brain(Board board, Rules rules)
+        public Brain(Board board, Rules rules, BackgroundWorker bWorker)
         {
             this.board = new Board(board);
             this.rules = new Rules(board,rules);
+            bw = bWorker;
         }
 
         /// <summary>
@@ -105,6 +108,11 @@ namespace Dama_WPF
         /// <returns></returns>
         private int MiniMax(int hloubka)
         {
+            if (bw.CancellationPending)
+            {
+                return 0;
+            }
+
             if (rules.IsGameFinished()) //pokud je hra u konce tj., cerne figurku = 0 nebo bile = 0
             {
                 int minePesak, mineDama, enemyPesak, enemyDama;

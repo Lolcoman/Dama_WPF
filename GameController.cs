@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.IO;
 using Microsoft.Win32;
+using System.ComponentModel;
 
 namespace Dama_WPF
 {
@@ -57,16 +58,20 @@ namespace Dama_WPF
         /// <summary>
         /// Metoda pro tah PC hráče
         /// </summary>
-        public void PcPlayer()
+        public void PcPlayer(BackgroundWorker bw)
         {
             if (rules.PlayerOnMove() == 1 && player1 > 0 || rules.PlayerOnMove() == -1 && player2 > 0) //pokud hráč na tahu je 1 a player1 > 0 tak true, provede tah a continue na dalšího hráče
             {
-                brain = new Brain(board, rules);
+                brain = new Brain(board, rules, bw);
                 int[] move = brain.GetBestMove(rules.PlayerOnMove() == 1 ? player1 : player2);
                 //board.Move(move, true, false);
-                MakeMove(move, true, false);
-                rules.ChangePlayer();
-                rules.MovesGenerate();
+                if (!bw.CancellationPending) //pokud se čeká na zrušení tah se neprovede
+                {
+                    MakeMove(move, true, false);
+                    rules.ChangePlayer();
+                    rules.MovesGenerate();
+                }
+
             }
         }
 
@@ -182,6 +187,14 @@ namespace Dama_WPF
         public List<int[]> GetPossibleMoves(int X, int Y)
         {
             return rules.GetMovesList(X, Y);
+        }
+        /// <summary>
+        /// Vrátí všechny tahy hráče na tahu
+        /// </summary>
+        /// <returns></returns>
+        public List<int[]> AllPossibleMoves()
+        {
+            return rules.GetMovesList();
         }
         /// <summary>
         /// Tah zpět

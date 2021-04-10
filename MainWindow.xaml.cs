@@ -28,8 +28,9 @@ namespace Dama_WPF
         BackgroundWorker bgWorker = new BackgroundWorker();
         private bool IsSelected = false;
         private bool IsPossible = false;
-        private bool IsGameStop = false;
+        //private bool IsGameStop = false;
         private bool stop = false;
+        private bool pcCalculating = false;
         Ellipse SelectFigure = new Ellipse();
         private int round = 0;
 
@@ -43,6 +44,7 @@ namespace Dama_WPF
             bgWorker.RunWorkerCompleted += BgWorker_RunWorkerCompleted;
             bgWorker.WorkerSupportsCancellation = true;
 
+            bgWorker.CancelAsync();
 
             GameController.InitGame();
             ShowBoard();
@@ -57,6 +59,7 @@ namespace Dama_WPF
         /// <param name="e"></param>
         private void BgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            pcCalculating = false;
             ShowBoard(); //vykreslí desku
             HistorieTahu(); //vykreslí historii tahů
             PlayerOnMove(); //vypíše hráče na tahu
@@ -67,6 +70,9 @@ namespace Dama_WPF
                 return;
             }
             PauseButton.IsEnabled = true; //objeví se možnost pause buttonu
+
+
+
             if (stop) //pokud je hra zastavena
             {
                 GamePausedLabel.Content = "HRA ZASTAVENA";
@@ -74,6 +80,9 @@ namespace Dama_WPF
                 PlayButton.IsEnabled = true; //play button se objeví
                 PauseButton.IsEnabled = false; //pause button zmizí
             }
+
+
+
             if (IsPcPlay() && !IsEndGame() && !stop) //pokud hraje pc, pokud není konec hry a pokud není hra zastavena, tak se pokračuje 
             {
                 bgWorker.RunWorkerAsync();
@@ -86,6 +95,9 @@ namespace Dama_WPF
         /// <param name="e"></param>
         private void BgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+            BackgroundWorker bw = sender as BackgroundWorker;
+
+            pcCalculating = true;
             if (IsEndGame()) //pokud je konec hry tak se vrátí
             {
                 return;
@@ -97,7 +109,7 @@ namespace Dama_WPF
 
             if (!bgWorker.CancellationPending) //pokud nebylo zavoláno přerušení vlákna tak se pokračuje
             {
-                GameController.PcPlayer();
+                GameController.PcPlayer( bw );
             }
             else
             {
@@ -223,6 +235,7 @@ namespace Dama_WPF
                 PlayerOnMove(); //výpis hráče na tahu
                 ShowBoard(); //vykreslení desky
                 stop = false; //hra není pozastavena
+                pcCalculating = false;
                 PlayButton.IsEnabled = false; //playbutton zmizí
                 GamePausedLabel.Content = "";
             }
@@ -446,91 +459,109 @@ namespace Dama_WPF
         /// <param name="e"></param>
         private void BoardCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (IsEndGame()) //pokud je konec hry vrátí se
+            if (!pcCalculating)
             {
-                return;
-            }
-            BoardCanvas.Children.Remove(SelectFigure); //smazaní označení vybrané figurky
-            int clickX = (int)e.GetPosition(BoardCanvas).X;
-            int clickY = (int)e.GetPosition(BoardCanvas).Y;
-
-            int[] boardCoords = TransfClickPhyCoords(clickX, clickY); //přepočítání fyzického kliku na souřadnice na desce, 1.kliknutí
-            try
-            {
-                if (IsGameStop) //pokud je hra zastavena, nejdříve se musí spustit
+                if (!stop) //nelze klikat na Canvas pokud PC provádí výpočet!!
                 {
-                    MessageBox.Show("Stiskni PLAY!", "Hra");
-                }
-                else //pokud není zastavena
-                {
-                    if (!IsSelected) //Pokud nemám vybranou figurku
+                    if (IsEndGame()) //pokud je konec hry vrátí se
                     {
-                        if (GameController.GetValueOnBoard(boardCoords[0], boardCoords[1]) > 0 && GameController.GetPlayerOnMove() > 0 || GameController.GetValueOnBoard(boardCoords[0], boardCoords[1]) < 0 && GameController.GetPlayerOnMove() < 0)
+                        return;
+                    }
+                    BoardCanvas.Children.Remove(SelectFigure); //smazaní označení vybrané figurky
+                    int clickX = (int)e.GetPosition(BoardCanvas).X;
+                    int clickY = (int)e.GetPosition(BoardCanvas).Y;
+
+                    int[] boardCoords = TransfClickPhyCoords(clickX, clickY); //přepočítání fyzického kliku na souřadnice na desce, 1.kliknutí
+                    try
+                    {
+                        if (!IsSelected) //Pokud nemám vybranou figurku
                         {
-                            List<int> coords = GetFieldCoords(GetFieldWidth(), GetFieldHeight());
-                            if (IsPossible) //pokdu je zapnutá nápověda pro tahy
+                            if (GameController.GetValueOnBoard(boardCoords[0], boardCoords[1]) > 0 && GameController.GetPlayerOnMove() > 0 || GameController.GetValueOnBoard(boardCoords[0], boardCoords[1]) < 0 && GameController.GetPlayerOnMove() < 0)
                             {
                                 List<int[]> moves = GameController.GetPossibleMoves(boardCoords[0], boardCoords[1]); //pozice možných tahů figurky
-                                SolidColorBrush poss = new SolidColorBrush(Color.FromArgb(80, 0, 255, 0)); //barva tahů
-                                foreach (int[] item in moves) //vykreslení pro každý tah
+                                List<int> coords = GetFieldCoords(GetFieldWidth(), GetFieldHeight());
+                                List<int[]> allMoves = GameController.AllPossibleMoves();
+
+                                if (IsPossible) //pokdu je zapnutá nápověda pro tahy
                                 {
-                                    int[] recCoor = TransfFieldPhyCoords(coords, item[4], item[5]); //převod na fyzické souřadnice
-                                    if (item.Length > 8) //pokud je to skok, barva červená
+                                    SolidColorBrush poss = new SolidColorBrush(Color.FromArgb(80, 0, 255, 0)); //barva tahů
+                                    foreach (int[] item in moves) //vykreslení pro každý tah
                                     {
-                                        int[] recCoor1 = TransfFieldPhyCoords(coords, item[8], item[9]);
-                                        poss = new SolidColorBrush(Color.FromArgb(100, 255, 0, 0));
-                                        DrawField(recCoor1[1], recCoor1[0], GetFieldWidth(), GetFieldHeight(), poss);
-                                    }
-                                    else
-                                    {
-                                        DrawField(recCoor[1], recCoor[0], GetFieldWidth(), GetFieldHeight(), poss);
+                                        int[] recCoor = TransfFieldPhyCoords(coords, item[4], item[5]); //převod na fyzické souřadnice
+                                        if (item.Length > 8) //pokud je to skok, barva červená
+                                        {
+                                            int[] recCoor1 = TransfFieldPhyCoords(coords, item[8], item[9]);
+                                            poss = new SolidColorBrush(Color.FromArgb(100, 255, 0, 0));
+                                            DrawField(recCoor1[1], recCoor1[0], GetFieldWidth(), GetFieldHeight(), poss);
+                                        }
+                                        else
+                                        {
+                                            DrawField(recCoor[1], recCoor[0], GetFieldWidth(), GetFieldHeight(), poss);
+                                        }
                                     }
                                 }
+
+                                foreach (int[] item in moves)
+                                {
+                                    if (!allMoves.Contains(item)) //VYKRESLENÍ ZELENÉHO OZNAČENÍ VYBRANÉ FIGURKY, pokud je v seznamu tahů
+                                    {
+                                        int[] elCoor = TransfFieldPhyCoords(coords, boardCoords[0], boardCoords[1]); //převod kliknutí na fyzické
+                                        SelectFigure.Width = GetFieldWidth() - 20;
+                                        SelectFigure.Height = GetFieldHeight() - 20;
+                                        SelectFigure.Fill = new SolidColorBrush(Color.FromArgb(155, 0, 255, 0));
+                                        BoardCanvas.Children.Add(SelectFigure);
+                                        Canvas.SetLeft(SelectFigure, elCoor[1] + 10); //Nastavení levé souřadnice Canvasu na posX
+                                        Canvas.SetBottom(SelectFigure, elCoor[0] + 10); //Nastavení odspodu souřadnice Canvasu na posY
+                                        prvniCast = PrvniCast(boardCoords[0], boardCoords[1]); //uložení prvních souřadnic
+                                        IsSelected = true;
+                                    }
+                                    break;
+                                }
                             }
-                            //VYKRESLENÍ ZELENÉHO OZNAČENÍ VYBRANÉ FIGURKY
-                            int[] elCoor = TransfFieldPhyCoords(coords, boardCoords[0], boardCoords[1]); //převod kliknutí na fyzické
-                            SelectFigure.Width = GetFieldWidth() - 20;
-                            SelectFigure.Height = GetFieldHeight() - 20;
-                            SelectFigure.Fill = new SolidColorBrush(Color.FromArgb(155, 0, 255, 0));
-                            BoardCanvas.Children.Add(SelectFigure);
-                            Canvas.SetLeft(SelectFigure, elCoor[1] + 10); //Nastavení levé souřadnice Canvasu na posX
-                            Canvas.SetBottom(SelectFigure, elCoor[0] + 10); //Nastavení odspodu souřadnice Canvasu na posY
                         }
-                        prvniCast = PrvniCast(boardCoords[0], boardCoords[1]); //uložení prvních souřadnic
-                        IsSelected = true; //nastavení že jsem první klik provedl
+                        else
+                        {
+                            druhaCast = DruhaCast(boardCoords[0], boardCoords[1]); //Uložení druhé části kliku
+                            pohyb = Spoj(prvniCast, druhaCast); //spojení a vytvoření tahu
+                            plnyPohyb = GameController.FullMove(pohyb); //převod na plný pohyb
+                                                                        //GameController.WithoutJump(plnyPohyb);
+                            GameController.MakeMove(plnyPohyb, true, false); //provedení TAHU
+                            ShowBoard(); //překreslení desky
+                            IsSelected = false; //nastavení že nemám vybráno nic
+                            GameController.NextPlayer(); //přepnutí hráče na tahu
+                            HistorieTahu(); //vykreslení historie tahu
+                            PlayerOnMove(); //label hráč na tahu
+                            Rounds(); //label počet kol
+                            WithoutJump(); //výpis tahů bez skoku
+                            if (IsEndGame()) //pokud je konec hry vrátí se
+                            {
+                                return;
+                            }
+                            if (IsPcPlay()) //Počítač
+                            {
+                                PauseButton.IsEnabled = true;
+                                bgWorker.RunWorkerAsync();
+                            }
+                        }
                     }
-                    else
+                    catch
                     {
-                        druhaCast = DruhaCast(boardCoords[0], boardCoords[1]); //Uložení druhé části kliku
-                        pohyb = Spoj(prvniCast, druhaCast); //spojení a vytvoření tahu
-                        plnyPohyb = GameController.FullMove(pohyb); //převod na plný pohyb
-                                                                    //GameController.WithoutJump(plnyPohyb);
-                        GameController.MakeMove(plnyPohyb, true, false); //provedení TAHU
-                        ShowBoard(); //překreslení desky
-                        IsSelected = false; //nastavení že nemám vybráno nic
-                        GameController.NextPlayer(); //přepnutí hráče na tahu
-                        HistorieTahu(); //vykreslení historie tahu
-                        PlayerOnMove(); //label hráč na tahu
-                        Rounds(); //label počet kol
-                        WithoutJump(); //výpis tahů bez skoku
-                        if (IsEndGame()) //pokud je konec hry vrátí se
-                        {
-                            return;
-                        }
-                        if (IsPcPlay()) //Počítač
-                        {
-                            bgWorker.RunWorkerAsync();
-                        }
+                        ShowBoard(); //překreslení kvůli špatnému výběru
+                        MessageBox.Show("Opakuj celý tah!", "Špatný výběr");
+                        IsSelected = false; //nastavení výběru na false, pro celý výběř znovu
                     }
+                    plnyPohyb = null;
+                }
+                else
+                {
+                    MessageBox.Show("Hra je zastavena, stiskni PLAY!", "Hra");
                 }
             }
-            catch
+            else
             {
-                ShowBoard(); //překreslení kvůli špatnému výběru
-                MessageBox.Show("Opakuj celý tah!", "Špatný výběr");
-                IsSelected = false; //nastavení výběru na false, pro celý výběř znovu
+                MessageBox.Show("PC provádí tah!", "Hra");
             }
-            plnyPohyb = null;
+
         }
         /// <summary>
         /// Přepočet kliknutí souřadnic
@@ -604,17 +635,28 @@ namespace Dama_WPF
         /// <param name="e"></param>
         private void UndoMenu_Click(object sender, RoutedEventArgs e)
         {
-            if (GameController.HistorieTahu().Count > 0)
+            if (!pcCalculating)
             {
-                stop = true;
-                IsGameStop = true;
-                PlayButton.IsEnabled = true;
-                GamePausedLabel.Content = "HRA ZASTAVENA";
-                GamePausedLabel.Foreground = new SolidColorBrush(Colors.Red);
-                GameController.UndoMove();
-                ShowBoard();
-                PlayerOnMove();
-                Rounds();
+                if (GameController.HistorieTahu().Count > 0)
+                {
+                    stop = true;
+                    //IsGameStop = true;
+                    PlayButton.IsEnabled = true;
+                    GamePausedLabel.Content = "HRA ZASTAVENA";
+                    GamePausedLabel.Foreground = new SolidColorBrush(Colors.Red);
+                    GameController.UndoMove();
+                    ShowBoard();
+                    PlayerOnMove();
+                    Rounds();
+                    if (IsPcPlay())
+                    {
+                        bgWorker.RunWorkerAsync();
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("PC provádí tah!", "Hra");
             }
         }
         /// <summary>
@@ -689,11 +731,17 @@ namespace Dama_WPF
         /// <param name="e"></param>
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            IsGameStop = false;
+            //IsGameStop = false;
             PlayButton.IsEnabled = false;
             GameController.ClearHistoryFromToEnd();
             GamePausedLabel.Content = "";
             GamePausedLabel.Foreground = new SolidColorBrush(Color.FromRgb(47, 234, 47));
+
+            if (IsPcPlay())
+            {
+                PauseButton.IsEnabled = true;
+            }
+
             if (stop)
             {
                 stop = false;
@@ -709,9 +757,12 @@ namespace Dama_WPF
         /// <param name="e"></param>
         private void PauseButton_Click(object sender, RoutedEventArgs e)
         {
+            bgWorker.CancelAsync();
             stop = true;
+            //IsGameStop = true;
             GamePausedLabel.Content = "HRA ZASTAVENA";
             GamePausedLabel.Foreground = new SolidColorBrush(Colors.Red);
+            PlayButton.IsEnabled = true;
         }
         /// <summary>
         /// Pravdila hry okno
@@ -742,31 +793,40 @@ namespace Dama_WPF
         /// <param name="e"></param>
         private void ChangePlayerMenu_Click(object sender, RoutedEventArgs e)
         {
+            stop = true;
+            bgWorker.CancelAsync();
+
             if (!IsEndGame())
             {
-                if (IsPcPlay() && stop || !IsPcPlay())
+                if (IsPcPlay() || !IsPcPlay())
                 {
-                    //if (!IsEndGame())
-                    //{
-                        if (GameController.HistorieTahu().Count == 0)
-                        {
-                            MessageBox.Show("Začátek hry.", "Hra");
-                            return;
-                        }
+                    if (GameController.HistorieTahu().Count == 0)
+                    {
+                        MessageBox.Show("Začátek hry.", "Hra");
+                        return;
+                    }
 
-                        NewGame newGame = new NewGame();
-                        newGame.OKButton.Content = "Změnit";
-                        newGame.Title = "Změna hráčů";
-                        newGame.Owner = this; //hlavní okno je vlastníkem tohoto okna
-                        newGame.ShowDialog(); //zobrazí se okno
-                        GameController.player1 = newGame.GetPlayer1(); //získání a nastavení player1
-                        GameController.player2 = newGame.GetPlayer2(); //získání a nastavení player2
-                        if (IsPcPlay()) //ověření zda byl vybrán PC
-                        {
-                            bgWorker.RunWorkerAsync();
-                        }
-                        GamePausedLabel.Content = "";
-                    //}
+                    NewGame newGame = new NewGame();
+                    newGame.OKButton.Content = "Změnit";
+                    newGame.Title = "Změna hráčů";
+                    newGame.Owner = this; //hlavní okno je vlastníkem tohoto okna
+                    newGame.WHuman.IsChecked = GameController.player1 == 0;
+                    newGame.WPC.IsChecked = GameController.player1 > 0;
+                    newGame.WsliderPC.Value = GameController.player1;
+                    newGame.BHuman.IsChecked = GameController.player2 == 0;
+                    newGame.BPC.IsChecked = GameController.player2 > 0;
+                    newGame.BsliderPC.Value = GameController.player2;
+                    newGame.ShowDialog(); //zobrazí se okno
+                    GameController.player1 = newGame.GetPlayer1(); //získání a nastavení player1
+                    GameController.player2 = newGame.GetPlayer2(); //získání a nastavení player2
+                    bgWorker.CancelAsync();
+                    if (IsPcPlay()) //ověření zda byl vybrán PC
+                    {
+                        stop = false;
+                        PauseButton.IsEnabled = true;
+                        bgWorker.RunWorkerAsync();
+                    }
+                    GamePausedLabel.Content = "";
                 }
                 else
                 {
