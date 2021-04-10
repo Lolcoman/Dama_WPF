@@ -15,9 +15,13 @@ namespace Dama_WPF
         /// <param name="player2"></param>
         /// <param name="ptrTah"></param>
         /// <param name="historie"></param>
-        public bool SaveGame(int player1, int player2, int ptrTah, List<int[]> historie)
+        public bool SaveGame(string fileName,int player1, int player2, int ptrTah, List<int[]> historie)
         {
-            using (StreamWriter sw = new StreamWriter(@"save.txt"))
+            if (fileName == null)
+            {
+                return false;
+            }
+            using (StreamWriter sw = new StreamWriter(fileName))
             {
                 sw.WriteLine("player1:{0}", player1);
                 sw.WriteLine("player2:{0}", player2);

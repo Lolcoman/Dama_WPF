@@ -1,0 +1,3 @@
+player1:0
+player2:0
+pointer:0

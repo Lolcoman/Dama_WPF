@@ -274,9 +274,9 @@ namespace Dama_WPF
         /// <param name="player2"></param>
         /// <param name="historie"></param>
         /// <returns></returns>
-        public bool SaveGame(int player1, int player2,List<int[]> historie)
+        public bool SaveGame(string fileName, int player1, int player2, List<int[]> historie)
         {
-            if(data.SaveGame(player1, player2, ptrTah, board.HistoryMove))
+            if(data.SaveGame(fileName,player1, player2, ptrTah, board.HistoryMove))
             {
                 return true;
             }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -697,9 +698,21 @@ namespace Dama_WPF
         /// <param name="e"></param>
         private void SaveGameMenu_Click(object sender, RoutedEventArgs e)
         {
-            if (GameController.SaveGame(GameController.player1, GameController.player2, GameController.HistorieTahu()))
+            SaveFileDialog saveFile = new SaveFileDialog();
+            saveFile.InitialDirectory = Environment.CurrentDirectory;
+            saveFile.Filter = "Soubory s uloženou hrou|*.txt";
+            saveFile.Title = "Uložit hru";
+            saveFile.FileName = "Uložená hra";
+            if (saveFile.ShowDialog() == true)
             {
-                MessageBox.Show("Hra byla uložena!", "Uložení hry");
+                if (GameController.SaveGame(saveFile.FileName,GameController.player1, GameController.player2, GameController.HistorieTahu()))
+                {
+                    MessageBox.Show("Hra byla uložena!", "Uložení hry");
+                }
+                else
+                {
+                    MessageBox.Show("Nepodařilo se uložit hru!.","Chyba při ukládání hry");
+                }
             }
         }
 
