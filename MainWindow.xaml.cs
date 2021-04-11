@@ -532,6 +532,7 @@ namespace Dama_WPF
                                 IsSelected = false;
                                 return;
                             }
+                            //GameController.MakeMove(plnyPohyb, true, false);
                             IsSelected = false; //nastavení že nemám vybráno nic
                             GameController.NextPlayer(); //přepnutí hráče na tahu
                             HistorieTahu(); //vykreslení historie tahu

@@ -8,23 +8,22 @@
         Icon="Resources/icon.ico"
         Title="ProgramWindow" Height="460" Width="830" WindowStartupLocation="CenterOwner">
     <Grid>
-        <TextBlock FontSize="12" TextWrapping="Wrap" Text="&#xD;&#xA; ■ Hraje se klikáním na hrací desku. &#xD;&#xA; ■ Tah se provádí vždy dvojklikem na herní desku, tj. prvním klikem vyberu figurku a druhým kam chci táhnout.
-                 &#xD;&#xA; ■ Pokud je zadáno špatně celý tah se musí opakovat od začátku.
+        <TextBlock FontSize="12" TextWrapping="Wrap" Text="&#xD;&#xA; ■ Hraje se klikáním na hrací desku. &#xD;&#xA; ■ Tah se provádí vždy dvojklikem na herní desku, prvním klikem na výběr figurky a druhým na místo tahu.
+                 &#xD;&#xA; ■ Pokud je zadání špatně, celý tah se musí opakovat od začátku.
                  &#xD;&#xA;
-                 &#xD;&#xA; ■ Při vytvoření hry je možné vybrat ze 4 obtížností PC hráče, od nejlehčí až po nejtěžší.
-                 &#xD;&#xA; ■ Pokud táhne člověk, není nutné zmáčknout 'Hra'!.
+                 &#xD;&#xA; ■ Při vytvoření hry je možné vybrat ze 4 obtížností PC hráče. Od nejlehčí až po nejtěžší.
+                 &#xD;&#xA; ■ Pokud táhne člověk, není nutné zmáčknout 'Hra'!
                  &#xD;&#xA; ■ Hru je možné uložit a později také načíst.
-                 &#xD;&#xA; ■ Není dovoleno modifikovat uložený soubor, hra nebude načtena.
-                 &#xD;&#xA; ■ Při hře dvou PC hráčů je možné hru zastavit a také udělat tah zpět/vpřed, poté je nutné stiknout 'Play'.
+                 &#xD;&#xA; ■ Není dovoleno modifikovat uložený soubor, v tom případě hra nebude načtena.
+                 &#xD;&#xA; ■ Při hře dvou PC hráčů je možné hru zastavit a také udělat tah zpět/vpřed, poté je nutné stiknout 'Hra'!
                  &#xD;&#xA;
-                 &#xD;&#xA; ■ Je možno udělat tah zpět, tah vpřed (i PC hráče).
-                 &#xD;&#xA; ■ Pokud je zahrán tah zpět hra se zastaví a rozsvítí se zelené tlačítko 'Play', které je nutné zmáčknout pro pokračování ve hře.
+                 &#xD;&#xA; ■ Je možné udělat tah zpět nebo vpřed (i PC hráče).
+                 &#xD;&#xA; ■ Pokud je zahrán tah zpět, hra se zastaví, a rozsvítí se zelené tlačítko 'Hra', na které je nutné kliknout pro pokračování ve hře.
                  &#xD;&#xA;
                  &#xD;&#xA; ■ Je zobrazen hráč na tahu, počet kol, počet tahů bez skoku a výpis historie.
                  &#xD;&#xA; ■ Červeně podbarvené tahy v historii tahů jsou skoky.
-                 &#xD;&#xA; ■ Je možno zapnout nápovědu pro vybranou figruku v panelu 'Nápověda'.
-                 &#xD;&#xA; ■ Nápověda obsahuje pravidla hry 'Gotická dáma'.
-                 &#xD;&#xA; ■ Nápověda obsahuje ovládní aplikace." Height="338" VerticalAlignment="Top" HorizontalAlignment="Left" Width="601"/>
+                 &#xD;&#xA; ■ Je možno vypnout nápovědu pro vybranou figruku v panelu 'Nápověda'.
+                 &#xD;&#xA; ■ Nápověda obsahuje pravidla hry 'Gotická dáma' a ovládání aplikace." Height="338" VerticalAlignment="Top" HorizontalAlignment="Left" Width="601"/>
         <Border BorderThickness="1,1,1,0" CornerRadius="5,5,0,0" Margin="367,370,367,0" RenderTransformOrigin="0.5,0.5" Height="26" VerticalAlignment="Top">
             <Border Background="#FFFB4B4B" BorderBrush="Gray" CornerRadius="5">
                 <Button x:Name="CloseButton" Content="Zavřít" Background="Transparent" BorderThickness="0" FontFamily="Comic Sans MS" FontSize="13" Click="CloseButton_Click"/>
@@ -45,7 +44,7 @@
             </Separator.RenderTransform>
         </Separator>
         <Separator HorizontalAlignment="Right" Margin="0,338,0,0" Width="822" Height="1" VerticalAlignment="Top"/>
-        <Separator HorizontalAlignment="Right" Margin="0" Width="792" Height="1" VerticalAlignment="Top"/>
+        <Separator HorizontalAlignment="Right" Margin="0" Width="822" Height="1" VerticalAlignment="Top"/>
         <TextBlock Width="99" HorizontalAlignment="Left" Margin="606,163,0,0" TextWrapping="Wrap" Height="15" VerticalAlignment="Top">
             Předmět:
             <Hyperlink NavigateUri="https://www.inf.upol.cz/projektovy-seminar" RequestNavigate="Hyperlink_RequestNavigate">
