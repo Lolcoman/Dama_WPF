@@ -307,5 +307,10 @@ namespace Dama_WPF
             }
             return false;
         }
+
+        public List<int[]>ListTahu()
+        {
+            return rules.ListMove;
+        }
     }
 }

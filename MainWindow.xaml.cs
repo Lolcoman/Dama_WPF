@@ -524,9 +524,14 @@ namespace Dama_WPF
                             druhaCast = DruhaCast(boardCoords[0], boardCoords[1]); //Uložení druhé části kliku
                             pohyb = Spoj(prvniCast, druhaCast); //spojení a vytvoření tahu
                             plnyPohyb = GameController.FullMove(pohyb); //převod na plný pohyb
-                                                                        //GameController.WithoutJump(plnyPohyb);
+                            //GameController.WithoutJump(plnyPohyb);
                             GameController.MakeMove(plnyPohyb, true, false); //provedení TAHU
                             ShowBoard(); //překreslení desky
+                            if (GameController.ListTahu().Any())
+                            {
+                                IsSelected = false;
+                                return;
+                            }
                             IsSelected = false; //nastavení že nemám vybráno nic
                             GameController.NextPlayer(); //přepnutí hráče na tahu
                             HistorieTahu(); //vykreslení historie tahu
