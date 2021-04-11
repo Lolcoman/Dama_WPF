@@ -8,7 +8,7 @@
         Icon="Resources/icon.ico"
         Title="ProgramWindow" Height="450" Width="800" WindowStartupLocation="CenterOwner">
     <Grid>
-        <TextBlock Height="337" FontSize="12" TextWrapping="Wrap" Text="&#xD;&#xA; ■ Hraje se klikáním na hrací desku. &#xD;&#xA; ■ Tah se provádí vždy dvojklikem na herní desku, tj. prvním klikem vyberu figurku a druhým kam chci táhnout.
+        <TextBlock FontSize="12" TextWrapping="Wrap" Text="&#xD;&#xA; ■ Hraje se klikáním na hrací desku. &#xD;&#xA; ■ Tah se provádí vždy dvojklikem na herní desku, tj. prvním klikem vyberu figurku a druhým kam chci táhnout.
                  &#xD;&#xA; ■ Pokud je zadáno špatně celý tah se musí opakovat od začátku.
                    &#xD;&#xA;
                  &#xD;&#xA; ■ Při vytvoření hry je možné vybrat ze 4 obtížností PC hráče, od nejlehčí až po nejtěžší.
@@ -24,18 +24,17 @@
                  &#xD;&#xA; ■ Červeně podbarvené tahy v historii tahů jsou skoky.
                  &#xD;&#xA; ■ Je možno zapnout nápovědu pro vybranou figruku v panelu 'Nápověda'.
                  &#xD;&#xA; ■ Nápověda obsahuje pravidla hry 'Gotická dáma'.
-                 &#xD;&#xA; ■ Nápověda obsahuje ovládní aplikace."
-                 VerticalAlignment="Top" Margin="0,0,233,0"/>
+                 &#xD;&#xA; ■ Nápověda obsahuje ovládní aplikace." Height="338" VerticalAlignment="Top" HorizontalAlignment="Left" Width="559"/>
         <Border BorderThickness="1,1,1,0" CornerRadius="5,5,0,0" Margin="367,372,367,0" RenderTransformOrigin="0.5,0.5" Height="26" VerticalAlignment="Top">
             <Border Background="#FFFB4B4B" BorderBrush="Gray" CornerRadius="5">
                 <Button x:Name="CloseButton" Content="Zavřít" Background="Transparent" BorderThickness="0" FontFamily="Comic Sans MS" FontSize="13" Click="CloseButton_Click"/>
             </Border>
         </Border>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="OVLÁDÁNÍ DESKY:" VerticalAlignment="Top" FontWeight="Bold"/>
-        <TextBlock HorizontalAlignment="Left" Margin="0,79,0,0" TextWrapping="Wrap" Text="OVLÁDÁNÍ HRY:" VerticalAlignment="Top" FontWeight="Bold"/>
-        <TextBlock HorizontalAlignment="Left" Margin="0,239,0,0" TextWrapping="Wrap" Text="NÁPOVĚDA HRY:" VerticalAlignment="Top" FontWeight="Bold"/>
-        <TextBlock HorizontalAlignment="Left" Margin="0,177,0,0" TextWrapping="Wrap" Text="NÁSTROJE HRY:" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Separator HorizontalAlignment="Left" Height="100" Margin="391,120,0,0" VerticalAlignment="Top" Width="338" RenderTransformOrigin="0.5,0.5">
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="OVLÁDÁNÍ DESKY:" FontWeight="Bold" Margin="4,1,0,0" Height="16" VerticalAlignment="Top"/>
+        <TextBlock Margin="4,81,0,0" TextWrapping="Wrap" Text="OVLÁDÁNÍ HRY:" FontWeight="Bold" HorizontalAlignment="Left" Width="93" Height="16" VerticalAlignment="Top"/>
+        <TextBlock Margin="4,241,0,0" TextWrapping="Wrap" Text="NÁPOVĚDA HRY:" FontWeight="Bold" HorizontalAlignment="Left" Width="97" Height="16" VerticalAlignment="Top"/>
+        <TextBlock Margin="4,176,0,0" TextWrapping="Wrap" Text="NÁSTROJE HRY:" FontWeight="Bold" HorizontalAlignment="Left" Width="91" Height="16" VerticalAlignment="Top"/>
+        <Separator HorizontalAlignment="Left" Height="1" Margin="391,169,0,0" VerticalAlignment="Top" Width="338" RenderTransformOrigin="0.5,0.5">
             <Separator.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -45,8 +44,8 @@
                 </TransformGroup>
             </Separator.RenderTransform>
         </Separator>
-        <Separator HorizontalAlignment="Left" Height="100" Margin="0,288,0,0" VerticalAlignment="Top" Width="792"/>
-        <Separator HorizontalAlignment="Left" Height="100" Margin="0,-50,0,0" VerticalAlignment="Top" Width="792"/>
+        <Separator HorizontalAlignment="Right" Margin="0,338,0,0" Width="792" Height="1" VerticalAlignment="Top"/>
+        <Separator HorizontalAlignment="Right" Margin="0" Width="792" Height="1" VerticalAlignment="Top"/>
         <TextBlock Width="228" HorizontalAlignment="Left" Margin="564,164,0,170" TextWrapping="Wrap">
             Aplikace je zpracována jako ročníkový projekt předmětu
             <Hyperlink NavigateUri="https://www.inf.upol.cz/projektovy-seminar" RequestNavigate="Hyperlink_RequestNavigate">
@@ -56,7 +55,7 @@
         </TextBlock>
         <Image HorizontalAlignment="Left" Height="135" Margin="613,24,0,0" VerticalAlignment="Top" Width="140" Source="Resources/UP.png"/>
         <TextBlock HorizontalAlignment="Left" Margin="564,254,0,0" TextWrapping="Wrap" Text="Autor: Michael Kozák" VerticalAlignment="Top"/>
-        <TextBlock Width="228" HorizontalAlignment="Left" Margin="564,270,0,0" TextWrapping="Wrap">
+        <TextBlock Width="228" HorizontalAlignment="Left" Margin="564,270,0,0" TextWrapping="Wrap" Height="18" VerticalAlignment="Top">
             Vedoucí práce:
             <Hyperlink NavigateUri="https://www.inf.upol.cz/lide/tomas-kuhr" RequestNavigate="Hyperlink_RequestNavigate">
                 Mgr. Tomáš Kühr, Ph.D.
