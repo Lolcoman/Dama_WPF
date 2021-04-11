@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Dama_WPF"
         mc:Ignorable="d"
         Title="ProgramWindow" Height="450" Width="800" WindowStartupLocation="CenterOwner">
+
     <Grid>
         <TextBlock Height="380" FontSize="12" TextWrapping="Wrap" Text="OVLÁDÁNÍ DESKY: &#xD;&#xA; ■ Hraje se klikáním na hrací desku. &#xD;&#xA; ■ Tah se provádí vždy dvojklikem na herní desku, tj. prvním klikem vyberu figurku a druhým kam chci táhnout.
                  &#xD;&#xA; ■ Pokud je zadáno špatně celý tah se musí opakovat od začátku.

@@ -28,7 +28,7 @@ namespace Dama_WPF
         GameController GameController = new GameController();
         BackgroundWorker bgWorker = new BackgroundWorker();
         private bool IsSelected = false;
-        private bool IsPossible = false;
+        private bool IsPossible = true;
         //private bool IsGameStop = false;
         private bool stop = false;
         private bool pcCalculating = false;
@@ -72,8 +72,6 @@ namespace Dama_WPF
             }
             PauseButton.IsEnabled = true; //objeví se možnost pause buttonu
 
-
-
             if (stop) //pokud je hra zastavena
             {
                 GamePausedLabel.Content = "HRA ZASTAVENA";
@@ -81,8 +79,6 @@ namespace Dama_WPF
                 PlayButton.IsEnabled = true; //play button se objeví
                 PauseButton.IsEnabled = false; //pause button zmizí
             }
-
-
 
             if (IsPcPlay() && !IsEndGame() && !stop) //pokud hraje pc, pokud není konec hry a pokud není hra zastavena, tak se pokračuje 
             {
@@ -175,7 +171,7 @@ namespace Dama_WPF
         /// <param name="e"></param>
         private void ExitGameMenu_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Opravdu chcete ukončit hru?", "Ukončit hru", MessageBoxButton.YesNo);
+            MessageBoxResult result = MessageBox.Show("Opravdu chcete ukončit hru?", "Ukončit hru", MessageBoxButton.YesNo, MessageBoxImage.Error);
             if (result == MessageBoxResult.Yes)
             {
                 Application.Current.Shutdown();
@@ -208,7 +204,7 @@ namespace Dama_WPF
                 else
                 {
                     //Hra se nenačetla
-                    MessageBox.Show("Chyba při načítání souboru!");
+                    MessageBox.Show("Chyba při načítání souboru!","Hra", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -551,19 +547,19 @@ namespace Dama_WPF
                     catch
                     {
                         ShowBoard(); //překreslení kvůli špatnému výběru
-                        MessageBox.Show("Opakuj celý tah!", "Špatný výběr");
+                        MessageBox.Show("Opakuj celý tah!", "Špatný výběr", MessageBoxButton.OK ,MessageBoxImage.Warning);
                         IsSelected = false; //nastavení výběru na false, pro celý výběř znovu
                     }
                     plnyPohyb = null;
                 }
                 else
                 {
-                    MessageBox.Show("Hra je zastavena, stiskni PLAY!", "Hra");
+                    MessageBox.Show("Hra je zastavena, stiskni START!", "Hra", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             else
             {
-                MessageBox.Show("PC provádí tah!", "Hra");
+                MessageBox.Show("PC provádí tah!", "Hra", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
 
         }
@@ -660,7 +656,7 @@ namespace Dama_WPF
             }
             else
             {
-                MessageBox.Show("PC provádí tah!", "Hra");
+                MessageBox.Show("PC provádí tah!", "Hra", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
         /// <summary>
@@ -684,13 +680,13 @@ namespace Dama_WPF
         /// <param name="e"></param>
         private void HelpForOneStoneMenu_Click(object sender, RoutedEventArgs e)
         {
-            if (!IsPossible)
+            if (IsPossible)
             {
-                IsPossible = true;
+                IsPossible = false;
             }
             else
             {
-                IsPossible = false;
+                IsPossible = true;
             }
         }
 
@@ -710,11 +706,11 @@ namespace Dama_WPF
             {
                 if (GameController.SaveGame(saveFile.FileName,GameController.player1, GameController.player2, GameController.HistorieTahu()))
                 {
-                    MessageBox.Show("Hra byla uložena!", "Uložení hry");
+                    MessageBox.Show("Hra byla uložena!", "Uložení hry", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
-                    MessageBox.Show("Nepodařilo se uložit hru!.","Chyba při ukládání hry");
+                    MessageBox.Show("Nepodařilo se uložit hru!.","Chyba při ukládání hry", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -735,7 +731,7 @@ namespace Dama_WPF
         {
             if (GameController.IsGameFinished())
             {
-                MessageBox.Show("Prohrál jsi " + (GameController.GetPlayerOnMove() == 1 ? "Bílý" : "Černý"), "KONEC HRY");
+                MessageBox.Show("Prohrál jsi " + (GameController.GetPlayerOnMove() == 1 ? "Bílý" : "Černý"), "KONEC HRY" );
                 return true;
             }
             return false;
@@ -756,6 +752,7 @@ namespace Dama_WPF
             if (IsPcPlay())
             {
                 PauseButton.IsEnabled = true;
+                bgWorker.RunWorkerAsync();
             }
 
             if (stop)
@@ -763,7 +760,7 @@ namespace Dama_WPF
                 stop = false;
                 GamePausedLabel.Content = "";
                 GamePausedLabel.Foreground = new SolidColorBrush(Color.FromRgb(47, 234, 47));
-                bgWorker.RunWorkerAsync();
+                //bgWorker.RunWorkerAsync();
             }
         }
         /// <summary>
@@ -818,7 +815,7 @@ namespace Dama_WPF
                 {
                     if (GameController.HistorieTahu().Count == 0)
                     {
-                        MessageBox.Show("Začátek hry.", "Hra");
+                        MessageBox.Show("Začátek hry.", "Hra", MessageBoxButton.OK, MessageBoxImage.Information);
                         return;
                     }
 
@@ -846,7 +843,7 @@ namespace Dama_WPF
                 }
                 else
                 {
-                    MessageBox.Show("Hra není zastavena!", "Hra");
+                    MessageBox.Show("Hra není zastavena!", "Hra", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
                 if (!IsPcPlay())
                 {

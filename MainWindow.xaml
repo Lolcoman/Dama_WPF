@@ -9,24 +9,60 @@
     <Grid>
         <Menu Height="30" VerticalAlignment="Top" FontFamily="Comic Sans MS">
             <MenuItem Header="Hra" Height="30" Width="100">
-                <MenuItem x:Name="NewGameMenu" Header="Nová hra" Click="NewGameMenu_Click"/>
+                <MenuItem x:Name="NewGameMenu" Header="Nová hra" Click="NewGameMenu_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/new.PNG" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator HorizontalAlignment="Left" Height="0" Width="140"/>
-                <MenuItem x:Name="LoadGameMenu" Header="Načíst hru" Click="LoadGameMenu_Click" Height="22"/>
-                <MenuItem x:Name="SaveGameMenu" Header="Uložit hru" Click="SaveGameMenu_Click"/>
+                <MenuItem x:Name="LoadGameMenu" Header="Načíst hru" Click="LoadGameMenu_Click" Height="22">
+                <MenuItem.Icon>
+                    <Image Source="/Resources/load.PNG" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem x:Name="SaveGameMenu" Header="Uložit hru" Click="SaveGameMenu_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/save.PNG" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator HorizontalAlignment="Left" Height="0" Width="140"/>
-                <MenuItem x:Name="ExitGameMenu" Header="Ukončit hru" Click="ExitGameMenu_Click"/>
+                <MenuItem x:Name="ExitGameMenu" Header="Ukončit hru" Click="ExitGameMenu_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/cross.PNG" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="Nástroje" Height="30" Width="100">
-                <MenuItem x:Name="UndoMenu" Header="Tah zpět" Height="20" Click="UndoMenu_Click"/>
-                <MenuItem x:Name="RedoMenu" Header="Tah vpřed" Height="20" Click="RedoMenu_Click"/>
+                <MenuItem x:Name="UndoMenu" Header="Tah zpět" Height="20" Click="UndoMenu_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/back.PNG" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="RedoMenu" Header="Tah vpřed" Height="20" Click="RedoMenu_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/forward.PNG" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator HorizontalAlignment="Left" Height="0" Width="140"/>
-                <MenuItem x:Name="ChangePlayerMenu" Header="Změna hráčů" Height="20" Click="ChangePlayerMenu_Click"/>
+                <MenuItem x:Name="ChangePlayerMenu" Header="Změna hráčů" Height="20" Click="ChangePlayerMenu_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/change.PNG" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="Nápověda" Height="30" Width="100">
-                <MenuItem x:Name="HelpForOneStoneMenu" IsCheckable="True" Header="Pro figurku" HorizontalAlignment="Left" Height="20" Width="155" Click="HelpForOneStoneMenu_Click"/>
+                <MenuItem x:Name="HelpForOneStoneMenu" IsChecked="True" IsCheckable="True" Header="Pro figurku" HorizontalAlignment="Left" Height="20" Width="155" Click="HelpForOneStoneMenu_Click"/>
                 <Separator HorizontalAlignment="Left" Height="0" Width="155"/>
-                <MenuItem x:Name="RulesMenu" Header="Pravidla hry" HorizontalAlignment="Left" Height="20" Width="155" Click="RulesMenu_Click"/>
-                <MenuItem x:Name="ProgramMenu" Header="O programu" HorizontalAlignment="Left" Height="20" Width="155" Click="ProgramMenu_Click"/>
+                <MenuItem x:Name="RulesMenu" Header="Pravidla hry" HorizontalAlignment="Left" Height="20" Width="155" Click="RulesMenu_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/info.PNG" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="ProgramMenu" Header="O programu" HorizontalAlignment="Left" Height="20" Width="155" Click="ProgramMenu_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/about.PNG" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
         <Border x:Name="Border" BorderBrush="SlateGray" BorderThickness="10" Margin="0,30,0,0" Height="620" VerticalAlignment="Top" HorizontalAlignment="Left" Width="620" CornerRadius="5,5,5,5">
@@ -49,13 +85,13 @@
 
         <Border BorderThickness="1,1,1,0" CornerRadius="5,5,0,0" Margin="684,188,143,445">
             <Border Background="Red" BorderBrush="Gray" CornerRadius="5">
-                <Button x:Name="PauseButton" Content="Pause" Background="Transparent" IsEnabled="False" BorderThickness="0" FontFamily="Comic Sans MS" FontSize="14" Click="PauseButton_Click"/>
+                <Button x:Name="PauseButton" Content="Stop" Background="Transparent" IsEnabled="False" BorderThickness="0" FontFamily="Comic Sans MS" FontSize="14" Click="PauseButton_Click"/>
             </Border>
         </Border>
 
         <Border BorderThickness="1,1,1,0" CornerRadius="5,5,0,0" Margin="806,188,23,445">
             <Border Background="#FF2FEA2F" BorderBrush="Gray" CornerRadius="5">
-                <Button x:Name="PlayButton" Content="Play" Background="Transparent" BorderThickness="0" FontFamily="Comic Sans MS" FontSize="14" IsEnabled="False" Click="PlayButton_Click"/>
+                <Button x:Name="PlayButton" Content="Start" Background="Transparent" BorderThickness="0" FontFamily="Comic Sans MS" FontSize="14" IsEnabled="False" Click="PlayButton_Click"/>
             </Border>
         </Border>
         <Label x:Name="GamePausedLabel" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="684,135,0,0" VerticalAlignment="Top" Width="212" Height="41"  FontFamily="Comic Sans MS" FontSize="20" IsHitTestVisible="False" FontWeight="Bold" Foreground="#FF2FEA2F"/>
