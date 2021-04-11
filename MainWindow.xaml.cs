@@ -806,18 +806,17 @@ namespace Dama_WPF
         /// <param name="e"></param>
         private void ChangePlayerMenu_Click(object sender, RoutedEventArgs e)
         {
-            stop = true;
-            bgWorker.CancelAsync();
-
+            if (GameController.HistorieTahu().Count == 0)
+            {
+                MessageBox.Show("Začátek hry.", "Hra", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
             if (!IsEndGame())
             {
                 if (IsPcPlay() || !IsPcPlay())
                 {
-                    if (GameController.HistorieTahu().Count == 0)
-                    {
-                        MessageBox.Show("Začátek hry.", "Hra", MessageBoxButton.OK, MessageBoxImage.Information);
-                        return;
-                    }
+                    stop = true;
+                    bgWorker.CancelAsync();
 
                     NewGame newGame = new NewGame();
                     newGame.OKButton.Content = "Změnit";

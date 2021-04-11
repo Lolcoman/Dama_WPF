@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dama_WPF"
         mc:Ignorable="d"
+        Icon="Resources/icon.ico"
         Title="Pravidla hry" Height="445" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
     <Grid>
-        <TextBlock Height="380" FontSize="11.6" TextWrapping="Wrap" Text="&#xD;&#xA; ■ Zajmout všechny soupeřovy kameny. &#xD;&#xA;&#xD;&#xA; ■ Hraje se na desce 8x8 polí.&#xD;&#xA; ■ Na začátku hry stojí figurky ve dvou krajních řadách.
+        <TextBlock Height="358" FontSize="11.6" TextWrapping="Wrap" Text="&#xD;&#xA; ■ Zajmout všechny soupeřovy kameny. &#xD;&#xA;&#xD;&#xA; ■ Hraje se na desce 8x8 polí.&#xD;&#xA; ■ Na začátku hry stojí figurky ve dvou krajních řadách.
                  &#xD;&#xA;
                  &#xD;&#xA; ■ Hráči se v tazích pravidelně střídají.&#xD;&#xA; ■ Hráč na tahu smí posunout svůj obyčejný kámen o jedno pole na sousední volné pole &#xD;&#xA; a to směrem vpřed, do stran nebo diagonálně vpřed. Nesmí diagonálně ani ortogonálně vzad.
                  &#xD;&#xA; ■ Obyčejný kámen může také zajmout přeskočením kámen soupeře.&#xD;&#xA; ■ Soupeřův kámen musí ležet na sousedním poli, bezprostředně za tímto kamenem musí být volné pole.
@@ -32,5 +33,7 @@
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="PRAVIDLA HRY:" VerticalAlignment="Top" Height="18" Width="114" FontWeight="Bold" Margin="0,78,0,0"/>
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="KONEC HRY:" VerticalAlignment="Top" Height="18" Width="114" FontWeight="Bold" Margin="0,310,0,0"/>
         <Image HorizontalAlignment="Left" Height="226" Margin="572,5,0,0" VerticalAlignment="Top" Width="221" Source="/Resources/chessboard.PNG"/>
+        <Separator HorizontalAlignment="Left" Height="100" Margin="0,310,0,0" VerticalAlignment="Top" Width="794"/>
+        <Separator HorizontalAlignment="Left" Height="100" Margin="0,-49,0,0" VerticalAlignment="Top" Width="794"/>
     </Grid>
 </Window>

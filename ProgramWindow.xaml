@@ -5,32 +5,63 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dama_WPF"
         mc:Ignorable="d"
+        Icon="Resources/icon.ico"
         Title="ProgramWindow" Height="450" Width="800" WindowStartupLocation="CenterOwner">
-
     <Grid>
-        <TextBlock Height="380" FontSize="12" TextWrapping="Wrap" Text="OVLÁDÁNÍ DESKY: &#xD;&#xA; ■ Hraje se klikáním na hrací desku. &#xD;&#xA; ■ Tah se provádí vždy dvojklikem na herní desku, tj. prvním klikem vyberu figurku a druhým kam chci táhnout.
+        <TextBlock Height="337" FontSize="12" TextWrapping="Wrap" Text="&#xD;&#xA; ■ Hraje se klikáním na hrací desku. &#xD;&#xA; ■ Tah se provádí vždy dvojklikem na herní desku, tj. prvním klikem vyberu figurku a druhým kam chci táhnout.
                  &#xD;&#xA; ■ Pokud je zadáno špatně celý tah se musí opakovat od začátku.
-                 &#xD;&#xA;&#xD;&#xA;OVLÁDÁNÍ HRY:
+                   &#xD;&#xA;
                  &#xD;&#xA; ■ Při vytvoření hry je možné vybrat ze 4 obtížností PC hráče, od nejlehčí až po nejtěžší.
                  &#xD;&#xA; ■ Pokud táhne člověk, není nutné zmáčknout 'Play'!.
                  &#xD;&#xA; ■ Hru je možné uložit a později také načíst.
                  &#xD;&#xA; ■ Není dovoleno modifikovat uložený soubor, hra nebude načtena.
                  &#xD;&#xA; ■ Při hře dvou PC hráčů je možné hru zastavit a také udělat tah zpět/vpřed, poté je nutné stiknout 'Play'.
-                 &#xD;&#xA;&#xD;&#xA;NÁSTROJE HRY: 
+                 &#xD;&#xA;
                  &#xD;&#xA; ■ Je možno udělat tah zpět, tah vpřed (i PC hráče).
                  &#xD;&#xA; ■ Pokud je zahrán tah zpět hra se zastaví a rozsvítí se zelené tlačítko 'Play', které je nutné zmáčknout pro pokračování ve hře.
-                 &#xD;&#xA;  
-                 &#xD;&#xA;NÁPOVĚDA HRY:
+                 &#xD;&#xA;
                  &#xD;&#xA; ■ Je zobrazen hráč na tahu, počet kol, počet tahů bez skoku a výpis historie.
                  &#xD;&#xA; ■ Červeně podbarvené tahy v historii tahů jsou skoky.
                  &#xD;&#xA; ■ Je možno zapnout nápovědu pro vybranou figruku v panelu 'Nápověda'.
                  &#xD;&#xA; ■ Nápověda obsahuje pravidla hry 'Gotická dáma'.
                  &#xD;&#xA; ■ Nápověda obsahuje ovládní aplikace."
-                 VerticalAlignment="Top"/>
+                 VerticalAlignment="Top" Margin="0,0,233,0"/>
         <Border BorderThickness="1,1,1,0" CornerRadius="5,5,0,0" Margin="367,372,367,0" RenderTransformOrigin="0.5,0.5" Height="26" VerticalAlignment="Top">
             <Border Background="#FFFB4B4B" BorderBrush="Gray" CornerRadius="5">
                 <Button x:Name="CloseButton" Content="Zavřít" Background="Transparent" BorderThickness="0" FontFamily="Comic Sans MS" FontSize="13" Click="CloseButton_Click"/>
             </Border>
         </Border>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="OVLÁDÁNÍ DESKY:" VerticalAlignment="Top" FontWeight="Bold"/>
+        <TextBlock HorizontalAlignment="Left" Margin="0,79,0,0" TextWrapping="Wrap" Text="OVLÁDÁNÍ HRY:" VerticalAlignment="Top" FontWeight="Bold"/>
+        <TextBlock HorizontalAlignment="Left" Margin="0,239,0,0" TextWrapping="Wrap" Text="NÁPOVĚDA HRY:" VerticalAlignment="Top" FontWeight="Bold"/>
+        <TextBlock HorizontalAlignment="Left" Margin="0,177,0,0" TextWrapping="Wrap" Text="NÁSTROJE HRY:" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Separator HorizontalAlignment="Left" Height="100" Margin="391,120,0,0" VerticalAlignment="Top" Width="338" RenderTransformOrigin="0.5,0.5">
+            <Separator.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Separator.RenderTransform>
+        </Separator>
+        <Separator HorizontalAlignment="Left" Height="100" Margin="0,288,0,0" VerticalAlignment="Top" Width="792"/>
+        <Separator HorizontalAlignment="Left" Height="100" Margin="0,-50,0,0" VerticalAlignment="Top" Width="792"/>
+        <TextBlock Width="228" HorizontalAlignment="Left" Margin="564,164,0,170" TextWrapping="Wrap">
+            Aplikace je zpracována jako ročníkový projekt předmětu
+            <Hyperlink NavigateUri="https://www.inf.upol.cz/projektovy-seminar" RequestNavigate="Hyperlink_RequestNavigate">
+                KMI/YPS.
+            </Hyperlink>
+            Jedná se o hru Gotická dáma. Aplikace byla vivinuta pomocí technologie WPF ve .NET Framework, jazyk C#.
+        </TextBlock>
+        <Image HorizontalAlignment="Left" Height="135" Margin="613,24,0,0" VerticalAlignment="Top" Width="140" Source="Resources/UP.png"/>
+        <TextBlock HorizontalAlignment="Left" Margin="564,254,0,0" TextWrapping="Wrap" Text="Autor: Michael Kozák" VerticalAlignment="Top"/>
+        <TextBlock Width="228" HorizontalAlignment="Left" Margin="564,270,0,0" TextWrapping="Wrap">
+            Vedoucí práce:
+            <Hyperlink NavigateUri="https://www.inf.upol.cz/lide/tomas-kuhr" RequestNavigate="Hyperlink_RequestNavigate">
+                Mgr. Tomáš Kühr, Ph.D.
+            </Hyperlink>
+        </TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="564,286,0,0" TextWrapping="Wrap" Text="Rok vytvoření: 2021" VerticalAlignment="Top"/>
     </Grid>
 </Window>
