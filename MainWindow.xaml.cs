@@ -27,11 +27,11 @@ namespace Dama_WPF
     {
         GameController GameController = new GameController();
         BackgroundWorker bgWorker = new BackgroundWorker();
-        private bool IsSelected = false;
-        private bool IsPossible = true;
-        //private bool IsGameStop = false;
-        private bool stop = false;
-        private bool pcCalculating = false;
+        private bool IsSelected = false; //bool vybrané figurku
+        private bool IsPossible = true; //bool možného tahu
+        private bool IsGameStop = false; //bool stopnuté hry
+        private bool IsPcCalculating = false; //bool zda počítač vypočítává tah
+        private bool IsDoingMove = false; //bool zda se provádí tah
         Ellipse SelectFigure = new Ellipse();
         private int round = 0;
 
@@ -60,7 +60,7 @@ namespace Dama_WPF
         /// <param name="e"></param>
         private void BgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            pcCalculating = false;
+            IsPcCalculating = false;
             ShowBoard(); //vykreslí desku
             HistorieTahu(); //vykreslí historii tahů
             PlayerOnMove(); //vypíše hráče na tahu
@@ -72,7 +72,7 @@ namespace Dama_WPF
             }
             PauseButton.IsEnabled = true; //objeví se možnost pause buttonu
 
-            if (stop) //pokud je hra zastavena
+            if (IsGameStop) //pokud je hra zastavena
             {
                 GamePausedLabel.Content = "HRA ZASTAVENA";
                 GamePausedLabel.Foreground = new SolidColorBrush(Colors.Red);
@@ -80,7 +80,7 @@ namespace Dama_WPF
                 PauseButton.IsEnabled = false; //pause button zmizí
             }
 
-            if (IsPcPlay() && !IsEndGame() && !stop) //pokud hraje pc, pokud není konec hry a pokud není hra zastavena, tak se pokračuje 
+            if (IsPcPlay() && !IsEndGame() && !IsGameStop) //pokud hraje pc, pokud není konec hry a pokud není hra zastavena, tak se pokračuje 
             {
                 bgWorker.RunWorkerAsync();
             }
@@ -94,12 +94,12 @@ namespace Dama_WPF
         {
             BackgroundWorker bw = sender as BackgroundWorker;
 
-            pcCalculating = true;
+            IsPcCalculating = true;
             if (IsEndGame()) //pokud je konec hry tak se vrátí
             {
                 return;
             }
-            if (stop) //pokud je hra pozastavena
+            if (IsGameStop) //pokud je hra pozastavena
             {
                 bgWorker.CancelAsync(); //zruší další výpočet vlákna
             }
@@ -234,8 +234,8 @@ namespace Dama_WPF
                 HistorieTahu(); //výpis historie
                 PlayerOnMove(); //výpis hráče na tahu
                 ShowBoard(); //vykreslení desky
-                stop = false; //hra není pozastavena
-                pcCalculating = false;
+                IsGameStop = false; //hra není pozastavena
+                IsPcCalculating = false;
                 PlayButton.IsEnabled = false; //playbutton zmizí
                 GamePausedLabel.Content = "";
             }
@@ -459,9 +459,9 @@ namespace Dama_WPF
         /// <param name="e"></param>
         private void BoardCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (!pcCalculating)
+            if (!IsPcCalculating)
             {
-                if (!stop) //nelze klikat na Canvas pokud PC provádí výpočet!!
+                if (!IsGameStop) //nelze klikat na Canvas pokud PC provádí výpočet!!
                 {
                     if (IsEndGame()) //pokud je konec hry vrátí se
                     {
@@ -527,9 +527,10 @@ namespace Dama_WPF
                             //GameController.WithoutJump(plnyPohyb);
                             GameController.MakeMove(plnyPohyb, true, false); //provedení TAHU
                             ShowBoard(); //překreslení desky
-                            if (GameController.ListTahu().Any())
+                            if (GameController.ListTahu().Any()) //ověření pro multi-skok
                             {
                                 IsSelected = false;
+                                IsDoingMove = true;
                                 return;
                             }
                             //GameController.MakeMove(plnyPohyb, true, false);
@@ -641,28 +642,34 @@ namespace Dama_WPF
         /// <param name="e"></param>
         private void UndoMenu_Click(object sender, RoutedEventArgs e)
         {
-            if (!pcCalculating)
+            if (!IsDoingMove) //nelze pokud uživatel nedokončil tah
             {
-                if (GameController.HistorieTahu().Count > 0)
+                if (!IsPcCalculating) //nelze pokud táhne PC
                 {
-                    stop = true;
-                    //IsGameStop = true;
-                    PlayButton.IsEnabled = true;
-                    GamePausedLabel.Content = "HRA ZASTAVENA";
-                    GamePausedLabel.Foreground = new SolidColorBrush(Colors.Red);
-                    GameController.UndoMove();
-                    ShowBoard();
-                    PlayerOnMove();
-                    Rounds();
-                    if (IsPcPlay())
+                    if (GameController.HistorieTahu().Count > 0) //historie musí obsahovat tah
                     {
-                        bgWorker.RunWorkerAsync();
+                        IsGameStop = true;
+                        PlayButton.IsEnabled = true;
+                        GamePausedLabel.Content = "HRA ZASTAVENA";
+                        GamePausedLabel.Foreground = new SolidColorBrush(Colors.Red);
+                        GameController.UndoMove();
+                        ShowBoard();
+                        PlayerOnMove();
+                        Rounds();
+                        if (IsPcPlay()) //pokud je hráč pc, tak se zavolá
+                        {
+                            bgWorker.RunWorkerAsync();
+                        }
                     }
+                }
+                else
+                {
+                    MessageBox.Show("PC provádí tah!", "Hra", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             else
             {
-                MessageBox.Show("PC provádí tah!", "Hra", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Dokonči tah!", "Hra", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
         /// <summary>
@@ -708,7 +715,7 @@ namespace Dama_WPF
             saveFile.Filter = "Soubory s uloženou hrou|*.txt";
             saveFile.Title = "Uložit hru";
             saveFile.FileName = "Uložená hra";
-            if (saveFile.ShowDialog() == true)
+            if (saveFile.ShowDialog() == true) //pokud bylo zvoleno bez chyb
             {
                 if (GameController.SaveGame(saveFile.FileName,GameController.player1, GameController.player2, GameController.HistorieTahu()))
                 {
@@ -733,7 +740,7 @@ namespace Dama_WPF
         /// Ověření zda hra skončila
         /// </summary>
         /// <returns></returns>
-        public bool IsEndGame()
+        public bool IsEndGame() //pokud hra skončila 
         {
             if (GameController.IsGameFinished())
             {
@@ -749,7 +756,6 @@ namespace Dama_WPF
         /// <param name="e"></param>
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            //IsGameStop = false;
             PlayButton.IsEnabled = false;
             GameController.ClearHistoryFromToEnd();
             GamePausedLabel.Content = "";
@@ -761,12 +767,11 @@ namespace Dama_WPF
                 bgWorker.RunWorkerAsync();
             }
 
-            if (stop)
+            if (IsGameStop)
             {
-                stop = false;
+                IsGameStop = false;
                 GamePausedLabel.Content = "";
                 GamePausedLabel.Foreground = new SolidColorBrush(Color.FromRgb(47, 234, 47));
-                //bgWorker.RunWorkerAsync();
             }
         }
         /// <summary>
@@ -776,9 +781,8 @@ namespace Dama_WPF
         /// <param name="e"></param>
         private void PauseButton_Click(object sender, RoutedEventArgs e)
         {
-            bgWorker.CancelAsync();
-            stop = true;
-            //IsGameStop = true;
+            bgWorker.CancelAsync(); //zruší se výpočet PC
+            IsGameStop = true;
             GamePausedLabel.Content = "HRA ZASTAVENA";
             GamePausedLabel.Foreground = new SolidColorBrush(Colors.Red);
             PlayButton.IsEnabled = true;
@@ -821,7 +825,7 @@ namespace Dama_WPF
             {
                 if (IsPcPlay() || !IsPcPlay())
                 {
-                    stop = true;
+                    IsGameStop = true;
                     bgWorker.CancelAsync();
 
                     NewGame newGame = new NewGame();
@@ -840,7 +844,7 @@ namespace Dama_WPF
                     bgWorker.CancelAsync();
                     if (IsPcPlay()) //ověření zda byl vybrán PC
                     {
-                        stop = false;
+                        IsGameStop = false;
                         PauseButton.IsEnabled = true;
                         bgWorker.RunWorkerAsync();
                     }
@@ -853,7 +857,7 @@ namespace Dama_WPF
                 if (!IsPcPlay())
                 {
                     PlayButton.IsEnabled = false;
-                    stop = false;
+                    IsGameStop = false;
                 }
             }
             else
