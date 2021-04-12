@@ -6,7 +6,7 @@
         Icon="Resources/icon.ico"
         xmlns:local="clr-namespace:Dama_WPF"
         mc:Ignorable="d"
-        Title="Gotická dáma" Height="715" Width="925"  ResizeMode="NoResize" FontFamily="Comic Sans MS">
+        Title="Gotická dáma" Height="715" Width="925"  ResizeMode="NoResize" FontFamily="Comic Sans MS" WindowStartupLocation="CenterScreen">
     <Grid>
         <Menu Height="30" VerticalAlignment="Top" FontFamily="Comic Sans MS">
             <MenuItem Header="Hra" Height="30" Width="100">

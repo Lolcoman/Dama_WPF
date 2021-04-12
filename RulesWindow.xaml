@@ -23,8 +23,8 @@
                  &#xD;&#xA; ■ Hráč, který zajme všechny soupeřovy kameny vyhrává.
                  &#xD;&#xA; ■ Pokud po 30 tahů není zajat žádný kámen, vyhrává hráč, kterému zbývá více kamenů." VerticalAlignment="Top"/>
         <Border BorderThickness="1,1,1,0" CornerRadius="5,5,0,0" Margin="368,380,366,0" RenderTransformOrigin="0.5,0.5" Height="26" VerticalAlignment="Top">
-            <Border Background="#FFFB4B4B" BorderBrush="Gray" CornerRadius="5" Margin="1,0,-1,0">
-                <Button x:Name="CloseButton" Content="Zavřít" Background="Transparent" BorderThickness="0" FontFamily="Comic Sans MS" FontSize="13" Click="CloseButton_Click"/>
+            <Border Background="Transparent" BorderThickness="1" BorderBrush="Gray" CornerRadius="5" Margin="1,0,-1,0">
+                <Button x:Name="CloseButton" Content="Zavřít" Background="Transparent" Foreground="Red" BorderThickness="0" FontFamily="Comic Sans MS" FontSize="13" Click="CloseButton_Click"/>
             </Border>
         </Border>
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="CÍL HRY:" VerticalAlignment="Top" Height="18" Width="52" FontWeight="Bold"/>

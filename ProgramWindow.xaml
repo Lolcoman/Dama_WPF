@@ -25,8 +25,8 @@
                  &#xD;&#xA; ■ Je možno vypnout nápovědu pro vybranou figruku v panelu 'Nápověda'.
                  &#xD;&#xA; ■ Nápověda obsahuje pravidla hry 'Gotická dáma' a ovládání aplikace." Height="338" VerticalAlignment="Top" HorizontalAlignment="Left" Width="601"/>
         <Border BorderThickness="1,1,1,0" CornerRadius="5,5,0,0" Margin="367,370,367,0" RenderTransformOrigin="0.5,0.5" Height="26" VerticalAlignment="Top">
-            <Border Background="#FFFB4B4B" BorderBrush="Gray" CornerRadius="5">
-                <Button x:Name="CloseButton" Content="Zavřít" Background="Transparent" BorderThickness="0" FontFamily="Comic Sans MS" FontSize="13" Click="CloseButton_Click"/>
+            <Border Background="Transparent" BorderBrush="Gray" BorderThickness="1" CornerRadius="5">
+                <Button x:Name="CloseButton" Content="Zavřít" Background="Transparent" Foreground="Red" BorderThickness="0" FontFamily="Comic Sans MS" FontSize="13" Click="CloseButton_Click"/>
             </Border>
         </Border>
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="OVLÁDÁNÍ DESKY:" FontWeight="Bold" Margin="4,1,0,0" Height="16" VerticalAlignment="Top"/>
@@ -45,17 +45,19 @@
         </Separator>
         <Separator HorizontalAlignment="Right" Margin="0,338,0,0" Width="822" Height="1" VerticalAlignment="Top"/>
         <Separator HorizontalAlignment="Right" Margin="0" Width="822" Height="1" VerticalAlignment="Top"/>
-        <TextBlock Width="99" HorizontalAlignment="Left" Margin="606,163,0,0" TextWrapping="Wrap" Height="15" VerticalAlignment="Top">
+        <TextBlock Width="99" HorizontalAlignment="Left" Margin="606,197,0,0" TextWrapping="Wrap" Height="15" VerticalAlignment="Top">
             Předmět:
             <Hyperlink NavigateUri="https://www.inf.upol.cz/projektovy-seminar" RequestNavigate="Hyperlink_RequestNavigate">
                 KMI/YPS
             </Hyperlink>
         </TextBlock>
-        <Image HorizontalAlignment="Left" Height="128" Margin="606,6,0,0" VerticalAlignment="Top" Width="129" Source="Resources/UP.png"/>
+        <Image HorizontalAlignment="Left" Height="128" Margin="649,43,0,0" VerticalAlignment="Top" Width="129" Source="Resources/UP.png"/>
         <TextBlock HorizontalAlignment="Left" Margin="699,304,0,0" TextWrapping="Wrap" Text="Autor: Michael Kozák" VerticalAlignment="Top" Width="113"/>
         <TextBlock HorizontalAlignment="Left" Margin="699,320,0,0" TextWrapping="Wrap" Text="Rok vytvoření: 2021" VerticalAlignment="Top" Width="113"/>
-        <TextBlock HorizontalAlignment="Left" Margin="606,186,0,0" TextWrapping="Wrap" Text="Jazyk: C# " VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="606,207,-2,0" TextWrapping="Wrap" Text="Technologie: Windows Presentation Foundation (WPF), .NET Framework " VerticalAlignment="Top" Width="218"/>
+        <TextBlock HorizontalAlignment="Left" Margin="606,217,0,0" TextWrapping="Wrap" Text="Jazyk: C# " VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="606,238,0,0" TextWrapping="Wrap" Text="Technologie: Windows Presentation Foundation (WPF), .NET Framework " VerticalAlignment="Top" Width="218"/>
+        <TextBlock HorizontalAlignment="Left" Margin="606,176,0,0" TextWrapping="Wrap" Text="Hra: Gotická dáma" VerticalAlignment="Top" Width="99"/>
+        <TextBlock Margin="649,17,0,0" TextWrapping="Wrap" Text="Projektový seminář" VerticalAlignment="Top" Width="129" FontWeight="Bold" HorizontalAlignment="Left" Padding="10,0,0,0"/>
 
     </Grid>
 </Window>
