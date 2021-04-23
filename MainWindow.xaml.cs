@@ -149,6 +149,7 @@ namespace Dama_WPF
         /// </summary>
         public void HistorieTahu()
         {
+            int number = 1;
             HistorieList.Items.Clear(); //vymaže se list
             foreach (int[] move in GameController.HistorieTahu()) //každý tah se vypíše v historii
             {
@@ -159,7 +160,10 @@ namespace Dama_WPF
                     text.Background = new SolidColorBrush(Color.FromArgb(100, 255, 0, 0));
                 }
                 text.FontFamily = new FontFamily("Comic Sans MS");
-                text.Text = tah;
+                string numberStr = number.ToString();
+                text.Inlines.Add(new Run(numberStr + ". ") { FontWeight = FontWeights.Bold, FontSize = 13, Foreground = new SolidColorBrush(Colors.Red) });
+                text.Inlines.Add(tah);
+                number++;
                 //HistorieList.Items.Add(text);
                 HistorieList.Items.Insert(0, text); //poslední tah bude nahoře
             }
