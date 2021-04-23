@@ -221,6 +221,13 @@ namespace Dama_WPF
         {
             NewGame newGame = new NewGame();
             newGame.Owner = this; //hlavní okno je vlastníkem tohoto okna
+            //Zobrazení aktuálního nastavení hráčů ve hře
+            newGame.WHuman.IsChecked = GameController.player1 == 0;
+            newGame.WPC.IsChecked = GameController.player1 > 0;
+            newGame.WsliderPC.Value = GameController.player1;
+            newGame.BHuman.IsChecked = GameController.player2 == 0;
+            newGame.BPC.IsChecked = GameController.player2 > 0;
+            newGame.BsliderPC.Value = GameController.player2;
             newGame.ShowDialog(); //zobrazí se okno
             if (newGame.IsCreated)
             {
@@ -529,7 +536,8 @@ namespace Dama_WPF
                             pohyb = Spoj(prvniCast, druhaCast); //spojení a vytvoření tahu
                             plnyPohyb = GameController.FullMove(pohyb); //převod na plný pohyb
                             //GameController.WithoutJump(plnyPohyb);
-                            GameController.MakeMove(plnyPohyb, true, false); //provedení TAHU
+                            GameController.MakeMove(plnyPohyb, true, false); //provedení TAHU!!!!!
+                            IsDoingMove = false;
                             ShowBoard(); //překreslení desky
                             if (GameController.ListTahu().Any()) //ověření pro multi-skok
                             {
@@ -673,7 +681,7 @@ namespace Dama_WPF
             }
             else
             {
-                MessageBox.Show("Dokonči tah!", "Hra", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Nejprve dokonči tah!", "Hra", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
         /// <summary>
