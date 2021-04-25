@@ -52,6 +52,8 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Nápověda" Height="30" Width="100">
+                <MenuItem Header="Nejlepší tah" HorizontalAlignment="Left" Height="20" Width="155" Click="MenuItem_Click"/>
+                <Separator HorizontalAlignment="Left" Height="0" Width="155"/>
                 <MenuItem x:Name="HelpForOneStoneMenu" IsChecked="True" IsCheckable="True" Header="Pro figurku" HorizontalAlignment="Left" Height="20" Width="155" Click="HelpForOneStoneMenu_Click"/>
                 <Separator HorizontalAlignment="Left" Height="0" Width="155"/>
                 <MenuItem x:Name="RulesMenu" Header="Pravidla hry" HorizontalAlignment="Left" Height="20" Width="155" Click="RulesMenu_Click">

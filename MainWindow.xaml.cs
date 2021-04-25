@@ -877,5 +877,11 @@ namespace Dama_WPF
                 return;
             }
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            int[] bestMove = GameController.BestMove(bgWorker);
+            MessageBox.Show(GameController.HistorieNaString(bestMove));
+        }
     }
 }

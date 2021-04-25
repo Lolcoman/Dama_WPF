@@ -312,5 +312,11 @@ namespace Dama_WPF
         {
             return rules.ListMove;
         }
+
+        public int[] BestMove(BackgroundWorker bw)
+        {
+            brain = new Brain(board, rules, bw);
+            return brain.GetBestMove(100);
+        }
     }
 }
