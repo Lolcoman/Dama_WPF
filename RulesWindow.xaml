@@ -6,33 +6,31 @@
         xmlns:local="clr-namespace:Dama_WPF"
         mc:Ignorable="d"
         Icon="Resources/icon.ico"
-        Title="Pravidla hry" Height="460" Width="830" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+        Title="Pravidla hry" Height="520" Width="950" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
     <Grid>
-        <TextBlock Height="358" FontSize="11.6" TextWrapping="Wrap" Text="&#xD;&#xA; ■ Zajmout všechny soupeřovy kameny. &#xD;&#xA;&#xD;&#xA; ■ Hraje se na desce 8x8 polí.&#xD;&#xA; ■ Na začátku hry stojí figurky ve dvou krajních řadách.
+        <TextBlock Height="433" FontSize="14.4" TextWrapping="Wrap" Text="&#xD;&#xA; - Zajmout všechny soupeřovy kameny. &#xD;&#xA;&#xD;&#xA; - Hraje se na desce 8x8 polí.&#xD;&#xA; - Na začátku hry stojí figurky ve dvou krajních řadách.
                  &#xD;&#xA;
-                 &#xD;&#xA; ■ Hráči se v tazích pravidelně střídají.&#xD;&#xA; ■ Hráč na tahu smí posunout svůj obyčejný kámen o jedno pole na sousední volné pole, &#xD;&#xA; a to směrem vpřed, do stran nebo diagonálně vpřed. Nesmí diagonálně ani ortogonálně vzad.
-                 &#xD;&#xA; ■ Obyčejný kámen může také přeskočením zajmout soupeřův kámen.&#xD;&#xA; ■ Soupeřův kámen musí ležet na sousedním poli, bezprostředně za tímto kamenem musí být volné pole.
-                 &#xD;&#xA; ■ Kámen je při realizaci skoku přemístěn na toto volné pole, přeskočený soupeřův kámen je odstraněn z desky.
-                 &#xD;&#xA; ■ Obyčejný kámen smí skákat pouze vpřed, diagonálně vpřed a do stran.
-                 &#xD;&#xA; ■ Vícenásobné skoky jsou dovoleny.
-                 &#xD;&#xA; ■ Pokud obyčejný kámen ukončí svůj tah v poslední řadě na protější straně desky, je povýšen na dámu.
-                 &#xD;&#xA; ■ Dáma se smí pohybovat všemy směry (i vzad) o libovolný počet volných polí.
-                 &#xD;&#xA; ■ Dáma může zajímat kámen soupeře přeskočením, přičemž může přeskočit libovolný počet volných polí před kamenem, zajímaný kámen a libovolný počet volných polí za tímto kamenem (podobně jako v klasické dámě).
-                 &#xD;&#xA; ■ Zajímání soupeřových kamenů je povinné a hráč musí zajmout co nejvíce kamenů, pokud má více možností jak skákat.
+                 &#xD;&#xA; - Hráči se v tazích pravidelně střídají.&#xD;&#xA; - Hráč na tahu smí posunout svůj obyčejný kámen o jedno pole na sousední volné pole, &#xD;&#xA; a to směrem vpřed, do stran nebo diagonálně vpřed. Nesmí diagonálně ani ortogonálně vzad.
+                 &#xD;&#xA; - Obyčejný kámen může také přeskočením zajmout soupeřův kámen.&#xD;&#xA; - Soupeřův kámen musí ležet na sousedním poli, bezprostředně za tímto kamenem musí být volné pole.
+                 &#xD;&#xA; - Kámen je při realizaci skoku přemístěn na toto volné pole, přeskočený soupeřův kámen je odstraněn z desky.
+                 &#xD;&#xA; - Obyčejný kámen smí skákat pouze vpřed, diagonálně vpřed a do stran.
+                 &#xD;&#xA; - Vícenásobné skoky jsou dovoleny.
+                 &#xD;&#xA; - Pokud obyčejný kámen ukončí svůj tah v poslední řadě na protější straně desky, je povýšen na dámu.
+                 &#xD;&#xA; - Dáma se smí pohybovat všemy směry (i vzad) o libovolný počet volných polí.
+                 &#xD;&#xA; - Dáma může zajímat kámen soupeře přeskočením, přičemž může přeskočit libovolný počet volných polí před kamenem, zajímaný kámen a libovolný počet volných polí za tímto kamenem (podobně jako v klasické dámě).
+                 &#xD;&#xA; - Zajímání soupeřových kamenů je povinné a hráč musí zajmout co nejvíce kamenů, pokud má více možností jak skákat.
                  &#xD;&#xA;
-                 &#xD;&#xA; ■ Hráč, který zajme všechny soupeřovy kameny vyhrává.
-                 &#xD;&#xA; ■ Pokud po 30 tahů není zajat žádný kámen, vyhrává hráč, kterému zbývá více kamenů." VerticalAlignment="Top"/>
-        <Border BorderThickness="1,1,1,0" CornerRadius="5,5,0,0" Margin="368,380,366,0" RenderTransformOrigin="0.5,0.5" Height="26" VerticalAlignment="Top">
-            <Border Background="Transparent" BorderThickness="1" BorderBrush="Gray" CornerRadius="5" Margin="1,0,-1,0">
-                <Button x:Name="CloseButton" Content="Zavřít" Background="Transparent" Foreground="Red" BorderThickness="0" FontFamily="Comic Sans MS" FontSize="13" Click="CloseButton_Click"/>
-            </Border>
-        </Border>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="CÍL HRY:" VerticalAlignment="Top" Height="18" Width="52" FontWeight="Bold"/>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="VÝCHOZÍ SITUACE:" VerticalAlignment="Top" Height="18" Width="114" FontWeight="Bold" Margin="0,33,0,0"/>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="PRAVIDLA HRY:" VerticalAlignment="Top" Height="18" Width="114" FontWeight="Bold" Margin="0,78,0,0"/>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="KONEC HRY:" VerticalAlignment="Top" Height="18" Width="114" FontWeight="Bold" Margin="0,294,0,0"/>
-        <Image HorizontalAlignment="Left" Height="249" Margin="572,5,0,0" VerticalAlignment="Top" Width="242" Source="/Resources/chessboard.PNG"/>
-        <Separator HorizontalAlignment="Left" Height="1" Margin="0,358,0,0" VerticalAlignment="Top" Width="824"/>
+                 &#xD;&#xA; - Hráč, který zajme všechny soupeřovy kameny vyhrává.
+                 &#xD;&#xA; - Pokud po 30 tahů není zajat žádný kámen, vyhrává hráč, kterému zbývá více kamenů." VerticalAlignment="Top"/>
+
+        <Button x:Name="CloseButton" Content="Zavřít" Background="Transparent" BorderThickness="1" FontFamily="Comic Sans MS" FontSize="13" Click="CloseButton_Click" Margin="425,0,425,10" Height="27" VerticalAlignment="Bottom"/>
+
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="CÍL HRY:" VerticalAlignment="Top" Height="18" Width="52" FontWeight="Bold" Margin="10,5,0,0"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="VÝCHOZÍ SITUACE:" VerticalAlignment="Top" Height="18" Width="114" FontWeight="Bold" Margin="10,44,0,0"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="PRAVIDLA HRY:" VerticalAlignment="Top" Height="18" Width="114" FontWeight="Bold" Margin="10,100,0,0"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="KONEC HRY:" VerticalAlignment="Top" Height="18" Width="114" FontWeight="Bold" Margin="10,366,0,0"/>
+        <Image HorizontalAlignment="Left" Height="240" Margin="706,10,0,0" VerticalAlignment="Top" Width="228" Source="/Resources/chessboard.PNG"/>
+        <Separator HorizontalAlignment="Left" Height="1" Margin="0,432,0,0" VerticalAlignment="Top" Width="944"/>
         <Separator HorizontalAlignment="Left" Height="1" Margin="0,-1,0,0" VerticalAlignment="Top" Width="824"/>
     </Grid>
 </Window>
