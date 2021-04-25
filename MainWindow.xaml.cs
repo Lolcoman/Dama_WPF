@@ -34,6 +34,8 @@ namespace Dama_WPF
         private bool IsDoingMove = false; //bool zda se provádí tah
         Ellipse SelectFigure = new Ellipse();
         private int round = 0;
+        private int[] bestMove;
+        private bool IsHelp = false;
 
 
         public MainWindow()
@@ -60,6 +62,12 @@ namespace Dama_WPF
         /// <param name="e"></param>
         private void BgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            if (IsHelp)
+            {
+                MessageBox.Show("Nejlepší tah je: " + GameController.HistorieNaString(bestMove));
+                IsHelp = false;
+                return;
+            }
             IsPcCalculating = false;
             ShowBoard(); //vykreslí desku
             HistorieTahu(); //vykreslí historii tahů
@@ -93,26 +101,34 @@ namespace Dama_WPF
         private void BgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker bw = sender as BackgroundWorker;
-
-            IsPcCalculating = true;
-            if (IsEndGame()) //pokud je konec hry tak se vrátí
+            if (!IsHelp)
             {
-                return;
-            }
-            if (IsGameStop) //pokud je hra pozastavena
-            {
-                bgWorker.CancelAsync(); //zruší další výpočet vlákna
+                IsPcCalculating = true;
+                if (IsEndGame()) //pokud je konec hry tak se vrátí
+                {
+                    return;
+                }
+                if (IsGameStop) //pokud je hra pozastavena
+                {
+                    bgWorker.CancelAsync(); //zruší další výpočet vlákna
+                }
             }
 
             if (!bgWorker.CancellationPending) //pokud nebylo zavoláno přerušení vlákna tak se pokračuje
             {
-                GameController.PcPlayer( bw );
+                if (IsHelp)
+                {
+                    bestMove = GameController.BestMove(bgWorker);
+                    return;
+                }
+                GameController.PcPlayer(bw);
             }
             else
             {
                 e.Cancel = true; //výpočet se zruší
                 return;
             }
+
         }
         /// <summary>
         /// Metoda volá PC hráče ve BGworkeru
@@ -470,7 +486,7 @@ namespace Dama_WPF
         /// <param name="e"></param>
         private void BoardCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (!IsPcCalculating)
+            if (!IsPcCalculating && !IsHelp)
             {
                 if (!IsGameStop) //nelze klikat na Canvas pokud PC provádí výpočet!!
                 {
@@ -578,7 +594,7 @@ namespace Dama_WPF
             }
             else
             {
-                MessageBox.Show("PC provádí tah!", "Hra", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Provádí se výpočet!", "Hra", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
 
         }
@@ -880,8 +896,9 @@ namespace Dama_WPF
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            int[] bestMove = GameController.BestMove(bgWorker);
-            MessageBox.Show(GameController.HistorieNaString(bestMove));
+            IsHelp = true;
+            PauseButton.IsEnabled = true;
+            bgWorker.RunWorkerAsync();
         }
     }
 }

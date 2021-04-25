@@ -316,7 +316,8 @@ namespace Dama_WPF
         public int[] BestMove(BackgroundWorker bw)
         {
             brain = new Brain(board, rules, bw);
-            return brain.GetBestMove(100);
+            //bw.RunWorkerAsync();
+            return brain.GetBestMove(4);
         }
     }
 }
