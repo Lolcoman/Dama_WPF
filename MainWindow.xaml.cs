@@ -37,7 +37,6 @@ namespace Dama_WPF
         private int[] bestMove;
         private bool IsHelp = false;
 
-
         public MainWindow()
         {
             InitializeComponent();
@@ -62,6 +61,10 @@ namespace Dama_WPF
         /// <param name="e"></param>
         private void BgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            if (e.Cancelled)
+            {
+                return;
+            }
             if (IsHelp)
             {
                 MessageBox.Show("Nejlepší tah je: " + GameController.HistorieNaString(bestMove));
