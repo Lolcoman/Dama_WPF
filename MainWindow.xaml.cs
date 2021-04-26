@@ -70,7 +70,7 @@ namespace Dama_WPF
             }
             if (IsHelp)
             {
-                MessageBox.Show("Nejlepší tah je: " + GameController.HistorieNaString(bestMove));
+                MessageBox.Show(GameController.HistorieNaString(bestMove), "Nejlepší tah", MessageBoxButton.OK, MessageBoxImage.Information);
                 IsHelp = false;
                 PauseButton.IsEnabled = false;
                 return;
