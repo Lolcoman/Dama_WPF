@@ -44,19 +44,19 @@
         </Separator>
         <Separator HorizontalAlignment="Right" Margin="0,396,0,0" Width="864" Height="1" VerticalAlignment="Top"/>
         <Separator HorizontalAlignment="Right" Margin="0" Width="864" Height="1" VerticalAlignment="Top"/>
-        <TextBlock Width="99" HorizontalAlignment="Left" Margin="705,192,0,0" TextWrapping="Wrap" Height="15" VerticalAlignment="Top">
+        <TextBlock Width="99" HorizontalAlignment="Left" Margin="709,192,0,0" TextWrapping="Wrap" Height="15" VerticalAlignment="Top">
             Předmět:
             <Hyperlink NavigateUri="https://www.inf.upol.cz/projektovy-seminar" RequestNavigate="Hyperlink_RequestNavigate">
                 KMI/YPS
             </Hyperlink>
         </TextBlock>
         <Image HorizontalAlignment="Left" Height="128" Margin="720,43,0,0" VerticalAlignment="Top" Width="129" Source="Resources/UP.png"/>
-        <TextBlock Margin="0,359,0,0" TextWrapping="Wrap" Text="Autor: Michael Kozák" VerticalAlignment="Top" HorizontalAlignment="Right" Width="113"/>
-        <TextBlock HorizontalAlignment="Right" Margin="0,375,0,0" TextWrapping="Wrap" Text="Rok vytvoření: 2021" VerticalAlignment="Top" Width="113"/>
-        <TextBlock HorizontalAlignment="Left" Margin="705,212,0,0" TextWrapping="Wrap" Text="Jazyk: C# " VerticalAlignment="Top"/>
-        <TextBlock Margin="705,233,0,0" TextWrapping="Wrap" Text="Technologie: Windows Presentation Foundation (WPF), .NET Framework " VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="705,171,0,0" TextWrapping="Wrap" Text="Hra: Gotická dáma" VerticalAlignment="Top" Width="99"/>
-        <TextBlock Margin="720,22,0,0" TextWrapping="Wrap" Text="Projektový seminář" VerticalAlignment="Top" Width="129" FontWeight="Bold" HorizontalAlignment="Left" Padding="10,0,0,0"/>
+        <TextBlock Margin="0,353,10,0" TextWrapping="Wrap" Text="Autor: Michael Kozák" VerticalAlignment="Top" HorizontalAlignment="Right" Width="113"/>
+        <TextBlock HorizontalAlignment="Right" Margin="0,369,10,0" TextWrapping="Wrap" Text="Rok vytvoření: 2021" VerticalAlignment="Top" Width="113"/>
+        <TextBlock HorizontalAlignment="Left" Margin="709,212,0,0" TextWrapping="Wrap" Text="Jazyk: C# " VerticalAlignment="Top"/>
+        <TextBlock Margin="709,233,-4,0" TextWrapping="Wrap" Text="Technologie: Windows Presentation Foundation (WPF), .NET Framework " VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="709,171,0,0" TextWrapping="Wrap" Text="Hra: Gotická dáma" VerticalAlignment="Top" Width="99"/>
+        <TextBlock Margin="720,17,0,0" TextWrapping="Wrap" Text="Projektový seminář" VerticalAlignment="Top" Width="129" FontWeight="Bold" HorizontalAlignment="Left" Padding="10,0,0,0"/>
 
     </Grid>
 </Window>
