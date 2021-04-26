@@ -9,29 +9,30 @@
         Title="O Programu" Height="500" Width="870" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
     <Grid>
         <TextBlock FontSize="14.4" TextWrapping="Wrap" Text="
-                 &#xD;&#xA; - Hraje se klikáním na hrací desku. 
-                 &#xD;&#xA; - Tah se provádí vždy dvojklikem na herní desku, prvním klikem na výběr figurky a druhým na místo tahu.
-                 &#xD;&#xA; - Pokud je zadání špatně, celý tah se musí opakovat od začátku.
+                 &#xD;&#xA;   - Hraje se klikáním na hrací desku. 
+                 &#xD;&#xA;   - Tah se provádí vždy dvojklikem na herní desku, prvním klikem na výběr figurky a druhým na místo tahu.
+                 &#xD;&#xA;   - Pokud je zadání špatně, celý tah se musí opakovat od začátku.
                  &#xD;&#xA;
-                 &#xD;&#xA; - Při vytvoření hry je možné vybrat ze 4 obtížností PC hráče. Od nejlehčí až po nejtěžší.
-                 &#xD;&#xA; - Pokud táhne člověk, není nutné zmáčknout 'Hra'!
-                 &#xD;&#xA; - Hru je možné uložit a později také načíst.
-                 &#xD;&#xA; - Není dovoleno modifikovat uložený soubor, v tom případě hra nebude načtena.
-                 &#xD;&#xA; - Při hře dvou PC hráčů je možné hru zastavit a také udělat tah zpět/vpřed, poté je nutné stiknout 'Hra'!
+                 &#xD;&#xA;   - Při vytvoření hry je možné vybrat ze 4 obtížností PC hráče. Od nejlehčí až po nejtěžší.
+                 &#xD;&#xA;   - Pokud táhne člověk, není nutné zmáčknout 'Hra'!
+                 &#xD;&#xA;   - Hru je možné uložit a později také načíst.
+                 &#xD;&#xA;   - Není dovoleno modifikovat uložený soubor, v tom případě hra nebude načtena.
+                 &#xD;&#xA;   - Při hře dvou PC hráčů je možné hru zastavit a také udělat tah zpět/vpřed, poté je nutné stiknout 'Hra'!
                  &#xD;&#xA;
-                 &#xD;&#xA; - Je možné udělat tah zpět nebo vpřed (i PC hráče).
-                 &#xD;&#xA; - Pokud je zahrán tah zpět, hra se zastaví, a rozsvítí se zelené tlačítko 'Hra', na které je nutné kliknout pro pokračování ve hře.
+                 &#xD;&#xA;   - Je možné udělat tah zpět nebo vpřed (i PC hráče).
+                 &#xD;&#xA;   - Pokud je zahrán tah zpět, hra se zastaví, a rozsvítí se zelené tlačítko 'Hra', na které je nutné kliknout pro &#xD;&#xA;      pokračování ve hře.
+                 &#xD;&#xA;   - Možnost nápovědy nejlepšího tahu, který je možné přepušit tlačítkem 'stop'
                  &#xD;&#xA;
-                 &#xD;&#xA; - Je zobrazen hráč na tahu, počet kol, počet tahů bez skoku a výpis historie.
-                 &#xD;&#xA; - Červeně podbarvené tahy v historii tahů jsou skoky.
-                 &#xD;&#xA; - Je možno vypnout nápovědu pro vybranou figruku v panelu 'Nápověda'.
-                 &#xD;&#xA; - Nápověda obsahuje pravidla hry 'Gotická dáma' a ovládání aplikace." Height="397" VerticalAlignment="Top" HorizontalAlignment="Left" Width="670"/>
+                 &#xD;&#xA;   - Je zobrazen hráč na tahu, počet kol, počet tahů bez skoku a výpis historie.
+                 &#xD;&#xA;   - Červeně podbarvené tahy v historii tahů jsou skoky.
+                 &#xD;&#xA;   - Je možno vypnout nápovědu pro vybranou figruku v panelu 'Nápověda'.
+                 &#xD;&#xA;   - Nápověda obsahuje pravidla hry 'Gotická dáma' a ovládání aplikace." Height="397" VerticalAlignment="Top" HorizontalAlignment="Left" Width="700"/>
         <Button x:Name="CloseButton" Content="Zavřít" Background="Transparent" BorderThickness="1" FontFamily="Comic Sans MS" FontSize="13" Click="CloseButton_Click" Margin="385,419,385,0" Height="27" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="OVLÁDÁNÍ DESKY:" FontWeight="Bold" Margin="6,6,0,0" Height="16" VerticalAlignment="Top"/>
-        <TextBlock Margin="6,80,0,0" TextWrapping="Wrap" Text="OVLÁDÁNÍ HRY:" FontWeight="Bold" HorizontalAlignment="Left" Width="93" Height="16" VerticalAlignment="Top"/>
-        <TextBlock Margin="6,272,0,0" TextWrapping="Wrap" Text="NÁPOVĚDA HRY:" FontWeight="Bold" HorizontalAlignment="Left" Width="97" Height="16" VerticalAlignment="Top"/>
-        <TextBlock Margin="6,194,0,0" TextWrapping="Wrap" Text="NÁSTROJE HRY:" FontWeight="Bold" HorizontalAlignment="Left" Width="91" Height="16" VerticalAlignment="Top"/>
-        <Separator HorizontalAlignment="Left" Margin="468,203,-10,0" Width="406" RenderTransformOrigin="0.5,0.5" Height="1" VerticalAlignment="Top">
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="OVLÁDÁNÍ DESKY:" FontWeight="Bold" Margin="22,3,0,0" Height="16" VerticalAlignment="Top"/>
+        <TextBlock Margin="22,80,0,0" TextWrapping="Wrap" Text="OVLÁDÁNÍ HRY:" FontWeight="Bold" HorizontalAlignment="Left" Width="97" Height="16" VerticalAlignment="Top"/>
+        <TextBlock Margin="22,291,0,0" TextWrapping="Wrap" Text="NÁPOVĚDA HRY:" FontWeight="Bold" HorizontalAlignment="Left" Width="97" Height="16" VerticalAlignment="Top"/>
+        <TextBlock Margin="22,194,0,0" TextWrapping="Wrap" Text="NÁSTROJE HRY:" FontWeight="Bold" HorizontalAlignment="Left" Width="91" Height="16" VerticalAlignment="Top"/>
+        <Separator HorizontalAlignment="Left" Margin="499,202,-39,0" Width="404" RenderTransformOrigin="0.5,0.5" Height="1" VerticalAlignment="Top">
             <Separator.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -43,19 +44,19 @@
         </Separator>
         <Separator HorizontalAlignment="Right" Margin="0,396,0,0" Width="864" Height="1" VerticalAlignment="Top"/>
         <Separator HorizontalAlignment="Right" Margin="0" Width="864" Height="1" VerticalAlignment="Top"/>
-        <TextBlock Width="99" HorizontalAlignment="Left" Margin="674,192,0,0" TextWrapping="Wrap" Height="15" VerticalAlignment="Top">
+        <TextBlock Width="99" HorizontalAlignment="Left" Margin="705,192,0,0" TextWrapping="Wrap" Height="15" VerticalAlignment="Top">
             Předmět:
             <Hyperlink NavigateUri="https://www.inf.upol.cz/projektovy-seminar" RequestNavigate="Hyperlink_RequestNavigate">
                 KMI/YPS
             </Hyperlink>
         </TextBlock>
-        <Image HorizontalAlignment="Left" Height="128" Margin="705,43,0,0" VerticalAlignment="Top" Width="129" Source="Resources/UP.png"/>
+        <Image HorizontalAlignment="Left" Height="128" Margin="720,43,0,0" VerticalAlignment="Top" Width="129" Source="Resources/UP.png"/>
         <TextBlock Margin="0,359,0,0" TextWrapping="Wrap" Text="Autor: Michael Kozák" VerticalAlignment="Top" HorizontalAlignment="Right" Width="113"/>
         <TextBlock HorizontalAlignment="Right" Margin="0,375,0,0" TextWrapping="Wrap" Text="Rok vytvoření: 2021" VerticalAlignment="Top" Width="113"/>
-        <TextBlock HorizontalAlignment="Left" Margin="674,212,0,0" TextWrapping="Wrap" Text="Jazyk: C# " VerticalAlignment="Top"/>
-        <TextBlock Margin="674,233,0,0" TextWrapping="Wrap" Text="Technologie: Windows Presentation Foundation (WPF), .NET Framework " VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="674,171,0,0" TextWrapping="Wrap" Text="Hra: Gotická dáma" VerticalAlignment="Top" Width="99"/>
-        <TextBlock Margin="705,22,0,0" TextWrapping="Wrap" Text="Projektový seminář" VerticalAlignment="Top" Width="129" FontWeight="Bold" HorizontalAlignment="Left" Padding="10,0,0,0"/>
+        <TextBlock HorizontalAlignment="Left" Margin="705,212,0,0" TextWrapping="Wrap" Text="Jazyk: C# " VerticalAlignment="Top"/>
+        <TextBlock Margin="705,233,0,0" TextWrapping="Wrap" Text="Technologie: Windows Presentation Foundation (WPF), .NET Framework " VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="705,171,0,0" TextWrapping="Wrap" Text="Hra: Gotická dáma" VerticalAlignment="Top" Width="99"/>
+        <TextBlock Margin="720,22,0,0" TextWrapping="Wrap" Text="Projektový seminář" VerticalAlignment="Top" Width="129" FontWeight="Bold" HorizontalAlignment="Left" Padding="10,0,0,0"/>
 
     </Grid>
 </Window>

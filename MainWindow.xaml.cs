@@ -63,12 +63,16 @@ namespace Dama_WPF
         {
             if (e.Cancelled)
             {
+                IsHelp = false;
+                IsPcCalculating = false;
+                PauseButton.IsEnabled = false;
                 return;
             }
             if (IsHelp)
             {
                 MessageBox.Show("Nejlepší tah je: " + GameController.HistorieNaString(bestMove));
                 IsHelp = false;
+                PauseButton.IsEnabled = false;
                 return;
             }
             IsPcCalculating = false;
@@ -122,6 +126,11 @@ namespace Dama_WPF
                 if (IsHelp)
                 {
                     bestMove = GameController.BestMove(bgWorker);
+                    if (bw.CancellationPending)
+                    {
+                        e.Cancel = true;    
+                    }
+                    //e.Result = bestMove;
                     return;
                 }
                 GameController.PcPlayer(bw);
